@@ -3104,7 +3104,7 @@ VIEWS.asignaciones = function(root, params){
   const norm = normFiltro;
   const filtros = {};
   if(params.ejecutor) filtros.ejecutor = new Set([params.ejecutor]);
-  // Filtro "drill-down" que llega desde el Resumen (estado de la MP / sin ejecutar).
+  // Filtro "drill-down" que llega desde el Resumen (estado de la MP / sin asignar).
   const drill = { estadoMP: params.estadoMP || '', sinAsignar: !!params.sinAsignar };
   let ordK=null, ordDir=1, rowsAll=[];
 
@@ -3117,6 +3117,19 @@ VIEWS.asignaciones = function(root, params){
   const thead=el('thead',{}); const tbody=el('tbody',{});
   const counter=el('div',{class:'muted',style:{fontSize:'12px',whiteSpace:'nowrap'}},'');
   const chipsBar=el('div',{class:'filters'});
+
+  // Plantillas (requieren un mes específico; se deshabilitan con "Todos los meses").
+  const btnDescPlantilla = el('button',{onclick:()=>descargarPlantillaMP(+selAnio.value, +selMes.value)},'📥 Descargar plantilla');
+  const fileInputPlantilla = el('input',{type:'file',accept:'.xlsx',style:{display:'none'},onchange:async e=>{ const f=e.target.files[0]; if(!f) return; await subirPlantillaMP(f, +selAnio.value, +selMes.value); e.target.value=''; render(); }});
+  const btnSubirPlantilla = el('button',{class:'primary',onclick:()=>fileInputPlantilla.click()},'📤 Subir plantilla');
+  function syncPlantilla(){ const todos = selMes.value==='todos'; btnDescPlantilla.disabled=todos; btnSubirPlantilla.disabled=todos;
+    const t = todos?'Elige un mes específico para usar la plantilla':''; btnDescPlantilla.title=t||'Descargar plantilla Excel del mes'; btnSubirPlantilla.title=t||'Subir plantilla con las asignaciones llenadas'; }
+
+  function asignarEjecutor(keyMes, inv, ejec){
+    state.asignacionesMP[keyMes] = state.asignacionesMP[keyMes] || {};
+    state.asignacionesMP[keyMes][inv] = ejec || null;
+    save();
+  }
 
   const COLS = [
     {k:'mes',      l:'Mes',          g:r=>MESES[r.m], lista:true},
@@ -3132,7 +3145,11 @@ VIEWS.asignaciones = function(root, params){
     {k:'proc',     l:'Procedencia',  g:r=>r.eq.proc||'', lista:true},
     {k:'prog',     l:'Programación', g:r=>r.P||'', lista:true},
     {k:'resultado',l:'Resultado',    g:r=>r.R||'', lista:true},
-    {k:'ejecutor', l:'Ejecutor',     g:r=>r.ejecutor||'', lista:true},
+    {k:'ejecutor', l:'Ejecutor (asignado)', g:r=>r.ejecutor||'', lista:true, cell:r=>{
+      const sel = el('select',{onchange:e=>{ asignarEjecutor(r.keyMes, r.eq.inv, e.target.value); r.ejecutor = e.target.value||''; }},
+        el('option',{value:''},'— sin asignar —'), ...EJECUTORES.map(x=>el('option',{value:x},x)));
+      sel.value = r.ejecutor||''; return el('td',{}, sel);
+    }},
     {k:'estadoReg',l:'Estado registro', g:r=>r.estadoReg||'', lista:true, cell:r=>el('td',{}, r.estadoReg? el('span',{class:'badge '+(r.estadoReg==='Oficial'?'ofic-si':'ofic-no')}, r.estadoReg) : el('small',{class:'muted'},'—'))}
   ];
 
@@ -3147,8 +3164,9 @@ VIEWS.asignaciones = function(root, params){
         const P = ((eq.registro||{})[MESES[m]]||{}).P || (eq.prog||{})[MESES[m]] || '';
         const R = resultadoMPMes(eq, yy, m) || '';
         if(!P && !R) return; // solo filas con programación o resultado en ese mes
+        const keyMes = `${yy}-${String(m+1).padStart(2,'0')}`;
         const ev = eventoMPMes(eq.inv, yy, m);
-        rows.push({eq, m, P, R, ejecutor: ev?(ev.ejecutor||''):'', estadoReg: ev?(ev.oficial==='Sí'?'Oficial':'Borrador'):''});
+        rows.push({eq, m, keyMes, P, R, ejecutor: (state.asignacionesMP[keyMes]||{})[eq.inv] || '', estadoReg: ev?(ev.oficial==='Sí'?'Oficial':'Borrador'):''});
       });
     });
     return rows;
@@ -3177,7 +3195,7 @@ VIEWS.asignaciones = function(root, params){
     const etq={ejec:'Ejecutadas',pend:'Pendientes',reprog:'Reprogramadas (C1–C8)',otro:'Otro resultado'}[drill.estadoMP];
     const addChip=(k,v,onclr)=>chipsBar.appendChild(el('span',{class:'filter-chip'}, el('span',{class:'k'},k+':'), el('span',{},v), el('span',{class:'x',onclick:onclr},'×')));
     if(etq) addChip('Resumen', etq, ()=>{drill.estadoMP='';renderChips();aplicar();});
-    if(drill.sinAsignar) addChip('Resumen','Sin ejecutar',()=>{drill.sinAsignar=false;renderChips();aplicar();});
+    if(drill.sinAsignar) addChip('Resumen','Sin asignar',()=>{drill.sinAsignar=false;renderChips();aplicar();});
   }
   function aplicar(){
     const tokens=norm(search.value.trim()).split(/\s+/).filter(Boolean);
@@ -3207,16 +3225,20 @@ VIEWS.asignaciones = function(root, params){
     counter.textContent = `${list.length} registros${list.length>1000?' (mostrando 1000)':''}`;
     renderChips();
   }
-  function render(){ rowsAll = buildRows(); buildHead(); aplicar(); }
+  function render(){ syncPlantilla(); rowsAll = buildRows(); buildHead(); aplicar(); }
   selAnio.onchange = render; selMes.onchange = render;
   search.addEventListener('input', ()=>{ clearTimeout(window.__as); window.__as=setTimeout(aplicar,200); });
 
   root.appendChild(el('div',{class:'view view-full'},
     el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'8px',flexWrap:'wrap',gap:'10px'}},
       el('h2',{},'Asignaciones'),
-      el('div',{style:{display:'flex',gap:'6px',alignItems:'center'}}, el('span',{class:'muted',style:{fontSize:'12px'}},'Año'), selAnio, el('span',{class:'muted',style:{fontSize:'12px'}},'Mes'), selMes)
+      el('div',{style:{display:'flex',gap:'6px',alignItems:'center',flexWrap:'wrap'}},
+        el('span',{class:'muted',style:{fontSize:'12px'}},'Año'), selAnio,
+        el('span',{class:'muted',style:{fontSize:'12px'}},'Mes'), selMes,
+        btnDescPlantilla, btnSubirPlantilla, fileInputPlantilla
+      )
     ),
-    el('div',{class:'subtitle'},'Programación, resultado y ejecutor de la MP por equipo y mes. Filtra por columna o elige el mes (incluye "Todos los meses").'),
+    el('div',{class:'subtitle'},'Programación, resultado y ejecutor ASIGNADO de la MP por equipo y mes. Asigna el ejecutor en su columna; descarga/sube la plantilla del mes; filtra por columna o por mes ("Todos los meses").'),
     el('div',{class:'toolbar'}, el('div',{class:'grow'},search), counter),
     chipsBar,
     el('div',{class:'eq-grid-wrap',style:{overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},

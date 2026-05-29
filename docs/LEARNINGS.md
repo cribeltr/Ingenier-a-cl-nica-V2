@@ -928,4 +928,24 @@
 - **Dónde aplica:** build_app.py (`VIEWS.asignaciones`, `eventoMPMes`, NAV_GRUPOS, navegaciones del
   Resumen), tools/smoke_test.js (#11); CHANGELOG v0.60.
 
+## [2026-05-29] Corrección de Asignaciones + lección de proceso (colisión de ediciones) (v0.61)
+
+- **Qué pasó:** construí "Asignaciones" como solo-consulta y con Ejecutor=quien realizó, pero la
+  respuesta del usuario (que llegó por el batch tarde) era "conservar plantillas + asignar" y
+  "Ejecutor = el asignado". Además, hacer muchas ediciones en paralelo mientras un linter tocaba el
+  archivo dejó `NAV_GRUPOS` CORRUPTO (dos líneas REGISTRAR) y el menú con "MP del mes" apuntando a
+  una vista ya inexistente.
+- **Corregido (v0.61):** `VIEWS.asignaciones` rehecha: conserva Descargar/Subir plantilla (por mes,
+  deshabilitadas con "Todos los meses") y la columna Ejecutor es un SELECTOR que asigna
+  (`asignacionesMP`), mostrando el asignado. Mantiene columnas + filtros por columna + filtro de mes
+  con "Todos" + Estado del registro. `NAV_GRUPOS` reparado (Asignaciones en GESTIONAR, sin MP del mes).
+- **Lecciones de proceso:** (1) ESPERAR la respuesta de AskUserQuestion ANTES de construir algo grande
+  y ambiguo; no adelantarse. (2) NO lanzar muchas ediciones del MISMO archivo en paralelo: chocan con
+  el linter/estado y corrompen (las ediciones grandes mejor por rango con un script, secuencial).
+  (3) El guardián de "vistas se dibujan" NO detecta un ítem de menú que apunta a una vista
+  inexistente → conviene un chequeo de que cada `NAV_GRUPOS` tenga su `VIEWS[k]`.
+- **Verificado:** menú=Asignaciones (sin MP del mes), Ejecutor=selector, botones de plantilla, "Todos
+  los meses"; smoke 11/11 + guardián 8 vistas.
+- **Dónde aplica:** build_app.py (`VIEWS.asignaciones` rehecha, `NAV_GRUPOS`); CHANGELOG v0.61.
+
 <!-- Próximas entradas debajo de esta línea -->
