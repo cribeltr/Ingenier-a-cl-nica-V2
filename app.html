@@ -19,6 +19,10 @@ break;case"<bookViews":;case"<bookViews>":;case"</bookViews>":break;case"<workbo
 <script>var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});</script>
 <!--
 CHANGELOG
+v0.54 [2026-05-29] Se elimina la vista "Registro MP".
+  - A pedido del usuario: se quita del menú y se elimina VIEWS.registroMP. La información de la
+    carta gantt (P/R por mes) sigue disponible en la ficha del equipo (sección "Programación PMP")
+    y en "MP del mes". No se pierde dato, solo esa vista de planilla anual.
 v0.53 [2026-05-29] Fix: en Resumen, clic en "MP del año · por mes" (ej. Febrero/Pendiente) no abría el mes.
   - Causa: VIEWS.mp fijaba el mes en el MES ACTUAL e ignoraba params.mes. Al hacer clic en
     Febrero/Pendiente aplicaba el filtro "Pendientes" pero dejaba la vista en el mes en curso.
@@ -238,7 +242,7 @@ v0.28 [2026-05-28] El folio del ciclo se preselecciona; aviso si no hay ciclo ab
     (antes era la misma expresión repetida 5 veces).
 v0.27 [2026-05-28] El número de versión del encabezado se sincroniza solo.
   - El encabezado mostraba "v0.23" fijo (escrito a mano), sin actualizarse al subir
-    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.53
+    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.54
     que build_app.py reemplaza con el valor real de APP_VERSION al generar: una
     sola fuente de verdad, no vuelve a quedar desfasado.
 v0.26 [2026-05-28] Cierre de ciclo por Recepción + Reparación "en servicio técnico".
@@ -1105,7 +1109,7 @@ header.top nav .nav-more-menu button.active{background:var(--accent-soft);color:
 <body>
 <div class="app">
   <aside class="sidebar">
-    <div class="s-logo">HHHA <small>Equipos Críticos · v0.53</small></div>
+    <div class="s-logo">HHHA <small>Equipos Críticos · v0.54</small></div>
     <nav id="nav"></nav>
     <div class="s-foot"><span class="user-tag">👤 Cristian</span></div>
   </aside>
@@ -1154,7 +1158,7 @@ const SEED = {"equipos":[{"id":1,"carpeta":1,"inv":"2-115361","fam":"Incubadoras
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.53';
+const APP_VERSION = '0.54';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2487,99 +2491,6 @@ VIEWS.equipos = function(root, params){
 };
 
 //---------------- REGISTRO MP (carta gantt navegable) ----------------
-VIEWS.registroMP = function(root){
-  state.equipos.forEach(recalcEstadoEquipo);
-  const year = new Date().getFullYear();
-  let mostrarMeses = getPref('regmp_meses', true) !== false;
-  const filtros = {};
-  let ordK = null, ordDir = 1;
-  const norm = s => (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-  const IDENT = [
-    {k:'id',l:'ID',g:e=>e.id!=null?String(e.id):'',num:true},
-    {k:'carpeta',l:'N° Carpeta',g:e=>e.carpeta!=null?String(e.carpeta):'',num:true},
-    {k:'inv',l:'N° Inventario',g:e=>e.inv||''},
-    {k:'equipo',l:'Equipo',g:e=>e.equipo||'',lista:true},
-    {k:'servicio',l:'Servicio',g:e=>e.servicio||'',lista:true},
-    {k:'unidad',l:'Unidad',g:e=>e.unidad||'',lista:true},
-    {k:'ubic',l:'Ubicación',g:e=>e.ubic||'',lista:true},
-    {k:'proc',l:'Procedencia',g:e=>e.proc||'',lista:true},
-    {k:'marca',l:'Marca',g:e=>e.marca||'',lista:true},
-    {k:'modelo',l:'Modelo',g:e=>e.modelo||'',lista:true},
-    {k:'serie',l:'Serie',g:e=>e.serie||''},
-    {k:'ano',l:'Año',g:e=>e.ano!=null?String(e.ano):'',lista:true},
-    {k:'vur',l:'VUR',g:e=>e.vur!=null?String(e.vur):'',lista:true},
-    {k:'clasif',l:'Clasificación',g:e=>e.clasif||'',lista:true},
-    {k:'freq',l:'Frecuencia MP',g:e=>e.freq||'',lista:true}
-  ];
-  const FINAL = [
-    {k:'estado',l:'Estado',g:e=>ESTADO_LABEL[e.estado]||e.estado||'',lista:true},
-    {k:'dias',l:'Días en estado',g:e=>e.estadoDesde?String(diasEnEstado(e)):'0',num:true},
-    {k:'pendi',l:'Pendientes',g:e=>String(pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length),num:true}
-  ];
-  const mesCols = () => { const a=[]; MESES.forEach(m=>{ a.push({k:'P_'+m,l:m+'·P',g:e=>((e.registro||{})[m]||{}).P||(e.prog||{})[m]||'',lista:true,mes:true}); a.push({k:'R_'+m,l:m+'·R',g:e=>((e.registro||{})[m]||{}).R||'',lista:true,mes:true,esR:true}); }); return a; };
-  const cols = () => mostrarMeses ? [...IDENT, ...mesCols(), ...FINAL] : [...IDENT, ...FINAL];
-  const colByK = k => cols().find(x=>x.k===k);
-  const valoresUnicos = c => [...new Set(state.equipos.map(e=>{const v=c.g(e); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
-
-  const thead = el('thead',{}); const tbody = el('tbody',{});
-  const counter = el('div',{class:'muted',style:{fontSize:'12px',padding:'8px 0'}},'');
-  const search = el('input',{type:'search',placeholder:'Buscar equipo, marca, modelo, servicio…'});
-
-  function buildHead(){
-    const CS = cols();
-    thead.innerHTML = '';
-    const trH = el('tr',{});
-    CS.forEach(c => trH.appendChild(el('th',{class:'th-sort'+(c.mes?' mp-col':''), onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else { ordK=c.k; ordDir=1; } render(); }}, c.l + (ordK===c.k?(ordDir>0?' ▲':' ▼'):''))));
-    trH.appendChild(el('th',{},'Acción'));
-    thead.appendChild(trH);
-    const trF = el('tr',{class:'filtros-col'});
-    CS.forEach(c=>{
-      let ctrl;
-      if(c.lista){ ctrl = el('select',{onchange:e=>{ filtros[c.k]=e.target.value; render(); }}, el('option',{value:''},'(todos)'), ...valoresUnicos(c).map(v=>el('option',{value:v}, v.length>16?v.slice(0,16)+'…':v))); ctrl.value = filtros[c.k]||''; }
-      else { ctrl = el('input',{type:'text',placeholder:'…',value:filtros[c.k]||'',oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__rmf); window.__rmf=setTimeout(render,200); }}); }
-      trF.appendChild(el('th',{class:c.mes?'mp-col':''}, ctrl));
-    });
-    trF.appendChild(el('th',{}));
-    thead.appendChild(trF);
-  }
-  function render(){
-    state.equipos.forEach(recalcEstadoEquipo);
-    const CS = cols();
-    const tokens = norm(search.value.trim()).split(/\s+/).filter(Boolean);
-    let lista = state.equipos.filter(e=>{
-      if(tokens.length){ const hay=[e.inv,e.serie,e.equipo,e.marca,e.modelo,e.servicio,e.unidad,e.ubic].map(norm).join(' '); if(!tokens.every(t=>hay.includes(t))) return false; }
-      for(const c of CS){ const fv=filtros[c.k]; if(!fv) continue; const val=c.g(e); if(c.lista){ if(String(val)!==fv) return false; } else if(!norm(val).includes(norm(fv))) return false; }
-      return true;
-    });
-    if(ordK){ const c=colByK(ordK); if(c) lista.sort((a,b)=> c.num?((+c.g(a)||0)-(+c.g(b)||0))*ordDir : String(c.g(a)).localeCompare(String(c.g(b)),'es')*ordDir); }
-    buildHead();
-    tbody.innerHTML = '';
-    lista.slice(0,500).forEach(e=>{
-      const tr = el('tr',{});
-      CS.forEach(c=>{
-        if(c.k==='estado') tr.appendChild(el('td',{}, badgeEstado(e.estado)));
-        else if(c.k==='pendi'){ const n=pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length; tr.appendChild(el('td',{class:'num'}, n>0?el('span',{class:'badge abierto'},n):el('small',{class:'muted'},'—'))); }
-        else if(c.mes){ const v=c.g(e); tr.appendChild(el('td',{class:'mp-col'+(c.esR&&v==='Si'?' mp-ok':'')+(c.esR&&/^C[1-8]$/.test(v)?' mp-rep':'')}, v||'')); }
-        else tr.appendChild(el('td',{}, c.g(e)||'—'));
-      });
-      tr.appendChild(el('td',{class:'actions'}, el('button',{class:'small',onclick:()=>navigate('equipo',{inv:e.inv})},'Abrir')));
-      tbody.appendChild(tr);
-    });
-    counter.textContent = `${lista.length} equipos${lista.length>500?' (mostrando primeros 500)':''}`;
-  }
-  search.addEventListener('input', ()=>{ clearTimeout(window.__rms); window.__rms=setTimeout(render,200); });
-  const btnMeses = el('button',{class:'qa-btn',onclick:()=>{ mostrarMeses=!mostrarMeses; setPref('regmp_meses',mostrarMeses); save({internal:true}); btnMeses.textContent = mostrarMeses?'➖ Ocultar meses':'➕ Mostrar meses'; render(); }}, mostrarMeses?'➖ Ocultar meses':'➕ Mostrar meses');
-  root.appendChild(el('div',{class:'view'},
-    el('h2',{},'Registro MP '+year),
-    el('div',{class:'subtitle'},'Carta gantt navegable: programado (P) y realizado (R) por mes, más estado, días y pendientes. Ordena y filtra en cualquier columna; "Abrir" lleva a la ficha.'),
-    el('div',{class:'toolbar'}, el('div',{class:'grow'},search), btnMeses, counter),
-    el('div',{style:{overflow:'auto',maxHeight:'calc(100vh - 230px)',border:'1px solid var(--border)',borderRadius:'10px'}},
-      el('table',{class:'data eq-grid',style:{border:'none',fontSize:'12px'}}, thead, tbody)
-    )
-  ));
-  render();
-};
-
 //---------------- EQUIPO (ficha) ----------------
 VIEWS.equipo = function(root, params){
   const eq = findEquipo(params.inv);
@@ -5950,7 +5861,7 @@ setInterval(()=>{ if(recorder.status==='recording') recorder.updateUI(); }, 1000
 // Barra lateral agrupada en los dos momentos del trabajo. Ciclos/Eventos no van en el
 // menú: se acceden desde Pendientes, el Resumen y la ficha del equipo.
 const NAV_GRUPOS = [
-  ['GESTIONAR', [['pendientes','Pendientes'],['equipos','Buscar equipos'],['registroMP','Registro MP'],['dashboard','Resumen']]],
+  ['GESTIONAR', [['pendientes','Pendientes'],['equipos','Buscar equipos'],['dashboard','Resumen']]],
   ['REGISTRAR', [['mp','MP del mes'],['conciliacion','Conciliación']]]
 ];
 function navBadge(k, b){

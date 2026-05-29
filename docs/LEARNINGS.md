@@ -819,4 +819,14 @@
 - **Dónde aplica:** build_app.py (`VIEWS.mp` lee params.mes/year; `renderSumMesesMP` y
   `renderSumEjecutoresMP` pasan mes/year), tools/smoke_test.js (+1); CHANGELOG v0.53.
 
+## [2026-05-29] Eliminada la vista "Registro MP" (v0.54)
+
+- **Disparador:** el usuario pidió eliminar la vista "Registro MP".
+- **Hecho:** se quitó del menú (NAV_GRUPOS) y se eliminó `VIEWS.registroMP`. No quedaban llamadas
+  `navigate('registroMP')` fuera del menú. La carta gantt (P/R por mes) sigue en la ficha del
+  equipo (sección "Programación PMP") y en "MP del mes": no se pierde dato.
+- **Verificado:** menú = Pendientes · Buscar equipos · Resumen · MP del mes · Conciliación;
+  guardián 8 vistas + humo 11/11. (CSS `.mp-col` y pref `regmp_meses` quedan sin uso, inofensivos.)
+- **Dónde aplica:** build_app.py (NAV_GRUPOS, `VIEWS.registroMP` eliminada); CHANGELOG v0.54.
+
 <!-- Próximas entradas debajo de esta línea -->
