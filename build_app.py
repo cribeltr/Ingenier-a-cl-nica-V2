@@ -17,6 +17,10 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.55 [2026-05-29] "Buscar equipos" a pantalla completa.
+  - La vista se centraba con tope de ancho (1280px) y la tabla tenía un alto fijo, dejando espacio
+    sin usar. Ahora "Buscar equipos" usa TODO el ancho y la planilla llena el alto disponible
+    (flex), mostrando más equipos sin desperdiciar pantalla. Solo afecta a esta vista.
 v0.54 [2026-05-29] Se elimina la vista "Registro MP".
   - A pedido del usuario: se quita del menú y se elimina VIEWS.registroMP. La información de la
     carta gantt (P/R por mes) sigue disponible en la ficha del equipo (sección "Programación PMP")
@@ -676,6 +680,9 @@ header.top .user-tag{color:var(--muted);font-size:12px;margin-right:6px}
 
 main{overflow:auto;padding:28px 32px 60px}
 .view{max-width:1280px;margin:0 auto}
+/* Buscar equipos a pantalla completa: sin tope de ancho y la tabla llena el alto disponible */
+.view-equipos{max-width:none;display:flex;flex-direction:column;height:100%}
+.view-equipos .eq-grid-wrap{flex:1;min-height:0}
 .view h2{margin:0 0 6px;font-size:22px;font-weight:600;letter-spacing:-.015em}
 .view h3{margin:24px 0 12px;font-size:13px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.05em}
 .subtitle{color:var(--muted);font-size:13px;margin-bottom:24px}
@@ -1156,7 +1163,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.54';
+const APP_VERSION = '0.55';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2473,14 +2480,14 @@ VIEWS.equipos = function(root, params){
     _qa('No operativos', state.equipos.filter(e=>e.estado==='no_operativo').length, ()=>{limpiarFiltros();filtros.estado='No operativo';render();}, 'noop'),
     _qa('Con pendientes', state.equipos.filter(e=>pendientesDe(e.inv).some(p=>p.estado!=='cerrado')).length, ()=>{limpiarFiltros();filtros.__conPend=true;render();})
   );
-  root.appendChild(el('div',{class:'view'},
+  root.appendChild(el('div',{class:'view view-equipos'},
     el('h2',{},'Buscar equipos'),
     el('div',{class:'subtitle'},'Planilla de equipos: haz clic en una fila para abrir su ficha (ahí registras eventos y pendientes). Ordena por cualquier columna (clic en su título) y filtra en cada una.'),
     barraQA,
     el('div',{class:'toolbar'}, el('div',{class:'grow'},search)),
     chipsBar,
     counter,
-    el('div',{style:{maxHeight:'calc(100vh - 300px)',overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
+    el('div',{class:'eq-grid-wrap',style:{overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
       el('table',{class:'data eq-grid buscar-grid',style:{border:'none'}}, thead, tbody)
     )
   ));

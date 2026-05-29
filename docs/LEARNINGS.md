@@ -829,4 +829,18 @@
   guardián 8 vistas + humo 11/11. (CSS `.mp-col` y pref `regmp_meses` quedan sin uso, inofensivos.)
 - **Dónde aplica:** build_app.py (NAV_GRUPOS, `VIEWS.registroMP` eliminada); CHANGELOG v0.54.
 
+## [2026-05-29] "Buscar equipos" a pantalla completa (v0.55)
+
+- **Disparador:** el usuario quiere que Buscar equipos ocupe toda la pantalla.
+- **Causa de que no la ocupara:** `.view{max-width:1280px;margin:0 auto}` centraba y dejaba franjas
+  a los lados, y la tabla tenía `maxHeight:calc(100vh - 300px)` (alto fijo, espacio sin usar).
+- **Hecho:** clase propia `.view-equipos{max-width:none;display:flex;flex-direction:column;height:100%}`
+  (ancho completo) y el contenedor de la tabla `.eq-grid-wrap{flex:1;min-height:0}` (llena el alto
+  disponible y scrollea dentro). Solo afecta a Buscar equipos; las demás vistas siguen centradas a
+  1280px.
+- **Verificado (estructura):** guardián 8 vistas + humo 11/11. El resultado VISUAL (que llene la
+  pantalla) lo confirma el usuario; jsdom no mide píxeles.
+- **Dónde aplica:** build_app.py (CSS `.view-equipos`/`.eq-grid-wrap`, clase del root de
+  `VIEWS.equipos`, contenedor de la tabla sin maxHeight fijo); CHANGELOG v0.55.
+
 <!-- Próximas entradas debajo de esta línea -->
