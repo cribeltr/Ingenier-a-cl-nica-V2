@@ -5918,3 +5918,24 @@ if _mver:
 target = str(pathlib.Path(__file__).resolve().parent / "app.html")
 pathlib.Path(target).write_text(out, encoding="utf-8")
 print(f"Wrote {target}: {len(out)} bytes")
+
+# --- Prueba de humo automática del camino crítico (Equipos, ficha, filtros, Ctrl+K, folio).
+# Regla del repo: ningún cambio se da por terminado sin que esta prueba pase.
+import subprocess
+_smoke = pathlib.Path(__file__).resolve().parent / "tools" / "smoke_test.js"
+if _smoke.exists():
+    try:
+        r = subprocess.run(["node", str(_smoke), target], capture_output=True, text=True, timeout=120)
+        print(r.stdout, end="")
+        if r.returncode == 2:
+            print("⚠  Prueba de humo OMITIDA (falta jsdom). Instálalo una vez: npm install jsdom")
+        elif r.returncode != 0:
+            print("⚠  PRUEBA DE HUMO FALLÓ: revisa el camino crítico ANTES de entregar.")
+            if r.stderr.strip():
+                print(r.stderr.strip())
+    except FileNotFoundError:
+        print("⚠  Prueba de humo OMITIDA: no se encontró 'node' en este entorno.")
+    except Exception as _e:
+        print(f"⚠  Prueba de humo no pudo ejecutarse: {_e}")
+else:
+    print("⚠  No existe tools/smoke_test.js; no se ejecutó la prueba de humo.")

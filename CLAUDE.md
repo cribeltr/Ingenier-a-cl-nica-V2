@@ -98,6 +98,16 @@ Nunca cerrar un ajuste sin simular. Mínimo:
   abortos de modal y los clicks repetidos marcan dónde el usuario se traba.
 Reportar al usuario qué se simuló y el resultado, en lenguaje simple.
 
+**Prueba de humo OBLIGATORIA (no negociable).** Ningún cambio se da por terminado
+sin que pase la prueba del camino crítico. `python3 build_app.py` la corre sola al
+final; también se puede correr a mano con `node tools/smoke_test.js` (requiere, una
+sola vez, `npm install jsdom`). Verifica: importar un respaldo de `data/` → la lista
+de Equipos se ve completa → abrir una ficha → filtros por columna (incluida una
+numérica) → Ctrl+K → folio heredado del ciclo abierto. Si toca un flujo crítico
+nuevo, agrégale un chequeo a `tools/smoke_test.js`. Causa raíz histórica de los bugs:
+tocar funciones grandes/compartidas y validar con el seed o solo con `node --check`,
+sin EJECUTAR el camino básico con datos reales. La prueba de humo cierra ese hueco.
+
 ### 5. Registrar (lente: documentalista)
 Antes de cerrar:
 - Subir la versión y anotar el cambio en el CHANGELOG dentro de `build_app.py`.

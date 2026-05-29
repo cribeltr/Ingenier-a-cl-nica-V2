@@ -497,4 +497,32 @@
   handler de importar, `VIEWS.equipos` y `VIEWS.registroMP` en `valoresUnicos`/orden/filtro);
   CHANGELOG v0.39; app.html regenerado.
 
+## [2026-05-29] Patrón raíz de los bugs y prueba de humo permanente
+
+- **Disparador:** tras arreglar la lista de Equipos vacía (v0.39), el usuario pidió
+  aprender del error y dejar un mecanismo que impida repetirlo.
+- **Patrón común (mirando todos los bugs del proyecto):** casi todos nacen igual —
+  se modifica una **función grande y compartida** (una vista, `recalcEstadoEquipo`,
+  la lógica de MP) y se valida con el **seed** o solo con `node --check` (sintaxis),
+  **sin ejecutar el camino básico con los datos reales**. Casos:
+  · v0.33/v0.34: lógica de MP/estado validada con el seed (donde la MP es evento), no
+    con el backup real (donde vive en la matriz) → bug masivo.
+  · v0.39: planillas nuevas (v0.37/v0.38) validadas con `node --check` y muestras, sin
+    abrir la vista con los datos reales → un `modelo` numérico tiraba toda la pantalla.
+  El **tipo** de error es siempre el mismo: *cambio en código compartido + verificación
+  que no ejecuta el flujo real = regresión silenciosa en el camino básico.*
+- **Por qué no se detectaba a tiempo:** `node --check` solo mira sintaxis; las "pruebas"
+  eran manuales o sobre el seed. Nunca se ejecutaba la app de verdad con un respaldo.
+- **Mecanismo permanente (hecho):** `tools/smoke_test.js` (jsdom, headless) ejecuta el
+  camino crítico sobre un respaldo de `data/`: importar sin errores → Equipos completa →
+  filtro por columna numérica (el bug histórico) → abrir ficha → Ctrl+K → folio heredado
+  del ciclo abierto. `build_app.py` lo corre **solo** al final de cada generación e imprime
+  ✅/❌ (si falta jsdom o node, avisa y sigue). Devuelve código ≠0 si algo falla.
+- **Regla nueva (incorporada a CLAUDE.md, paso 4 del ciclo):** ningún cambio se da por
+  terminado sin que la prueba de humo pase. Si se agrega un flujo crítico nuevo, se le
+  añade un chequeo a `tools/smoke_test.js`.
+- **Cómo correrla a mano:** `node tools/smoke_test.js` (una vez: `npm install jsdom`).
+- **Dónde aplica:** tools/smoke_test.js (nuevo), build_app.py (paso final), CLAUDE.md
+  (ciclo de trabajo paso 4), este LEARNINGS.
+
 <!-- Próximas entradas debajo de esta línea -->
