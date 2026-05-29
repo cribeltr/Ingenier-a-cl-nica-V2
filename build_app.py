@@ -17,6 +17,14 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.47 [2026-05-29] Fix: la vista Registro MP se veía aplastada (letra por letra).
+  - Causa: el estilo "ajustar a pantalla" de v0.42 (ancho 100% + partir palabras + títulos que
+    envuelven) se aplicó a la clase `eq-grid`, que comparten Buscar equipos (13 columnas) y
+    Registro MP (~42 columnas). Con 42 columnas, forzar ancho 100% aplastaba cada columna y
+    partía el texto carácter por carácter.
+  - Arreglo: ese estilo se mueve a una clase propia `buscar-grid` (solo Buscar equipos).
+    Registro MP recupera anchos naturales con desplazamiento horizontal (su diseño de carta
+    gantt; el botón "Ocultar meses" sigue colapsando las 24 columnas de meses).
 v0.46 [2026-05-29] Completa el fix v0.45: faltaban 2 lugares que guardaban mal el estado de la MP.
   - Error propio: en v0.45 corregí el estado de la MP en 3 sitios + el cálculo, pero OMITÍ:
     (1) el formulario completo de evento, donde "Estado resultante" era un menú manual (por
@@ -722,11 +730,14 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 /* Buscar equipos: la fila completa abre la ficha al hacer clic */
 .eq-grid tbody tr.row-click{cursor:pointer}
 .eq-grid tbody tr.row-click:hover td{background:var(--bg)}
+/* "Ajustar a pantalla" (ancho 100%, títulos que envuelven, sin scroll lateral) SOLO para
+   Buscar equipos (13 columnas). NO para Registro MP, que tiene ~42 columnas y necesita
+   desplazamiento horizontal: ahí se dejan anchos naturales. */
 /* La planilla cabe en el ancho de la pantalla (sin scroll lateral): títulos que
    envuelven, celdas que parten palabras largas y espaciado compacto. */
-.eq-grid{width:100%}
-.eq-grid th.th-sort{white-space:normal;vertical-align:bottom}
-.eq-grid th,.eq-grid td{padding:7px 8px;font-size:12px;overflow-wrap:anywhere;word-break:break-word}
+.buscar-grid{width:100%}
+.buscar-grid th.th-sort{white-space:normal;vertical-align:bottom}
+.buscar-grid th,.buscar-grid td{padding:7px 8px;font-size:12px;overflow-wrap:anywhere;word-break:break-word}
 .section h3{margin-top:0}
 
 /* Key-value */
@@ -1093,7 +1104,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.46';
+const APP_VERSION = '0.47';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2461,7 +2472,7 @@ VIEWS.equipos = function(root, params){
     chipsBar,
     counter,
     el('div',{style:{maxHeight:'calc(100vh - 300px)',overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
-      el('table',{class:'data eq-grid',style:{border:'none'}}, thead, tbody)
+      el('table',{class:'data eq-grid buscar-grid',style:{border:'none'}}, thead, tbody)
     )
   ));
   render();

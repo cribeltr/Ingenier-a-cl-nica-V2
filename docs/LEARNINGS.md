@@ -689,4 +689,20 @@
 - **Dónde aplica:** build_app.py (`nuevoEvento` MP estado derivado, conciliación ~3769);
   CHANGELOG v0.46.
 
+## [2026-05-29] Una clase CSS compartida rompió otra vista (Registro MP) (v0.47)
+
+- **Disparador:** captura del usuario: Registro MP "se ve pésimo" — texto partido letra por letra,
+  columnas aplastadas en vertical.
+- **Causa:** el estilo "ajustar a pantalla" de v0.42 (`width:100%` + `overflow-wrap:anywhere` +
+  títulos que envuelven) lo puse en la clase `eq-grid`, que comparten DOS vistas: Buscar equipos
+  (13 columnas) y Registro MP (~43 columnas). En Buscar equipos se ve bien; en Registro MP, forzar
+  ancho 100% sobre 43 columnas las aplasta y parte el texto carácter por carácter.
+- **Arreglo:** mover ese estilo a una clase propia `buscar-grid` (solo Buscar equipos). Registro MP
+  queda con `eq-grid` y anchos naturales + scroll horizontal (su diseño de carta gantt).
+- **Heurística:** antes de poner estilos de layout en una clase, `grep` quién más la usa. `eq-grid`
+  la comparten 2 tablas con necesidades OPUESTAS (una debe caber sin scroll; la otra DEBE scrollear).
+  Estilos específicos de una vista → clase específica de esa vista, no una compartida.
+- **Dónde aplica:** build_app.py (CSS `.buscar-grid`, clase de la tabla de Buscar equipos);
+  CHANGELOG v0.47.
+
 <!-- Próximas entradas debajo de esta línea -->
