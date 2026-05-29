@@ -133,6 +133,18 @@ setTimeout(()=>{
   if(rotas.length) fatales.push('Vistas que fallan al dibujarse:\n      '+rotas.join('\n      '));
   else ok.push(`Las ${vistas.length} vistas se dibujan sin error`);
 
+  // 3b. Cada ítem del menú (NAV_GRUPOS) debe apuntar a una VIEWS existente.
+  try{
+    const navKeys = [];
+    for(const m of SRC.matchAll(/\['[^']*',\s*\[([^\]]*\])\]\]/g)){ /* grupo */ }
+    // extraer pares ['key','Etiqueta'] dentro de NAV_GRUPOS
+    const navBlock = (SRC.match(/const NAV_GRUPOS\s*=\s*\[([\s\S]*?)\];/)||[])[1] || '';
+    for(const mm of navBlock.matchAll(/\['([a-zA-Z]+)'\s*,\s*'[^']*'\]/g)){ navKeys.push(mm[1]); }
+    const huerfanos = navKeys.filter(k => !vistas.includes(k));
+    if(huerfanos.length) fatales.push('Ítems de menú sin VIEWS: '+huerfanos.join(', '));
+    else if(navKeys.length) ok.push(`Los ${navKeys.length} ítems del menú tienen su vista`);
+  }catch(e){ avisos.push('No se pudo validar NAV_GRUPOS: '+e.message); }
+
   // --- Reporte ---
   console.log('\nGUARDIÁN HHHA  ·  respaldo: '+path.basename(BACKUP));
   console.log('─'.repeat(60));
