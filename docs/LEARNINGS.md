@@ -464,4 +464,37 @@
 - **Nota:** 894 equipos × ~42 columnas; render limitado a 500 filas, filtrar agiliza.
 - **Dónde aplica:** build_app.py (`VIEWS.registroMP`, `NAV_GRUPOS`, CSS `.mp-col`); CHANGELOG v0.38.
 
+## [2026-05-29] La lista de Equipos quedaba VACÍA: número en columna de texto (v0.39)
+
+- **Disparador:** el usuario reportó que al importar datos la lista de Equipos no se ve.
+- **Reproducido headless (jsdom):** cargando `app.html` e importando respaldos reales de
+  `data/`, navegar a **Equipos** lanzaba `TypeError: a.localeCompare is not a function`
+  (en `valoresUnicos`, al ordenar el filtro de columna) → el `render()` se aborta y la
+  tabla queda en 0 filas. **Registro MP** (misma técnica de planilla) fallaba idéntico.
+  El resto de las vistas (Resumen, MP del mes, Pendientes, Ciclos, Eventos, Conciliación)
+  funcionaba: solo 2 de 9 rotas.
+- **Causa raíz (dato):** 18 equipos traen `modelo` y 3 traen `ubic` como **número**
+  (ej. modelo 840/980, ubic 501) en el seed y en TODOS los backups. Las planillas de
+  v0.37 (Equipos) y v0.38 (Registro MP) ordenan/filtran columnas categóricas con
+  `String.prototype.localeCompare`, que no existe en un Number → excepción.
+- **Arreglo (doble, raíz + defensa):**
+  1. `normalizarEquipos()` (nueva) convierte a texto los campos de identificación del
+     equipo (`fam,equipo,servicio,unidad,ubic,proc,marca,modelo,serie,clasif,freq`).
+     Se llama en `bootstrap` (cubre carga del seed y de respaldo) y tras `migrate` en la
+     importación. Arregla de paso búsqueda y export (quedan parejos como texto).
+  2. Defensa en las DOS planillas: `valoresUnicos`, el orden y el filtro por columna
+     envuelven el valor en `String()` para no caerse nunca más ante un número suelto.
+- **Verificado headless:** Equipos y Registro MP muestran 894 equipos; el filtro por la
+  columna Modelo con el valor numérico "840" devuelve 8 equipos; filtro por Servicio,
+  abrir ficha (con PMP/historial) y Ctrl+K funcionan; 0 errores. Probado con 3 backups.
+- **Heurística:** (1) en una planilla genérica por columnas, un getter categórico DEBE
+  garantizar texto, o `localeCompare` revienta la vista entera. Coercionar en el ÚNICO
+  punto donde se ordena/compara no basta si hay varias planillas: arreglar en TODAS
+  (aquí 2 vistas × 3 puntos) + normalizar el dato. (2) Un error JS no atrapado en
+  `render()` no deja la lista "filtrada en vacío": la deja **rota y muda**; si una vista
+  sale vacía sin causa de datos, sospechar de una excepción en el dibujado.
+- **Dónde aplica:** build_app.py (`normalizarEquipos`, `CAMPOS_TEXTO_EQUIPO`, `bootstrap`,
+  handler de importar, `VIEWS.equipos` y `VIEWS.registroMP` en `valoresUnicos`/orden/filtro);
+  CHANGELOG v0.39; app.html regenerado.
+
 <!-- Próximas entradas debajo de esta línea -->

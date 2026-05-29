@@ -17,6 +17,18 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.39 [2026-05-29] Fix: la lista de Equipos (y Registro MP) quedaba VACÍA.
+  - Causa: 18 equipos tienen "modelo" y 3 "ubicación" guardados como número (no texto).
+    Las planillas de Equipos (v0.37) y Registro MP (v0.38) ordenan/filtran por texto con
+    localeCompare, que se cae ante un número -> el dibujado se aborta y la tabla queda vacía.
+    Reproducido headless: navegar a Equipos lanzaba "a.localeCompare is not a function";
+    0 filas. El resto de las vistas funcionaba.
+  - Arreglo de raíz: normalizarEquipos() convierte a texto los campos de identificación del
+    equipo (modelo, ubicación, marca, serie, etc.) al cargar el seed, al cargar un respaldo
+    y al importar. Defensa adicional: valoresUnicos, el orden y el filtro de columna de AMBAS
+    planillas envuelven el valor en String() para no volver a caerse ante un número suelto.
+  - Verificado headless con el seed y con respaldos reales de data/: Equipos y Registro MP
+    muestran 894 filas; filtros por columna y orden funcionan.
 v0.38 [2026-05-28] Nueva vista "Registro MP" (carta gantt navegable).
   - Réplica de la hoja Registro_MP: todas las columnas de identificación del equipo + los 12
     meses con P (programado) y R (realizado) + Estado, Días en estado y Pendientes al final.
@@ -1005,7 +1017,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.38';
+const APP_VERSION = '0.39';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1102,6 +1114,18 @@ function migrate(d){
   (d.pendientes||[]).forEach(p => { p.estado = normalizarEstadoPend(p.estado); });
   d.__v = APP_VERSION;
   return d;
+}
+
+// Campos de texto del equipo que el Excel a veces trae como número (ej. modelo "840",
+// ubicación "501"). Las planillas que ordenan/filtran por texto (Equipos, Registro MP)
+// se caen con localeCompare sobre un número, dejando la lista vacía. Esto los uniforma.
+const CAMPOS_TEXTO_EQUIPO = ['fam','equipo','servicio','unidad','ubic','proc','marca','modelo','serie','clasif','freq'];
+function normalizarEquipos(){
+  (state.equipos||[]).forEach(e => {
+    CAMPOS_TEXTO_EQUIPO.forEach(k => {
+      if(e[k] != null && typeof e[k] !== 'string') e[k] = String(e[k]);
+    });
+  });
 }
 
 // Limpia efectos huérfanos de eventos anulados que quedaron de versiones previas.
@@ -2222,7 +2246,7 @@ VIEWS.equipos = function(root, params){
   }
 
   const norm = s => (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-  const valoresUnicos = c => [...new Set(state.equipos.map(e=>c.g(e)).filter(v=>v!==''))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
+  const valoresUnicos = c => [...new Set(state.equipos.map(e=>{const v=c.g(e); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 
   function buildHead(){
     thead.innerHTML = '';
@@ -2261,7 +2285,7 @@ VIEWS.equipos = function(root, params){
       for(const c of COLS){
         const fv = filtros[c.k]; if(!fv) continue;
         const val = c.g(e);
-        if(c.lista){ if(val !== fv) return false; }
+        if(c.lista){ if(String(val) !== fv) return false; }
         else { if(!norm(val).includes(norm(fv))) return false; }
       }
       if(filtros.__conPend && !pendientesDe(e.inv).some(p=>p.estado!=='cerrado')) return false;
@@ -2269,7 +2293,7 @@ VIEWS.equipos = function(root, params){
     });
     lista = applyParamsFilter(lista);
     if(ordK){ const c = COLS.find(x=>x.k===ordK);
-      lista.sort((a,b)=> c.num ? ((+c.g(a)||0)-(+c.g(b)||0))*ordDir : c.g(a).localeCompare(c.g(b),'es')*ordDir);
+      lista.sort((a,b)=> c.num ? ((+c.g(a)||0)-(+c.g(b)||0))*ordDir : String(c.g(a)).localeCompare(String(c.g(b)),'es')*ordDir);
     }
     buildHead();
     tbody.innerHTML = '';
@@ -2383,7 +2407,7 @@ VIEWS.registroMP = function(root){
   const mesCols = () => { const a=[]; MESES.forEach(m=>{ a.push({k:'P_'+m,l:m+'·P',g:e=>((e.registro||{})[m]||{}).P||(e.prog||{})[m]||'',lista:true,mes:true}); a.push({k:'R_'+m,l:m+'·R',g:e=>((e.registro||{})[m]||{}).R||'',lista:true,mes:true,esR:true}); }); return a; };
   const cols = () => mostrarMeses ? [...IDENT, ...mesCols(), ...FINAL] : [...IDENT, ...FINAL];
   const colByK = k => cols().find(x=>x.k===k);
-  const valoresUnicos = c => [...new Set(state.equipos.map(e=>c.g(e)).filter(v=>v!==''))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
+  const valoresUnicos = c => [...new Set(state.equipos.map(e=>{const v=c.g(e); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 
   const thead = el('thead',{}); const tbody = el('tbody',{});
   const counter = el('div',{class:'muted',style:{fontSize:'12px',padding:'8px 0'}},'');
@@ -2412,10 +2436,10 @@ VIEWS.registroMP = function(root){
     const tokens = norm(search.value.trim()).split(/\s+/).filter(Boolean);
     let lista = state.equipos.filter(e=>{
       if(tokens.length){ const hay=[e.inv,e.serie,e.equipo,e.marca,e.modelo,e.servicio,e.unidad,e.ubic].map(norm).join(' '); if(!tokens.every(t=>hay.includes(t))) return false; }
-      for(const c of CS){ const fv=filtros[c.k]; if(!fv) continue; const val=c.g(e); if(c.lista){ if(val!==fv) return false; } else if(!norm(val).includes(norm(fv))) return false; }
+      for(const c of CS){ const fv=filtros[c.k]; if(!fv) continue; const val=c.g(e); if(c.lista){ if(String(val)!==fv) return false; } else if(!norm(val).includes(norm(fv))) return false; }
       return true;
     });
-    if(ordK){ const c=colByK(ordK); if(c) lista.sort((a,b)=> c.num?((+c.g(a)||0)-(+c.g(b)||0))*ordDir : c.g(a).localeCompare(c.g(b),'es')*ordDir); }
+    if(ordK){ const c=colByK(ordK); if(c) lista.sort((a,b)=> c.num?((+c.g(a)||0)-(+c.g(b)||0))*ordDir : String(c.g(a)).localeCompare(String(c.g(b)),'es')*ordDir); }
     buildHead();
     tbody.innerHTML = '';
     lista.slice(0,500).forEach(e=>{
@@ -5434,6 +5458,7 @@ function importData(){
       const msg = `Importar backup?\n· Versión: ${data.__v}\n· Equipos: ${data.equipos?.length||0}\n· Eventos: ${data.eventos?.length||0}\n· Pendientes: ${data.pendientes?.length||0}\n· Conflictos: ${data.conflictos?.length||0}\n\nReemplazará los datos actuales.`;
       if(!confirm(msg)) return;
       state = migrate(data);
+      normalizarEquipos();
       state.__userActions = state.__userActions || 0;
       save();
       toast(`Importado · ${state.eventos.length} eventos`, 'success',
@@ -5833,6 +5858,7 @@ function bootstrap(){
     state.equipos.forEach(recalcEstadoEquipo);
     save({internal:true});
   }
+  normalizarEquipos();
 
   buildNav();
   $('#btn-excel').onclick = exportExcel;
