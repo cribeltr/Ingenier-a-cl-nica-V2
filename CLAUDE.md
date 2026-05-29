@@ -98,6 +98,31 @@ Nunca cerrar un ajuste sin simular. Mínimo:
   abortos de modal y los clicks repetidos marcan dónde el usuario se traba.
 Reportar al usuario qué se simuló y el resultado, en lenguaje simple.
 
+**Prueba de humo OBLIGATORIA (no negociable).** Ningún cambio se da por terminado
+sin que pase la prueba del camino crítico. `python3 build_app.py` la corre sola al
+final; también se puede correr a mano con `node tools/smoke_test.js` (requiere, una
+sola vez, `npm install jsdom`). Verifica: importar un respaldo de `data/` → la lista
+de Equipos se ve completa → abrir una ficha → filtros por columna (incluida una
+numérica) → Ctrl+K → folio heredado del ciclo abierto. Si toca un flujo crítico
+nuevo, agrégale un chequeo a `tools/smoke_test.js`. Causa raíz histórica de los bugs:
+tocar funciones grandes/compartidas y validar con el seed o solo con `node --check`,
+sin EJECUTAR el camino básico con datos reales. La prueba de humo cierra ese hueco.
+
+**Guardián de autocorrección (`tools/guard.js`, también automático en el build).**
+Bloquea las CLASES de error ya cometidas: (1) un patrón arreglado a medias —p. ej. el
+estado de una MP debe derivarse de `estadoMPDesdeResultado` en TODOS los sitios que crean
+MP; (2) fórmulas/patrones legacy prohibidos; (3) cualquier vista que falle al dibujarse con
+un respaldo real (las 10 vistas); y avisa de (4) funciones muertas y (5) clases CSS con
+layout agresivo compartidas por varias tablas. Si el guardián marca ❌, NO se entrega hasta
+corregir. Al introducir un patrón nuevo que deba estar en varios sitios, agrégale un chequeo.
+
+**Diseño/visual: lo que el headless NO ve.** jsdom no mide píxeles (anchos, si algo cabe,
+si el texto se parte). Por eso, ante un cambio de DISEÑO o de CSS: (a) revisar TODAS las
+vistas/tablas que comparten esa clase o ese dato (no solo la que se está tocando), y (b)
+pedirle al usuario una mirada visual o abrirlo en un navegador real antes de darlo por
+bueno. Dos regresiones visuales (ancho de Equipos, Registro MP aplastado) las detectó el
+usuario, no las pruebas: el ojo humano sigue siendo obligatorio para lo visual.
+
 ### 5. Registrar (lente: documentalista)
 Antes de cerrar:
 - Subir la versión y anotar el cambio en el CHANGELOG dentro de `build_app.py`.

@@ -464,4 +464,504 @@
 - **Nota:** 894 equipos × ~42 columnas; render limitado a 500 filas, filtrar agiliza.
 - **Dónde aplica:** build_app.py (`VIEWS.registroMP`, `NAV_GRUPOS`, CSS `.mp-col`); CHANGELOG v0.38.
 
+## [2026-05-29] La lista de Equipos quedaba VACÍA: número en columna de texto (v0.39)
+
+- **Disparador:** el usuario reportó que al importar datos la lista de Equipos no se ve.
+- **Reproducido headless (jsdom):** cargando `app.html` e importando respaldos reales de
+  `data/`, navegar a **Equipos** lanzaba `TypeError: a.localeCompare is not a function`
+  (en `valoresUnicos`, al ordenar el filtro de columna) → el `render()` se aborta y la
+  tabla queda en 0 filas. **Registro MP** (misma técnica de planilla) fallaba idéntico.
+  El resto de las vistas (Resumen, MP del mes, Pendientes, Ciclos, Eventos, Conciliación)
+  funcionaba: solo 2 de 9 rotas.
+- **Causa raíz (dato):** 18 equipos traen `modelo` y 3 traen `ubic` como **número**
+  (ej. modelo 840/980, ubic 501) en el seed y en TODOS los backups. Las planillas de
+  v0.37 (Equipos) y v0.38 (Registro MP) ordenan/filtran columnas categóricas con
+  `String.prototype.localeCompare`, que no existe en un Number → excepción.
+- **Arreglo (doble, raíz + defensa):**
+  1. `normalizarEquipos()` (nueva) convierte a texto los campos de identificación del
+     equipo (`fam,equipo,servicio,unidad,ubic,proc,marca,modelo,serie,clasif,freq`).
+     Se llama en `bootstrap` (cubre carga del seed y de respaldo) y tras `migrate` en la
+     importación. Arregla de paso búsqueda y export (quedan parejos como texto).
+  2. Defensa en las DOS planillas: `valoresUnicos`, el orden y el filtro por columna
+     envuelven el valor en `String()` para no caerse nunca más ante un número suelto.
+- **Verificado headless:** Equipos y Registro MP muestran 894 equipos; el filtro por la
+  columna Modelo con el valor numérico "840" devuelve 8 equipos; filtro por Servicio,
+  abrir ficha (con PMP/historial) y Ctrl+K funcionan; 0 errores. Probado con 3 backups.
+- **Heurística:** (1) en una planilla genérica por columnas, un getter categórico DEBE
+  garantizar texto, o `localeCompare` revienta la vista entera. Coercionar en el ÚNICO
+  punto donde se ordena/compara no basta si hay varias planillas: arreglar en TODAS
+  (aquí 2 vistas × 3 puntos) + normalizar el dato. (2) Un error JS no atrapado en
+  `render()` no deja la lista "filtrada en vacío": la deja **rota y muda**; si una vista
+  sale vacía sin causa de datos, sospechar de una excepción en el dibujado.
+- **Dónde aplica:** build_app.py (`normalizarEquipos`, `CAMPOS_TEXTO_EQUIPO`, `bootstrap`,
+  handler de importar, `VIEWS.equipos` y `VIEWS.registroMP` en `valoresUnicos`/orden/filtro);
+  CHANGELOG v0.39; app.html regenerado.
+
+## [2026-05-29] Patrón raíz de los bugs y prueba de humo permanente
+
+- **Disparador:** tras arreglar la lista de Equipos vacía (v0.39), el usuario pidió
+  aprender del error y dejar un mecanismo que impida repetirlo.
+- **Patrón común (mirando todos los bugs del proyecto):** casi todos nacen igual —
+  se modifica una **función grande y compartida** (una vista, `recalcEstadoEquipo`,
+  la lógica de MP) y se valida con el **seed** o solo con `node --check` (sintaxis),
+  **sin ejecutar el camino básico con los datos reales**. Casos:
+  · v0.33/v0.34: lógica de MP/estado validada con el seed (donde la MP es evento), no
+    con el backup real (donde vive en la matriz) → bug masivo.
+  · v0.39: planillas nuevas (v0.37/v0.38) validadas con `node --check` y muestras, sin
+    abrir la vista con los datos reales → un `modelo` numérico tiraba toda la pantalla.
+  El **tipo** de error es siempre el mismo: *cambio en código compartido + verificación
+  que no ejecuta el flujo real = regresión silenciosa en el camino básico.*
+- **Por qué no se detectaba a tiempo:** `node --check` solo mira sintaxis; las "pruebas"
+  eran manuales o sobre el seed. Nunca se ejecutaba la app de verdad con un respaldo.
+- **Mecanismo permanente (hecho):** `tools/smoke_test.js` (jsdom, headless) ejecuta el
+  camino crítico sobre un respaldo de `data/`: importar sin errores → Equipos completa →
+  filtro por columna numérica (el bug histórico) → abrir ficha → Ctrl+K → folio heredado
+  del ciclo abierto. `build_app.py` lo corre **solo** al final de cada generación e imprime
+  ✅/❌ (si falta jsdom o node, avisa y sigue). Devuelve código ≠0 si algo falla.
+- **Regla nueva (incorporada a CLAUDE.md, paso 4 del ciclo):** ningún cambio se da por
+  terminado sin que la prueba de humo pase. Si se agrega un flujo crítico nuevo, se le
+  añade un chequeo a `tools/smoke_test.js`.
+- **Cómo correrla a mano:** `node tools/smoke_test.js` (una vez: `npm install jsdom`).
+- **Dónde aplica:** tools/smoke_test.js (nuevo), build_app.py (paso final), CLAUDE.md
+  (ciclo de trabajo paso 4), este LEARNINGS.
+
+## [2026-05-29] Alineación de las vistas con la especificación funcional (v0.40)
+
+- **Disparador:** el usuario subió la especificación funcional (docx, basada en v0.38) y
+  pidió "ajustar la app a la especificación". Se confirmó esa opción antes de actuar.
+- **Hecho (vista por vista):**
+  · Cap. 3: "Equipos" → "Buscar equipos" (menú + título). Columnas reordenadas al orden del
+    documento y se agregó **Serie**: ID, N° Inventario, Serie, Equipo, Marca, Modelo,
+    Servicio, Unidad, Ubicación, Procedencia, Estado, Días, Pendientes. Las celdas del cuerpo
+    ahora se generan desde la definición de columnas (`COLS` con `cell` opcional), no a mano,
+    así reordenar no descuadra la tabla.
+  · Cap. 4: la ficha pasa de PESTAÑAS a **secciones contraíbles** apiladas (helper
+    `seccionColapsable` con `<details>/<summary>`): Datos · Programación PMP · Historial ·
+    Pendientes · Ciclos · Conflictos (si hay). Reutiliza los render existentes.
+  · Cap. 4.2: la Programación PMP de la ficha suma la fila **Ejecutor** (Mes / P / R / Ejecutor).
+- **Ya cumplían la especificación (verificado, sin tocar):** aviso al abrir un 2º ciclo con
+  uno ya abierto (línea ~1441); folio preseleccionado del ciclo y aviso si no hay (v0.28);
+  Ctrl+K con coincidencia parcial; filtros por columna tipo Excel.
+- **No tocado a propósito (anotado para confirmar con el usuario):** la tabla de la vista
+  Pendientes no agrega columnas "Responsable" ni "Recordatorio" del documento porque el
+  modelo de datos no tiene un campo "responsable" separado del ejecutor; añadir columnas
+  vacías confundiría. Queda como decisión a ratificar.
+- **Verificado headless:** prueba de humo 6/6 OK; además chequeo dirigido confirma el título
+  "Buscar equipos", la columna Serie en orden, 5–6 secciones contraíbles en la ficha y la
+  fila Ejecutor en la PMP. 0 errores.
+- **Heurística:** cuando una tabla declara columnas en un array, el CUERPO debe generarse
+  desde ese mismo array (no filas a mano), o reordenar columnas descuadra los datos. Para
+  "secciones contraíbles" nativas, `<details>/<summary>` evita JS de estado y no se rompe.
+- **Dónde aplica:** build_app.py (`VIEWS.equipos` COLS+cuerpo, `NAV_GRUPOS`, `VIEWS.equipo`
+  reescrita, `seccionColapsable`, `renderMatrizMP` fila Ejecutor, CSS `.ficha-sec`);
+  CHANGELOG v0.40; app.html regenerado.
+
+## [2026-05-29] Ajustes desde la primera sesión real de uso (v0.41)
+
+- **Disparador:** el usuario usó v0.40, grabó una sesión (`sesiones/…1529.json`) y pidió 4
+  cosas. La sesión confirma la fricción: 84 s de `hover_long` sobre los filtros y tener que
+  estirarse al botón "Ficha" en el extremo derecho (x≈1651) de la planilla.
+- **Hecho:**
+  1. **Clic en la fila abre la ficha** (se quitó el botón "Ficha"). Los botones ➕ de la fila
+     llaman `e.stopPropagation()` para no abrir la ficha al registrar. CSS `tr.row-click`.
+  2. **MP con causal C1–C8** → además del pendiente de reprogramación, marca `registro[mesSig].P='R'`
+     (reprogramado) en el mes siguiente, sin pisar una programación ya puesta. La ficha ahora
+     lee P como `registro.P || prog` (igual que la planilla Registro MP), así la "R" se ve al
+     instante en ambas. Solo dispara en registro real del usuario (los eventos sintéticos de
+     conciliación escriben la matriz directo, no pasan por `aplicarEfectosEvento`).
+  3. **Imprimir historial:** `imprimirHistorial(eq)` abre una ventana limpia (tabla fecha /
+     descripción / estado / ejecutor / observación / pendientes) y lanza `window.print()`
+     (o guardar como PDF). Botón "🖨 Imprimir" en el encabezado del historial.
+  4. **Gantt → historial:** verificado que YA ocurre (desde v0.21): al subir el maestro, cada
+     R de la carta gantt sin evento se crea como MP sintética `origen:'conciliacion_auto'`
+     ("🔗 Auto-maestro"), visible en el historial. No requería cambio.
+- **Trampa encontrada:** el botón Imprimir no aparecía si el equipo no tenía eventos, porque
+  `renderBitacora` hacía un `return` temprano ("Sin eventos") ANTES del encabezado. Se quitó el
+  return temprano; el encabezado (con Imprimir) va siempre y el "Sin eventos" queda dentro.
+  Heurística: un `return` temprano por "lista vacía" se come los controles del encabezado;
+  poner el encabezado primero y el vacío como contenido.
+- **Prueba de humo:** se añadieron 3 chequeos nuevos (fila→ficha, botón Imprimir, causal→R mes
+  siguiente). 9/9 OK. La prueba atrapó justo el bug del botón ausente con datos sin eventos.
+- **Dónde aplica:** build_app.py (`VIEWS.equipos` fila clic, `aplicarEfectosEvento` causal,
+  `renderMatrizMP` lee registro.P, `imprimirHistorial`, `renderBitacora` encabezado);
+  tools/smoke_test.js (+3 chequeos); CHANGELOG v0.41.
+
+## [2026-05-29] El verdadero problema de "Buscar equipos" era el ancho, no el botón (v0.42)
+
+- **Disparador:** tras v0.41 el usuario mandó una captura: la planilla SEGUÍA pidiendo
+  desplazamiento lateral (Días/Pendientes/Acciones cortadas a la derecha). "No lo corregiste."
+- **Causa:** aunque el clic en la fila ya abría la ficha, la tabla era más ancha que la
+  pantalla por: (1) títulos de columna con `white-space:nowrap` (cada uno forzaba su ancho),
+  (2) la columna "Acciones" al extremo derecho, (3) padding holgado (10×12) en 14 columnas.
+- **Hecho:** se quita la columna "Acciones" (la fila abre la ficha; los ➕ viven en la ficha),
+  los títulos ENVUELVEN (`.eq-grid th.th-sort{white-space:normal}`, sobreescribe el nowrap de
+  `.th-sort`), las celdas parten palabras largas (`overflow-wrap:anywhere`) y el padding baja a
+  7×8. El contenido real es angosto (~960px), así que con `width:100%` y ancho automático las
+  13 columnas caben sin scroll lateral.
+- **Heurística:** (1) cuando el usuario dice "me incomoda desplazarme al lado", el arreglo es
+  que la tabla QUEPA, no solo facilitar el destino del scroll. (2) Los `th` con `white-space:nowrap`
+  son la causa silenciosa más común de tablas anchas: un título largo fija el mínimo de toda la
+  columna aunque los datos sean cortos. (3) jsdom no calcula layout en píxeles: el ancho real
+  hay que razonarlo (min-content por columna) o verlo en el navegador; la prueba de humo sí
+  confirma que la tabla tiene 13 columnas y la fila abre la ficha.
+- **Dónde aplica:** build_app.py (`VIEWS.equipos` buildHead sin Acciones, fila sin td de
+  acciones, CSS `.eq-grid`, subtítulo); CHANGELOG v0.42.
+
+## [2026-05-29] Historial de eventos en columnas + columna de Pendientes (v0.43)
+
+- **Disparador:** el usuario, dentro de la ficha, no veía el historial "con columnas y al lado
+  los pendientes" (cap. 4.3 de la especificación). Seguía como tarjetas.
+- **Hecho:** `renderBitacora` pasa de lista de tarjetas a TABLA `.bitacora-grid` con columnas
+  Fecha · Descripción · Estado · Ejecutor · **Pendientes** · Acciones. La columna Pendientes
+  lista los `state.pendientes` con `eventoOrigen === ev.id` (no anulados) como chips clicables
+  (abren el pendiente); "—" si el evento no tiene. Descripción agrupa tipo, sellos, folio,
+  resultado, empresa, observación y motivo de anulación. Acciones en su columna.
+- **Verificado:** la tabla tiene las 6 columnas; con un pendiente ligado a un evento
+  (`crearPendienteAuto(..., evId, ...)`) el chip "Reprogramación MP · No iniciado" aparece en la
+  fila de ese evento. Ningún backup real traía pendientes con `eventoOrigen`, por eso se probó
+  inyectando uno (los pendientes auto nacen de causales C1–C8 / NU al registrar MP).
+- **Heurística:** al pasar una lista de tarjetas a tabla, conservar TODOS los datos que la
+  tarjeta mostraba (sellos, folio, observación, anulación) repartidos en celdas, no perderlos.
+- **Dónde aplica:** build_app.py (`renderBitacora`); CHANGELOG v0.43.
+
+## [2026-05-29] Botón "➕ Pend." por evento (pendiente ligado) (v0.44)
+
+- **Disparador:** el usuario quiere agregar pendientes desde cada evento del historial.
+- **Hecho:** en la columna Acciones del historial, cada evento no anulado tiene "➕ Pend." que
+  llama `nuevoPendiente({invDefault:ev.inv, eventoOrigen:ev.id})`. `nuevoPendiente` ahora acepta
+  `opts.eventoOrigen`, lo guarda en el pendiente y muestra un aviso "🔗 ligado a…" en el modal.
+  El pendiente nuevo aparece al instante en la columna Pendientes de esa misma fila (porque esa
+  columna filtra `eventoOrigen === ev.id`).
+- **Verificado headless de punta a punta:** botón presente → modal con aviso de vínculo →
+  crear → chip "Documento faltante · No iniciado" en la fila del evento. 0 errores; humo 9/9.
+- **Dónde aplica:** build_app.py (`nuevoPendiente` opts.eventoOrigen + aviso, `renderBitacora`
+  botón en Acciones); CHANGELOG v0.44.
+
+## [2026-05-29] Los equipos "en servicio técnico" desaparecían tras subir el maestro (v0.45)
+
+- **Disparador:** el usuario: "hasta ayer tenía equipos en servicio técnico que no veo ahora".
+- **Diagnóstico (con su backup `12_hhhadata20260529_2.json`):** 16 equipos tienen como último
+  resultado de la gantt C2 ("equipo en servicio técnico") pero figuraban 15 operativo / 1 no_op.
+  Conteo "En servicio técnico" = 0 (antes >0).
+- **Causa raíz:** el estado resultante de una MP se calculaba con `resultado==='Si'?'operativo'
+  : resultado==='Baja'?'baja' : (eq.estado||'operativo')`. Es decir, **C2, C3, FS, NU caían en el
+  "else" y quedaban 'operativo'**. Al subir el maestro se crean MP automáticas (una por R de la
+  gantt) con ese estado; como `recalcEstadoEquipo` toma el estado del último evento, esos eventos
+  "operativos" TAPABAN el "en servicio técnico" que `estadoDesdeMatriz` (C2) daba cuando NO había
+  eventos. Ayer no había esos eventos → se veía bien; tras subir el maestro → se perdió.
+- **Arreglo (un solo criterio, espejado):** `estadoMPDesdeResultado(resultado)` mapea como la
+  matriz `MP_CAUSAL_ESTADO` (C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja, Si→operativo;
+  **C1 y C4–C8 NO declaran estado**, '' ). Se usa en los 3 puntos que crean MP (ficha, MP rápida,
+  automáticas del maestro) y `recalcEstadoEquipo` deriva el estado de una MP de su RESULTADO (no del
+  campo ev.estado, que en datos viejos venía mal). El historial muestra el estado derivado del
+  resultado. Resultado en su backup: En servicio técnico 0→**15**, sin re-subir nada.
+- **Invariante respetada:** recalc (cálculo) y aplicarEfectosEvento (vivo) coinciden: C1/C4–C8
+  dejan estado vacío en ambos (transparentes), evitando "operativizar" un equipo en correctivo.
+- **Heurística:** un `? : else` que mete TODOS los casos no contemplados en un valor por defecto
+  ('operativo') es una bomba: cualquier código nuevo (C2…) cae en el else silenciosamente. Mapear
+  con una tabla explícita (MP_CAUSAL_ESTADO) y un helper único evita el "else que se traga casos".
+- **Prueba de humo:** +1 chequeo (C2→en servicio técnico). 10/10.
+- **Dónde aplica:** build_app.py (`estadoMPDesdeResultado`, `recalcEstadoEquipo`, 3 creaciones de
+  MP, columna Estado del historial); tools/smoke_test.js (+1); CHANGELOG v0.45.
+
+## [2026-05-29] Mi propio error: el fix v0.45 quedó en 3 de 5 sitios (v0.46)
+
+- **Disparador:** el usuario: "revisa los cambios, identifica tu error y corrígelo".
+- **Error encontrado (autocrítica):** en v0.45 corregí el estado de la MP (derivarlo del
+  resultado con `estadoMPDesdeResultado`) en 3 lugares + el cálculo, pero OMITÍ 2:
+  1. **Formulario completo de evento** (`nuevoEvento`, MP): el "Estado resultante" era un
+     `<select>` MANUAL (operativo/no operativo/en servicio técnico) que por defecto quedaba en
+     "operativo", independiente del resultado. Registrar un C2 dejando el default → estado
+     "operativo" guardado. (El usuario registra MP justo por este formulario — sesión 1607.)
+  2. **Conciliación al aceptar un conflicto** (evento origen 'conciliacion', ~3769): seguía con
+     la fórmula vieja `Si?op:Baja?baja:(eq.estado||'operativo')`.
+- **Arreglo:** el "Estado resultante" del formulario ahora es un campo de SOLO LECTURA que se
+  deriva del resultado en vivo (`estadoMPDesdeResultado`, se actualiza al cambiar el resultado),
+  y al guardar `ev.estado = estadoMPDesdeResultado(ev.resultado)`. Conciliación usa el helper.
+  Son 5 sitios: synthetic auto, conciliación-aceptar, mpMasiva, mpRapida, formulario completo.
+- **Verificado:** por el formulario completo, MP con C2 → muestra "en servicio técnico" y deja el
+  equipo en servicio técnico (end-to-end headless). `grep` no encuentra restos de la fórmula vieja.
+  Conteo del backup del usuario sin regresión (serv. técnico 15). Humo 10/10.
+- **Heurística (la de SIEMPRE, ahora autoaplicada):** al cambiar un patrón, `grep` del patrón
+  COMPLETO en TODO el archivo y arreglar TODOS los sitios. Aquí el patrón era "estado resultante
+  de una MP": estaba en 5 lugares (3 con fórmula + 1 select manual + 1 conciliación) y arreglé 3.
+  Antídoto: buscar por `tipo: 'Mantención preventiva'` y por el campo `estado` en cada form.
+- **Dónde aplica:** build_app.py (`nuevoEvento` MP estado derivado, conciliación ~3769);
+  CHANGELOG v0.46.
+
+## [2026-05-29] Una clase CSS compartida rompió otra vista (Registro MP) (v0.47)
+
+- **Disparador:** captura del usuario: Registro MP "se ve pésimo" — texto partido letra por letra,
+  columnas aplastadas en vertical.
+- **Causa:** el estilo "ajustar a pantalla" de v0.42 (`width:100%` + `overflow-wrap:anywhere` +
+  títulos que envuelven) lo puse en la clase `eq-grid`, que comparten DOS vistas: Buscar equipos
+  (13 columnas) y Registro MP (~43 columnas). En Buscar equipos se ve bien; en Registro MP, forzar
+  ancho 100% sobre 43 columnas las aplasta y parte el texto carácter por carácter.
+- **Arreglo:** mover ese estilo a una clase propia `buscar-grid` (solo Buscar equipos). Registro MP
+  queda con `eq-grid` y anchos naturales + scroll horizontal (su diseño de carta gantt).
+- **Heurística:** antes de poner estilos de layout en una clase, `grep` quién más la usa. `eq-grid`
+  la comparten 2 tablas con necesidades OPUESTAS (una debe caber sin scroll; la otra DEBE scrollear).
+  Estilos específicos de una vista → clase específica de esa vista, no una compartida.
+- **Dónde aplica:** build_app.py (CSS `.buscar-grid`, clase de la tabla de Buscar equipos);
+  CHANGELOG v0.47.
+
+## [2026-05-29] Autocorrección: guardián automático contra mis clases de error (v0.48)
+
+- **Disparador:** el usuario pidió "implementa una autocorrección que evite que cometas estos
+  errores en el futuro", tras el autoinforme de errores de la sesión.
+- **Hecho:** `tools/guard.js`, que corre solo tras `python3 build_app.py` (junto a la prueba de
+  humo) y BLOQUEA (exit≠0) las clases de error ya cometidas:
+  1. **Patrón incompleto:** verifica que en TODOS los sitios `tipo:'Mantención preventiva'` el
+     `estado` se derive de `estadoMPDesdeResultado` (o sea `'baja'`). Probado: detecta la fórmula
+     vieja `r==='Si'?'operativo':(eq.estado||'operativo')` → habría bloqueado el bug v0.45.
+  2. **Patrones legacy prohibidos** (`eq.estado||'operativo'`, `new Date(f)` crudo).
+  3. **Todas las vistas se dibujan sin error** con un respaldo real (las 10) → habría atrapado el
+     bug v0.39 (lista vacía por excepción en render).
+  - Avisos (no bloquean): funciones muertas (detectó `renderResumenEquipo`) y clases CSS con
+    layout agresivo (`word-break`/`overflow-wrap`/`table-layout`) compartidas por >1 tabla
+    (el patrón del bug eq-grid v0.42/0.47).
+- **Limitación honesta:** jsdom NO mide píxeles → el guardián NO ve regresiones puramente
+  visuales (anchos, texto partido). Para diseño, el ojo humano sigue siendo obligatorio; se
+  añadió esa regla a CLAUDE.md (revisar TODAS las vistas que comparten clase/dato + pedir
+  mirada visual).
+- **Heurística:** convertir cada error de proceso en un chequeo que se ejecute solo. Un patrón
+  que debe estar en N sitios merece un guardián que cuente esos N sitios, no la memoria humana.
+- **Dónde aplica:** tools/guard.js (nuevo), build_app.py (lo ejecuta al final), CLAUDE.md
+  (guardián + regla de diseño visual); CHANGELOG v0.48.
+
+## [2026-05-29] Rediseño minimalista paso 1 (v0.49)
+
+- **Disparador:** el usuario pidió un rediseño minimalista y funcional, sin perder funciones.
+  Eligió: sidebar oscura + contenido claro y **contraíble**, densidad **compacta**, acento **azul**,
+  aplicar directo y revisar.
+- **Hecho (solo capa visual):** nueva paleta neutra fría con acento azul (claro/oscuro), foco azul
+  en campos; densidad compacta (fuente 13.5px, paddings y tablas más juntos); barra lateral
+  **contraíble** con botón ☰ (clase `sb-collapsed` en `.app`, preferencia `sidebarColapsada`
+  recordada); tablas con hover de fila y encabezados compactos; secciones/tarjetas con esquinas
+  suaves + sombra sutil; botones radio 6px.
+- **Sin pérdida de función:** guardián (10 vistas dibujan) + humo 10/10 en verde; toggle verificado
+  (pliega/expande/persiste). Cero cambios de lógica.
+- **Pendiente honesto:** lo VISUAL fino (proporciones, que "se vea bien") lo valida el usuario;
+  jsdom no mide píxeles. Este es el paso 1 (sistema base); afinar pantalla por pantalla según su
+  feedback. Sin tocar la barra lateral en modo colapsado por dentro (se oculta por completo).
+- **Dónde aplica:** build_app.py (tokens `:root`/dark, base, `.app`/`.sidebar` colapsable, topbar
+  `.sb-toggle`, `table.data`, `.section`, `toggleSidebar`, bootstrap); CHANGELOG v0.49.
+
+## [2026-05-29] "Por resolver" fuera del menú; "Pendientes" como apartado e inicio (v0.50)
+
+- **Disparador:** el usuario pidió eliminar el apartado "Por resolver" y poner "Pendientes" con
+  filtros (equipo, responsable, etc.).
+- **Hecho:** se eliminó `VIEWS.porResolver` (la vista completa) y se quitó del menú; `Pendientes`
+  ocupa su lugar en GESTIONAR y es la pantalla de inicio (`navigate('pendientes')` en bootstrap y
+  resetState). El badge del menú cuenta pendientes abiertos. La vista Pendientes YA tenía filtros:
+  búsqueda (equipo/N° inventario/descripción) + Tipo + Estado + Ejecutor(responsable) + Servicio +
+  chips; solo se afinó el texto del buscador.
+- **Sin pérdida de función:** Ciclos/Eventos siguen accesibles desde la ficha y el Resumen; guardián
+  (9 vistas) + humo 10/10 verde. Verificado: el menú ya no muestra "Por resolver", inicia en
+  Pendientes, 4 filtros presentes.
+- **Nota:** "responsable" en el modelo de datos = `ejecutor` (no hay campo aparte); el filtro
+  "Ejecutor" cumple ese rol.
+- **Dónde aplica:** build_app.py (NAV_GRUPOS, navBadge, bootstrap/resetState landing, búsqueda de
+  Pendientes; `VIEWS.porResolver` eliminada); CHANGELOG v0.50.
+
+## [2026-05-29] MP "Si": estado elegible Operativo/No operativo; causales automáticas (v0.51)
+
+- **Disparador:** el usuario precisó: en una MP, el estado del equipo es Operativo o No operativo
+  **cuando el resultado es "Si"**. Con causales se mantiene automático (C2 sigue desde la gantt).
+- **Hecho:** helper `estadoMPFinal(resultado, estadoManualSi)`: si resultado='Si' → usa la elección
+  del usuario (operativo/no operativo, default operativo); si es causal → `estadoMPDesdeResultado`
+  (C2→serv. técnico, C3/FS/NU→no operativo, Baja→baja, C1/C4–C8→sin cambio). En los 3 formularios
+  de MP (completo, rápida, masiva) el campo "Estado resultante" muestra un selector op/no-op cuando
+  el resultado es "Si" y un texto de solo lectura (derivado) para las causales. `recalcEstadoEquipo`
+  para MP "Si" usa `ev.estado`. Eventos automáticos del maestro siguen con `estadoMPDesdeResultado`.
+- **Verificado end-to-end (headless):** Si+No operativo→no_operativo; Si+Operativo→operativo;
+  C2→en servicio técnico; C3→no operativo. Guardián 9 vistas + humo 10/10. Guard actualizado para
+  aceptar `estadoMPFinal`.
+- **Heurística:** una regla de negocio puede ser CONDICIONAL (el estado solo es libre para un
+  resultado concreto). Modelarla con un helper único usado por todos los formularios y el cálculo,
+  no repetir la condición en cada sitio.
+- **Dónde aplica:** build_app.py (`estadoMPFinal`, `recalcEstadoEquipo`, MP en `nuevoEvento`,
+  `mpRapida`, `mpMasiva`), tools/guard.js; CHANGELOG v0.51.
+
+## [2026-05-29] Más intuitivo: recorrer equipos desde la ficha (v0.52)
+
+- **Disparador:** el usuario pidió rediseñar para que sea más intuitivo. La grabación 1850
+  mostró que el desgaste real era ir-y-volver lista↔ficha (12 idas / 9 vueltas), procesando
+  equipos uno por uno. Se diseñó CONTRA esa evidencia, no a ciegas.
+- **Hecho:** (1) la ficha del equipo trae **◀ / "N de total" / ▶** que recorre la lista
+  exactamente con el filtro y orden actuales de Buscar equipos (variable `navEquipos` que se
+  llena en el render de la planilla). (2) Botón **"➕ MP y siguiente ▶"**: `mpRapida` acepta
+  `opts.despuesIr` y, al guardar, salta directo a la ficha del próximo equipo. (3) `navigate()`
+  CONSERVA el scroll cuando re-dibuja el MISMO lugar (mismo view+params), así oficializar/editar/
+  anular ya no saltan al inicio.
+- **Verificado:** ◀/▶ navega (1/893 → 2/893), botón "MP y siguiente" presente, 0 errores;
+  guardián 9 vistas + humo 10/10.
+- **Heurística:** "más intuitivo" = atacar la fricción MEDIDA en las sesiones (think_times,
+  ir-y-volver), no rediseñar por gusto. El recorrido prev/next respeta el filtro del usuario
+  (no inventa un orden propio).
+- **Dónde aplica:** build_app.py (`navEquipos`, `navigate` conserva scroll, `VIEWS.equipos`
+  guarda lista, `VIEWS.equipo` ◀/▶ + MP y siguiente, `mpRapida` opts.despuesIr, CSS `.ficha-nav`);
+  CHANGELOG v0.52.
+
+## [2026-05-29] Fix: Resumen "MP por mes" no abría el mes al hacer clic (v0.53)
+
+- **Disparador:** grabación 1904 — el usuario hizo clic en Febrero/Pendiente del Resumen y no lo
+  llevaba a la vista filtrada de ese mes.
+- **Causa:** `VIEWS.mp` inicializaba `monthIdx = today.getMonth()` (mes actual) e IGNORABA
+  `params.mes`. El clic navegaba a `mp` con `{mes:'Feb', estadoMP:'pend'}`: aplicaba el filtro
+  "Pendientes" pero dejaba la vista en el mes en curso (Mayo), no en Febrero.
+- **Arreglo:** `VIEWS.mp` toma el mes y año de los parámetros (`MES_NUM[params.mes]`, `params.year`).
+  Las 3 tablas del Resumen (por mes, por ejecutor, sin asignar) ahora pasan `mes` y `year` al
+  navegar a "MP del mes". Chequeo nuevo en la prueba de humo (#11): Resumen→MP por mes abre el mes
+  correcto (Feb, filtro pend). 11/11.
+- **Heurística:** si una vista recibe parámetros de navegación (drill-down), debe APLICARLOS TODOS,
+  no solo algunos. Aquí leía `estadoMP`/`ejecutor`/`sinAsignar` pero no `mes` → drill-down a medias.
+- **Dónde aplica:** build_app.py (`VIEWS.mp` lee params.mes/year; `renderSumMesesMP` y
+  `renderSumEjecutoresMP` pasan mes/year), tools/smoke_test.js (+1); CHANGELOG v0.53.
+
+## [2026-05-29] Eliminada la vista "Registro MP" (v0.54)
+
+- **Disparador:** el usuario pidió eliminar la vista "Registro MP".
+- **Hecho:** se quitó del menú (NAV_GRUPOS) y se eliminó `VIEWS.registroMP`. No quedaban llamadas
+  `navigate('registroMP')` fuera del menú. La carta gantt (P/R por mes) sigue en la ficha del
+  equipo (sección "Programación PMP") y en "MP del mes": no se pierde dato.
+- **Verificado:** menú = Pendientes · Buscar equipos · Resumen · MP del mes · Conciliación;
+  guardián 8 vistas + humo 11/11. (CSS `.mp-col` y pref `regmp_meses` quedan sin uso, inofensivos.)
+- **Dónde aplica:** build_app.py (NAV_GRUPOS, `VIEWS.registroMP` eliminada); CHANGELOG v0.54.
+
+## [2026-05-29] "Buscar equipos" a pantalla completa (v0.55)
+
+- **Disparador:** el usuario quiere que Buscar equipos ocupe toda la pantalla.
+- **Causa de que no la ocupara:** `.view{max-width:1280px;margin:0 auto}` centraba y dejaba franjas
+  a los lados, y la tabla tenía `maxHeight:calc(100vh - 300px)` (alto fijo, espacio sin usar).
+- **Hecho:** clase propia `.view-equipos{max-width:none;display:flex;flex-direction:column;height:100%}`
+  (ancho completo) y el contenedor de la tabla `.eq-grid-wrap{flex:1;min-height:0}` (llena el alto
+  disponible y scrollea dentro). Solo afecta a Buscar equipos; las demás vistas siguen centradas a
+  1280px.
+- **Verificado (estructura):** guardián 8 vistas + humo 11/11. El resultado VISUAL (que llene la
+  pantalla) lo confirma el usuario; jsdom no mide píxeles.
+- **Dónde aplica:** build_app.py (CSS `.view-equipos`/`.eq-grid-wrap`, clase del root de
+  `VIEWS.equipos`, contenedor de la tabla sin maxHeight fijo); CHANGELOG v0.55.
+
+## [2026-05-29] Filtros de columna estilo Excel + Pendientes pantalla completa (v0.56)
+
+- **Disparador:** el usuario pidió filtros de columna "como Excel" (marcar uno o varios valores +
+  escribir para buscar) y aplicar la pantalla completa a las demás tablas.
+- **Hecho:** en Buscar equipos, las columnas categóricas pasan de `<select>` simple a un **popup
+  tipo Excel** (`filtroExcel`): buscador (escribe para filtrar la lista) + casillas para marcar
+  varios. `filtros[c.k]` ahora es un **Set** (varios valores); el botón muestra "(todos)" / el
+  valor / "N seleccionados". El popup se ancla al `body` con `position:fixed` (rect del botón) para
+  NO cortarse dentro del contenedor con overflow. Pendientes ahora usa `.view-full` (ancho total +
+  tabla que llena el alto).
+- **Clave técnica:** se separó `render()` (= `buildHead()` + `aplicar()`) de `aplicar()` (solo el
+  cuerpo). Los filtros llaman `aplicar()` → NO se redibuja el encabezado, así el popup no se cierra
+  al marcar varios ni se pierde el foco al escribir. `buildHead`/click-fuera/`cerrarPopups` limpian
+  los popups del body. Accesos rápidos y params pasan a Sets.
+- **Verificado end-to-end:** buscar "Neonat" filtra la lista; marcar 2 servicios → 5 filas; botón
+  "2 seleccionados". Chequeo de humo #3 reescrito (el viejo buscaba un `<select>` que ya no existe):
+  "Filtro de columna estilo Excel (buscar + marcar)" → ok. Humo 11/11 + guardián 8 vistas.
+- **Heurística:** un popup dentro de un contenedor con `overflow:auto` se corta → anclarlo al body
+  con coordenadas fijas. Y para filtros multi-selección en vivo, NO rebuilds del encabezado: separar
+  "dibujar encabezado" de "re-filtrar cuerpo".
+- **Dónde aplica:** build_app.py (`VIEWS.equipos` filtroExcel/aplicar/render, Sets en filtros/QA/
+  params/chips; `VIEWS.pendientes` `.view-full`/`.pend-fill`; CSS `.col-filter*`/`.view-full`),
+  tools/smoke_test.js (#3 reescrito); CHANGELOG v0.56.
+
+## [2026-05-29] Ajustes: tipo pendiente, etiqueta MP reprogramada, ficha, maestro oficial (v0.57)
+
+- **Disparador:** 4 pedidos del usuario.
+- **Hecho:** (1) nuevo tipo de pendiente "Firma faltante" en `TIPO_PENDIENTE`. (2) helper
+  `etiquetaTipoEvento(ev)`: una MP con resultado ≠ "Si" se MUESTRA como "Reprogramación mantención
+  preventiva" (el `ev.tipo` interno sigue siendo 'Mantención preventiva' para no romper recalc/
+  filtros/matriz); aplicado en historial, vista Eventos e impresión. (3) `VIEWS.equipo`: se quitan
+  los botones "➕ MP" y "➕ MP y siguiente" (la MP se registra desde "➕ Evento"); se conservan ◀/▶.
+  (4) los eventos sintéticos de conciliación (`conciliacion_auto` y `conciliacion`) pasan a
+  `oficial:'Sí'` (antes 'No'): lo del maestro queda oficial.
+- **Verificado:** tipos de pendiente incluyen "Firma faltante"; etiquetaTipoEvento(Si)=MP,
+  (C2)=Reprogramación…; ficha sin ➕MP/MP y siguiente, con ➕ Evento; oficial 'Sí' en fuente.
+  Guardián 8 vistas + humo 11/11.
+- **Decisión a confirmar (anotada):** la regla "≠ Si → Reprogramación" también etiqueta FS/NU/Baja
+  como "Reprogramación…", que semánticamente no son reprogramación. Se siguió literal lo pedido
+  ("cuando no sea Si"); si el usuario quiere, se excluyen Baja/FS/NU.
+- **Dónde aplica:** build_app.py (TIPO_PENDIENTE, etiquetaTipoEvento + usos, VIEWS.equipo header,
+  synthetic oficial en compararMaestro/resolverConflicto); CHANGELOG v0.57.
+
+## [2026-05-29] Pendientes Sí/No filtrable + Pendientes como planilla a pantalla completa (v0.59)
+
+- **Disparador:** el usuario pidió: en Buscar equipos, la columna Pendientes con Sí/No filtrable;
+  y rehacer la vista Pendientes como planilla (columnas Carpeta · Servicio · Equipo · Inventario ·
+  Tipo · Descripción · Ejecutor · Compromiso · Estado · Acciones), todas filtrables menos Acciones,
+  quitando los selectores de arriba (solo búsqueda) y a pantalla completa.
+- **Hecho:** (1) columna Pendientes de equipos: getter devuelve 'Sí'/'No' (`lista:true`) → filtro
+  Excel con esos dos valores; la celda muestra Sí/No. La QA "Con pendientes" setea `filtros.pend=
+  Set(['Sí'])`. (2) **`filtroColumnaExcel` extraído a helper GLOBAL** (antes inline en equipos) +
+  `cerrarColPopups`/`normFiltro`; reutilizado por ambas planillas (sin duplicar). (3) `VIEWS.pendientes`
+  reescrita como planilla `view-full` con COLS, buildHead (sort + filtroColumnaExcel/text), aplicar/
+  render; solo barra de búsqueda arriba; tabla `eq-grid buscar-grid` que llena el alto.
+- **Verificado:** equipos Pendientes celda 'No', filtro ['No','Sí']; pendientes columnas correctas,
+  0 selects arriba, 10 celdas de filtro, 42 filas, 0 errores. Guardián 8 vistas + humo 11/11.
+- **Heurística:** al necesitar el mismo componente (filtro Excel) en una 2ª vista, EXTRAERLO a un
+  helper global parametrizado en vez de duplicar (evita el "arreglar en N, omitir M"). Se refactorizó
+  equipos para usarlo y se verificó que su filtro sigue OK (smoke #3).
+- **Dónde aplica:** build_app.py (`filtroColumnaExcel`/`cerrarColPopups`/`normFiltro` globales;
+  `VIEWS.equipos` usa el global + columna pend Sí/No; `VIEWS.pendientes` reescrita; CSS
+  `.view-full .eq-grid-wrap`); CHANGELOG v0.59.
+
+## [2026-05-29] Se elimina "MP del mes" y nace "Asignaciones" (v0.60)
+
+- **Disparador:** el usuario pidió eliminar MP del mes y crear "Asignaciones": planilla de consulta
+  con datos del equipo + Programación + Resultado + Ejecutor (quien realizó la MP) + Estado del
+  registro (Oficial/Borrador), filtros por columna estilo Excel, filtro general por mes con "Todos
+  los meses", y que el Resumen enlace aquí. (Confirmó: solo consulta, sin plantillas/asignación.)
+- **Hecho:** `VIEWS.asignaciones` (reemplaza `VIEWS.mp`): filas por equipo×mes con programación o
+  resultado; columnas Mes · Carpeta · Inventario · Serie · Equipo · Marca · Modelo · Servicio ·
+  Unidad · Ubicación · Procedencia · Programación · Resultado · Ejecutor · Estado registro ·
+  Acciones; selector Año + Mes (con "Todos los meses") + búsqueda; filtro Excel reutilizado.
+  Helper `eventoMPMes`. El Resumen (por mes/ejecutor/sin asignar) navega a `asignaciones`. Menú:
+  Asignaciones en GESTIONAR; se quita "MP del mes". Drill estadoMP/sinAsignar como chips.
+- **Verificado (build):** guardián 8 vistas (incluida asignaciones) sin error; humo 11/11; #11
+  Resumen→Asignaciones abre Febrero (mes=1) con chip "Pendientes".
+- **Quedó dead-code (aviso del guardián, por la decisión "sin plantillas"):** `descargarPlantillaMP`,
+  `subirPlantillaMP`, `mpMasiva`, `mpEstadoMes`, `mpDelMesEjecutada`. No se llaman; pendiente limpiar.
+- **Nota de entorno:** las pruebas `node` inline salieron corruptas por ruido; el subprocess de
+  build (smoke+guard) imprime fiable → confiar en ese.
+- **Dónde aplica:** build_app.py (`VIEWS.asignaciones`, `eventoMPMes`, NAV_GRUPOS, navegaciones del
+  Resumen), tools/smoke_test.js (#11); CHANGELOG v0.60.
+
+## [2026-05-29] Corrección de Asignaciones + lección de proceso (colisión de ediciones) (v0.61)
+
+- **Qué pasó:** construí "Asignaciones" como solo-consulta y con Ejecutor=quien realizó, pero la
+  respuesta del usuario (que llegó por el batch tarde) era "conservar plantillas + asignar" y
+  "Ejecutor = el asignado". Además, hacer muchas ediciones en paralelo mientras un linter tocaba el
+  archivo dejó `NAV_GRUPOS` CORRUPTO (dos líneas REGISTRAR) y el menú con "MP del mes" apuntando a
+  una vista ya inexistente.
+- **Corregido (v0.61):** `VIEWS.asignaciones` rehecha: conserva Descargar/Subir plantilla (por mes,
+  deshabilitadas con "Todos los meses") y la columna Ejecutor es un SELECTOR que asigna
+  (`asignacionesMP`), mostrando el asignado. Mantiene columnas + filtros por columna + filtro de mes
+  con "Todos" + Estado del registro. `NAV_GRUPOS` reparado (Asignaciones en GESTIONAR, sin MP del mes).
+- **Lecciones de proceso:** (1) ESPERAR la respuesta de AskUserQuestion ANTES de construir algo grande
+  y ambiguo; no adelantarse. (2) NO lanzar muchas ediciones del MISMO archivo en paralelo: chocan con
+  el linter/estado y corrompen (las ediciones grandes mejor por rango con un script, secuencial).
+  (3) El guardián de "vistas se dibujan" NO detecta un ítem de menú que apunta a una vista
+  inexistente → conviene un chequeo de que cada `NAV_GRUPOS` tenga su `VIEWS[k]`.
+- **Verificado:** menú=Asignaciones (sin MP del mes), Ejecutor=selector, botones de plantilla, "Todos
+  los meses"; smoke 11/11 + guardián 8 vistas.
+- **Dónde aplica:** build_app.py (`VIEWS.asignaciones` rehecha, `NAV_GRUPOS`); CHANGELOG v0.61.
+
 <!-- Próximas entradas debajo de esta línea -->
+
+## [2026-05-29] El historial mostraba mal el estado de una MP "Si" (v0.63)
+
+- **Disparador:** el usuario registró una MP como "No operativo" y el historial mostraba "Operativo".
+- **Causa:** la celda Estado del historial RECALCULABA con `estadoMPDesdeResultado(ev.resultado)`,
+  que para "Si" siempre devuelve "operativo" e ignora la elección Operativo/No operativo del usuario.
+  El dato SÍ se guardaba bien (en su backup había 1 MP con resultado Si + estado "no operativo"): el
+  bug era solo de visualización.
+- **Arreglo:** la celda usa `estadoMPFinal(ev.resultado, ev.estado)` → respeta lo elegido cuando el
+  resultado es "Si" y deriva de la causal en el resto. Verificado end-to-end con su backup (equipo
+  2-116306: ahora "no operativo").
+- **Heurística:** si un campo se GUARDA como elección del usuario, mostrarlo o derivarlo de otra cosa
+  al pintar es un bug latente. Mostrar lo guardado (o el helper que respeta lo guardado), no recalcular.
+- **Prueba de humo:** +1 chequeo (#12) "Historial respeta el estado elegido en la MP". 12/12.
+- **Limpieza:** se confirmó la eliminación de código muerto (guardián 0 avisos). Versión 0.63.
+- **Dónde aplica:** build_app.py (`renderBitacora` celda Estado), tools/smoke_test.js (#12); CHANGELOG v0.63.

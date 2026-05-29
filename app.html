@@ -19,6 +19,178 @@ break;case"<bookViews":;case"<bookViews>":;case"</bookViews>":break;case"<workbo
 <script>var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});</script>
 <!--
 CHANGELOG
+v0.63 [2026-05-29] Fix: el historial mostraba "Operativo" en una MP registrada como "No operativo".
+  - Causa: la columna Estado del historial recalculaba el estado con estadoMPDesdeResultado(resultado),
+    que para resultado "Si" SIEMPRE devuelve "operativo" e ignora la elección del usuario. Ahora usa
+    estadoMPFinal(resultado, ev.estado): respeta Operativo/No operativo elegido cuando el resultado es
+    "Si" y deriva de la causal en el resto. (El dato ya se guardaba bien; era solo la visualización.)
+  - Auditoría: limpieza de código muerto (badgePendEstado, copia duplicada de badgePend,
+    renderResumenEquipo, conflictoPendiente, mpMasiva). Smoke 11/11, guardián OK, 8 vistas + flujos
+    simulados sin errores.
+v0.62 [2026-05-29] Se elimina "MP del mes"; nace "Asignaciones"; menú corregido; guardián valida menú↔vistas.
+  - Nueva vista "Asignaciones" (reemplaza MP del mes): planilla a pantalla completa con datos del
+    equipo + Programación + Resultado + Ejecutor ASIGNADO (selector editable que guarda la
+    asignación) + Estado del registro (Oficial/Borrador). Conserva descargar/subir plantilla (por
+    mes; deshabilitadas con "Todos los meses"). Filtros por columna estilo Excel + filtro general de
+    mes con "Todos los meses" + año + búsqueda. El Resumen (por mes/ejecutor/sin asignar) enlaza
+    aquí con el mes/año/estado correctos. Recordatorio: al subir el maestro los eventos quedan
+    Oficiales y se ven en "Estado del registro".
+  - Fix: el menú había quedado con "MP del mes" (vista ya inexistente) por colisiones de edición;
+    ahora: Pendientes · Buscar equipos · Asignaciones · Resumen · Conciliación.
+  - Guardián: nuevo chequeo que BLOQUEA si un ítem de NAV_GRUPOS no tiene su VIEWS (atrapó este bug).
+v0.59 [2026-05-29] Buscar equipos: Pendientes Sí/No filtrable. Pendientes: planilla a pantalla completa.
+  - Buscar equipos: la columna "Pendientes" ahora muestra Sí/No (tiene pendientes abiertos o no) y
+    es filtrable por esos dos estados (filtro estilo Excel como las demás columnas).
+  - Vista Pendientes rehecha como planilla a pantalla completa: columnas N° Carpeta · Servicio ·
+    Equipo · N° Inventario · Tipo · Descripción · Ejecutor · Compromiso · Estado · Acciones. Todas
+    (menos Acciones) son filtrables por columna (estilo Excel) y ordenables. Se quitaron los
+    selectores de arriba: queda solo la barra de búsqueda. El filtro Excel es ahora un componente
+    reutilizable (filtroColumnaExcel) compartido por ambas planillas.
+v0.58 [2026-05-29] "Reprogramación mantención preventiva" solo para causales C1–C8.
+  - Afina v0.57: solo las causales de reprogramación (C1–C8) se muestran como "Reprogramación
+    mantención preventiva". Si, FS, NU, Baja y No conservan "Mantención preventiva".
+v0.57 [2026-05-29] Ajustes pedidos: tipo de pendiente, etiqueta de MP reprogramada, ficha y maestro.
+  - Pendientes: nuevo tipo "Firma faltante".
+  - Una MP con resultado distinto de "Si" se MUESTRA como "Reprogramación mantención preventiva"
+    (helper etiquetaTipoEvento; el dato interno sigue siendo MP para no romper cálculos/filtros).
+  - Ficha del equipo: se quitan los botones "➕ MP" y "➕ MP y siguiente" (la MP se registra desde
+    "➕ Evento"); se conservan ◀ / ▶ para recorrer equipos.
+  - Conciliación: los eventos creados al subir el maestro quedan OFICIALES (antes borradores).
+v0.56 [2026-05-29] Filtros de columna estilo Excel + Pendientes a pantalla completa.
+  - Buscar equipos: los filtros de columna categórica (Equipo, Marca, Modelo, Servicio, Unidad,
+    Ubicación, Procedencia, Estado) ahora son tipo Excel: un menú con BUSCADOR (escribes para
+    filtrar la lista) y CASILLAS para marcar UNO O VARIOS valores a la vez. El botón muestra
+    "(todos)", el valor, o "N seleccionados". El popup se ancla a la pantalla para no cortarse.
+  - Pendientes: ahora también a pantalla completa (ancho total + tabla que llena el alto).
+  - Técnico: el filtro se aplica sin redibujar el encabezado (no se pierde el foco ni se cierra
+    el menú al marcar varios); filtros categóricos pasan a conjuntos (varios valores).
+v0.55 [2026-05-29] "Buscar equipos" a pantalla completa.
+  - La vista se centraba con tope de ancho (1280px) y la tabla tenía un alto fijo, dejando espacio
+    sin usar. Ahora "Buscar equipos" usa TODO el ancho y la planilla llena el alto disponible
+    (flex), mostrando más equipos sin desperdiciar pantalla. Solo afecta a esta vista.
+v0.54 [2026-05-29] Se elimina la vista "Registro MP".
+  - A pedido del usuario: se quita del menú y se elimina VIEWS.registroMP. La información de la
+    carta gantt (P/R por mes) sigue disponible en la ficha del equipo (sección "Programación PMP")
+    y en "MP del mes". No se pierde dato, solo esa vista de planilla anual.
+v0.53 [2026-05-29] Fix: en Resumen, clic en "MP del año · por mes" (ej. Febrero/Pendiente) no abría el mes.
+  - Causa: VIEWS.mp fijaba el mes en el MES ACTUAL e ignoraba params.mes. Al hacer clic en
+    Febrero/Pendiente aplicaba el filtro "Pendientes" pero dejaba la vista en el mes en curso.
+  - Arreglo: VIEWS.mp toma el mes y el año de los parámetros (MES_NUM[params.mes], params.year).
+    Las tres tablas del Resumen (por mes, por ejecutor, sin asignar) ahora pasan mes y año al
+    abrir "MP del mes", así el clic lleva a la vista del mes correcto, ya filtrada.
+v0.52 [2026-05-29] Más intuitivo (según la grabación): recorrer equipos sin volver a la lista.
+  - La grabexión real mostró que el mayor desgaste era ir-y-volver lista↔ficha (12 idas / 9
+    vueltas). En la ficha del equipo se agregan: ◀ / N de total / ▶ para pasar al equipo
+    anterior/siguiente SIGUIENDO el filtro y orden de Buscar equipos, y "➕ MP y siguiente ▶"
+    (registra la MP rápida y salta directo al próximo equipo).
+  - Las acciones que redibujan la misma ficha (oficializar, editar, anular) YA NO saltan al
+    inicio: navigate() conserva el scroll al re-dibujar el mismo lugar.
+v0.51 [2026-05-29] MP con resultado "Si": el estado del equipo se elige (Operativo / No operativo).
+  - Regla del usuario: en una Mantención Preventiva, cuando el resultado es "Si" (realizada), el
+    estado resultante lo decide quien registra: Operativo o No operativo. Con cualquier causal
+    (C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja, C1/C4–C8→sin cambio) el estado se
+    deriva solo y se muestra de solo lectura. Helper estadoMPFinal.
+  - Aplicado en los 3 formularios de MP (completo, rápida, masiva) y en el cálculo de estado.
+    La causal C2 sigue marcando "en servicio técnico" desde la carta gantt (se mantienen los 15).
+v0.50 [2026-05-29] Se quita "Por resolver" del menú; "Pendientes" pasa a ser apartado e inicio.
+  - El menú GESTIONAR ahora abre con "Pendientes" (antes "Por resolver", eliminado). La app
+    arranca en Pendientes. El contador del menú cuenta los pendientes abiertos.
+  - La vista Pendientes ya trae filtros: búsqueda por equipo / N° inventario / descripción +
+    filtros por Tipo, Estado, Ejecutor (responsable) y Servicio, con chips para quitarlos.
+  - No se pierde nada: Ciclos/Eventos siguen accesibles desde la ficha del equipo y el Resumen.
+v0.49 [2026-05-29] Rediseño minimalista (paso 1): paleta azul, densidad compacta, sidebar contraíble.
+  - Sin perder ninguna función (solo capa visual). Nueva paleta neutra fría con ACENTO AZUL
+    (claro y oscuro), foco azul en campos. Densidad COMPACTA (fuentes/paddings/tablas más juntas).
+  - Barra lateral oscura ahora CONTRAÍBLE: botón ☰ en la barra superior la pliega/expande y se
+    recuerda la preferencia (sidebarColapsada).
+  - Tablas más limpias (hover de fila, encabezados compactos), tarjetas/secciones con esquinas
+    más suaves y sombra sutil, botones con radio 6px y foco accesible.
+v0.48 [2026-05-29] Autocorrección: guardián automático que bloquea las clases de error cometidas.
+  - tools/guard.js corre solo tras build (junto a la prueba de humo) y BLOQUEA: estado de MP no
+    derivado de estadoMPDesdeResultado en algún sitio, patrones legacy prohibidos, y cualquier
+    vista que falle al dibujarse con un respaldo real. Avisa de funciones muertas y clases CSS de
+    layout agresivo compartidas por varias tablas. Probado que habría atajado los bugs v0.39/v0.45.
+  - CLAUDE.md: guardián obligatorio + regla de diseño visual (lo que el headless no ve, lo ve el
+    usuario; revisar todas las vistas que comparten clase/dato).
+v0.47 [2026-05-29] Fix: la vista Registro MP se veía aplastada (letra por letra).
+  - Causa: el estilo "ajustar a pantalla" de v0.42 (ancho 100% + partir palabras + títulos que
+    envuelven) se aplicó a la clase `eq-grid`, que comparten Buscar equipos (13 columnas) y
+    Registro MP (~42 columnas). Con 42 columnas, forzar ancho 100% aplastaba cada columna y
+    partía el texto carácter por carácter.
+  - Arreglo: ese estilo se mueve a una clase propia `buscar-grid` (solo Buscar equipos).
+    Registro MP recupera anchos naturales con desplazamiento horizontal (su diseño de carta
+    gantt; el botón "Ocultar meses" sigue colapsando las 24 columnas de meses).
+v0.46 [2026-05-29] Completa el fix v0.45: faltaban 2 lugares que guardaban mal el estado de la MP.
+  - Error propio: en v0.45 corregí el estado de la MP en 3 sitios + el cálculo, pero OMITÍ:
+    (1) el formulario completo de evento, donde "Estado resultante" era un menú manual (por
+    defecto "operativo") independiente del resultado — registrar un C2 dejando "operativo"
+    volvía a romper el estado; (2) la creación de MP al ACEPTAR un conflicto en Conciliación
+    (origen 'conciliacion'), que seguía con la fórmula vieja.
+  - Arreglo: el "Estado resultante" del formulario ahora es automático (solo lectura, derivado
+    del resultado con estadoMPDesdeResultado) y la conciliación usa el mismo helper. Es la misma
+    causa raíz de siempre: arreglar un patrón en N sitios y omitir M. Ahora son los 5 sitios.
+v0.45 [2026-05-29] Fix: equipos "en servicio técnico" desaparecían tras subir el maestro.
+  - Causa: la MP guardaba mal su estado resultante. La fórmula solo distinguía Si→operativo y
+    Baja→baja; TODO lo demás (incluido C2 = "equipo en servicio técnico" y C3/FS/NU = "no
+    operativo") quedaba como "operativo". Al subir el maestro se crean MP automáticas, y esos
+    eventos "operativos" tapaban el "en servicio técnico" que antes se deducía de la carta gantt.
+  - Arreglo: el estado de una MP se deriva de su RESULTADO/causal (helper estadoMPDesdeResultado,
+    espejo de MP_CAUSAL_ESTADO): C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja,
+    Si→operativo; C1 y C4–C8 (reprogramación) NO declaran estado. Aplicado en el cálculo
+    (recalcEstadoEquipo), en los 3 puntos que crean MP (ficha, MP rápida, automáticas del maestro)
+    y en la columna Estado del historial. Corrige los datos existentes sin re-subir nada.
+v0.44 [2026-05-29] Cada evento del historial tiene botón "➕ Pend." (pendiente ligado).
+  - En la columna Acciones del historial, cada evento (no anulado) suma "➕ Pend." que abre el
+    formulario de pendiente con el equipo precargado y LIGADO a ese evento (eventoOrigen). El
+    nuevo pendiente aparece de inmediato en la columna Pendientes de esa misma fila.
+  - nuevoPendiente acepta opts.eventoOrigen, guarda el vínculo y muestra un aviso "🔗 ligado a…".
+v0.43 [2026-05-29] Historial de eventos en COLUMNAS + columna de Pendientes (cap. 4.3).
+  - El historial pasa de tarjetas a una TABLA con columnas: Fecha · Descripción · Estado ·
+    Ejecutor · Pendientes · Acciones. La columna "Pendientes" muestra, al lado de cada evento,
+    los pendientes asociados (clic para abrirlos); "—" si no tiene.
+  - Descripción agrupa tipo, sellos (Oficial/Borrador/🔗 Auto-maestro/⚡ Lote), folio, resultado,
+    empresa, observación y, si está anulado, el motivo. Acciones (Oficializar/Editar/Anular) en
+    su columna. Se conserva el botón 🖨 Imprimir.
+v0.42 [2026-05-29] Buscar equipos cabe en pantalla (sin desplazamiento lateral).
+  - Lo que faltaba del pedido anterior: la planilla seguía siendo más ancha que la pantalla.
+  - Se quita la columna "Acciones" del extremo derecho (la fila ya abre la ficha; los ➕ están
+    dentro de la ficha). Los títulos de columna ahora ENVUELVEN (antes en una sola línea
+    forzaban el ancho), las celdas parten palabras largas y el espaciado es más compacto.
+  - Resultado: las 13 columnas (ID … Pendientes) entran en el ancho normal sin scroll lateral.
+v0.41 [2026-05-29] Ajustes pedidos tras la primera sesión de uso real.
+  - Buscar equipos: hacer CLIC EN LA FILA abre la ficha (se quita el botón "Ficha"). Los
+    botones ➕ Evento / ➕ Pend. no abren la ficha (no propagan el clic). Menos
+    desplazamiento lateral (en la sesión el usuario se trababa al estirarse al botón).
+  - MP con causal C1–C8: además del pendiente de reprogramación, marca de inmediato una "R"
+    (reprogramado) en la PROGRAMACIÓN del MES SIGUIENTE de la carta gantt (registro[mesSig].P).
+    No pisa una programación ya puesta. La ficha lee P desde registro.P (como la planilla).
+  - Historial de eventos: nuevo botón "🖨 Imprimir" que abre una hoja limpia con la hoja de
+    vida del equipo y lanza el diálogo de impresión (o guardar como PDF), 100% offline.
+  - Verificado que al subir el maestro los resultados R de la gantt aparecen en el historial
+    como eventos "🔗 Auto-maestro" (ya ocurría desde v0.21; confirmado con prueba).
+v0.40 [2026-05-29] Alineación con la especificación funcional (vistas).
+  - "Equipos" pasa a llamarse "Buscar equipos" (menú y título), como en el documento.
+  - Columnas de la planilla en el orden de la especificación + se agrega la columna SERIE:
+    ID · N° Inventario · Serie · Equipo · Marca · Modelo · Servicio · Unidad · Ubicación ·
+    Procedencia · Estado · Días en estado · Pendientes. Las celdas se generan desde la
+    definición de columnas (reordenar es seguro). Filtro/orden por columna intactos.
+  - Ficha del equipo: las pestañas se reemplazan por SECCIONES CONTRAÍBLES, una bajo otra
+    (Datos del equipo · Programación PMP · Historial de eventos · Pendientes · Ciclos
+    correctivos · Conflictos), todas pliegan/despliegan. Cap. 4 de la especificación.
+  - Programación PMP de la ficha: se agrega la fila EJECUTOR (Mes / P / R / Ejecutor),
+    como pide el documento (4.2).
+v0.39 [2026-05-29] Fix: la lista de Equipos (y Registro MP) quedaba VACÍA.
+  - Causa: 18 equipos tienen "modelo" y 3 "ubicación" guardados como número (no texto).
+    Las planillas de Equipos (v0.37) y Registro MP (v0.38) ordenan/filtran por texto con
+    localeCompare, que se cae ante un número -> el dibujado se aborta y la tabla queda vacía.
+    Reproducido headless: navegar a Equipos lanzaba "a.localeCompare is not a function";
+    0 filas. El resto de las vistas funcionaba.
+  - Arreglo de raíz: normalizarEquipos() convierte a texto los campos de identificación del
+    equipo (modelo, ubicación, marca, serie, etc.) al cargar el seed, al cargar un respaldo
+    y al importar. Defensa adicional: valoresUnicos, el orden y el filtro de columna de AMBAS
+    planillas envuelven el valor en String() para no volver a caerse ante un número suelto.
+  - Verificado headless con el seed y con respaldos reales de data/: Equipos y Registro MP
+    muestran 894 filas; filtros por columna y orden funcionan.
 v0.38 [2026-05-28] Nueva vista "Registro MP" (carta gantt navegable).
   - Réplica de la hoja Registro_MP: todas las columnas de identificación del equipo + los 12
     meses con P (programado) y R (realizado) + Estado, Días en estado y Pendientes al final.
@@ -119,7 +291,7 @@ v0.28 [2026-05-28] El folio del ciclo se preselecciona; aviso si no hay ciclo ab
     (antes era la misma expresión repetida 5 veces).
 v0.27 [2026-05-28] El número de versión del encabezado se sincroniza solo.
   - El encabezado mostraba "v0.23" fijo (escrito a mano), sin actualizarse al subir
-    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.38
+    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.63
     que build_app.py reemplaza con el valor real de APP_VERSION al generar: una
     sola fuente de verdad, no vuelve a quedar desfasado.
 v0.26 [2026-05-28] Cierre de ciclo por Recepción + Reparación "en servicio técnico".
@@ -443,77 +615,78 @@ v0.3 [2026-05-28] Conciliación con archivo maestro.
 -->
 <style>
 :root{
-  /* Tema CLARO suave (default) — off-white tibio, antifatiga */
-  --bg:#fafaf7;
+  /* Tema CLARO minimalista — neutro frío, acento azul */
+  --bg:#f5f6f8;
   --surface:#ffffff;
-  --surface-2:#f4f3ef;
-  --border:#e8e6df;
-  --border-strong:#cfcdc4;
-  --text:#1a1a1a;
-  --text-2:#3a3a36;
-  --muted:#7a786f;
-  --muted-2:#a8a59a;
-  --accent:#0d7a6b;
-  --accent-2:#0d7a6b;
-  --accent-soft:#e0f0ec;
-  --hover:#efeee9;
-  --soft:#f4f3ef;
-  --op:#1f7a3a;
-  --noop:#b3261e;
-  --st:#a86a00;
-  --baja:#7a786f;
-  --shadow-sm:0 1px 2px rgba(0,0,0,.04);
-  --shadow:0 2px 8px rgba(0,0,0,.06);
-  --shadow-lg:0 12px 28px rgba(0,0,0,.10);
+  --surface-2:#eef1f5;
+  --border:#e6e9ee;
+  --border-strong:#d2d7df;
+  --text:#161a20;
+  --text-2:#39414d;
+  --muted:#6b7280;
+  --muted-2:#9aa1ac;
+  --accent:#2563eb;
+  --accent-2:#1d4ed8;
+  --accent-soft:#e7eefe;
+  --hover:#eef2f7;
+  --soft:#eef1f5;
+  --op:#15803d;
+  --noop:#dc2626;
+  --st:#b45309;
+  --baja:#6b7280;
+  --shadow-sm:0 1px 2px rgba(16,24,40,.05);
+  --shadow:0 1px 3px rgba(16,24,40,.08),0 1px 2px rgba(16,24,40,.04);
+  --shadow-lg:0 10px 30px rgba(16,24,40,.12);
   --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 [data-theme="dark"]{
-  /* Tema OSCURO moderno — gris-azul profundo */
-  --bg:#15181d;
-  --surface:#1d2128;
-  --surface-2:#252a32;
-  --border:#2e333b;
-  --border-strong:#3d434c;
-  --text:#e8eaed;
-  --text-2:#c5c8cc;
-  --muted:#8a8f96;
-  --muted-2:#5e6168;
-  --accent:#5eb8a8;
-  --accent-2:#5eb8a8;
-  --accent-soft:#1d3633;
-  --hover:#252a32;
-  --soft:#1d2128;
-  --op:#5dc77c;
-  --noop:#f47466;
-  --st:#e9a857;
-  --baja:#8a8f96;
+  /* Tema OSCURO — gris-azul profundo, acento azul */
+  --bg:#0f1216;
+  --surface:#161a20;
+  --surface-2:#1e232b;
+  --border:#272d36;
+  --border-strong:#39404a;
+  --text:#e7eaee;
+  --text-2:#c2c7cf;
+  --muted:#8b919b;
+  --muted-2:#5b616b;
+  --accent:#3b82f6;
+  --accent-2:#60a5fa;
+  --accent-soft:#172338;
+  --hover:#1e232b;
+  --soft:#161a20;
+  --op:#4ade80;
+  --noop:#f87171;
+  --st:#fbbf24;
+  --baja:#8b919b;
   --shadow-sm:0 1px 2px rgba(0,0,0,.3);
   --shadow:0 2px 8px rgba(0,0,0,.35);
   --shadow-lg:0 12px 28px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%;font-family:var(--font);font-size:14px;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01";line-height:1.4;transition:background-color .2s,color .2s}
+html,body{margin:0;padding:0;height:100%;font-family:var(--font);font-size:13.5px;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01";line-height:1.45;transition:background-color .2s,color .2s}
 .theme-btn{font-size:14px;width:30px;height:28px;padding:0!important;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border)!important}
-button{font-family:inherit;font-size:inherit;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);padding:6px 12px;border-radius:4px;transition:background .12s,border-color .12s,color .12s;font-weight:500}
+button{font-family:inherit;font-size:inherit;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);padding:5px 11px;border-radius:6px;transition:background .12s,border-color .12s,color .12s,box-shadow .12s;font-weight:500}
 button:hover:not(:disabled){background:var(--hover)}
 button:disabled{opacity:.4;cursor:not-allowed}
 button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-button.primary:hover:not(:disabled){background:#000}
+button.primary:hover:not(:disabled){background:var(--accent-2);border-color:var(--accent-2)}
 button.danger{background:#fff;color:var(--noop);border-color:#e8c8c5}
 button.danger:hover:not(:disabled){background:#fff5f4;border-color:var(--noop)}
 button.small{padding:3px 9px;font-size:12px}
 button.ghost{border-color:transparent;background:transparent;color:var(--muted)}
 button.ghost:hover{background:var(--hover);color:var(--text)}
-input,select,textarea{font-family:inherit;font-size:inherit;padding:7px 10px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);color:var(--text);width:100%}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--text)}
+input,select,textarea{font-family:inherit;font-size:inherit;padding:6px 9px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text);width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 input[readonly]{background:var(--soft);color:var(--muted)}
 label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
 textarea{min-height:64px;resize:vertical;font-family:inherit;line-height:1.5}
 
-.app{display:grid;grid-template-columns:232px 1fr;height:100vh;overflow:hidden;background:var(--bg)}
-/* Barra lateral oscura fija */
-.sidebar{background:#0f172a;color:#cbd5e1;display:flex;flex-direction:column;overflow-y:auto}
+.app{display:grid;grid-template-columns:230px 1fr;height:100vh;overflow:hidden;background:var(--bg);transition:grid-template-columns .18s ease}
+.app.sb-collapsed{grid-template-columns:0 1fr}
+/* Barra lateral oscura, contraíble */
+.sidebar{background:#0f172a;color:#cbd5e1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;white-space:nowrap}
 .s-logo{padding:18px 16px 14px;font-weight:700;font-size:16px;color:#fff;letter-spacing:-.01em}
 .s-logo small{display:block;font-weight:500;font-size:10px;color:#64748b;margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
 .sidebar nav{display:flex;flex-direction:column;gap:2px;padding:8px 10px;flex:1}
@@ -524,9 +697,11 @@ textarea{min-height:64px;resize:vertical;font-family:inherit;line-height:1.5}
 .sidebar .s-group{font-size:10px;font-weight:700;letter-spacing:.08em;color:#475569;text-transform:uppercase;padding:14px 12px 5px}
 .s-foot{padding:12px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#94a3b8}
 .content{display:grid;grid-template-rows:48px 1fr;overflow:hidden;min-width:0}
-.topbar{display:flex;align-items:center;gap:6px;padding:0 18px;background:var(--surface);border-bottom:1px solid var(--border)}
-.topbar button{font-size:12.5px;padding:6px 10px;color:var(--muted);border:1px solid var(--border);border-radius:9px;background:var(--surface)}
+.topbar{display:flex;align-items:center;gap:6px;padding:0 14px;background:var(--surface);border-bottom:1px solid var(--border)}
+.topbar button{font-size:12.5px;padding:5px 10px;color:var(--muted);border:1px solid var(--border);border-radius:6px;background:var(--surface)}
 .topbar button:hover{color:var(--text);background:var(--surface-2)}
+.sb-toggle{border:none!important;background:transparent!important;color:var(--muted);font-size:17px!important;padding:4px 9px!important;border-radius:6px;line-height:1}
+.sb-toggle:hover{background:var(--surface-2)!important;color:var(--text)}
 .quick-access{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .qa-btn{font-size:13px;font-weight:600;padding:8px 14px;border-radius:99px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);cursor:pointer;transition:.12s}
 .qa-btn:hover{background:var(--surface-2);box-shadow:var(--shadow-sm)}
@@ -552,6 +727,14 @@ header.top .user-tag{color:var(--muted);font-size:12px;margin-right:6px}
 
 main{overflow:auto;padding:28px 32px 60px}
 .view{max-width:1280px;margin:0 auto}
+/* Buscar equipos a pantalla completa: sin tope de ancho y la tabla llena el alto disponible */
+.view-equipos{max-width:none;display:flex;flex-direction:column;height:100%}
+.view-equipos .eq-grid-wrap{flex:1;min-height:0}
+/* Vistas con tabla a pantalla completa (ancho total + tabla que llena el alto) */
+.view-full{max-width:none;display:flex;flex-direction:column;height:100%}
+.view-full .eq-grid-wrap{flex:1;min-height:0}
+.pend-fill{flex:1;min-height:0;display:flex;flex-direction:column}
+.pend-fill>div:last-child{flex:1;min-height:0}
 .view h2{margin:0 0 6px;font-size:22px;font-weight:600;letter-spacing:-.015em}
 .view h3{margin:24px 0 12px;font-size:13px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.05em}
 .subtitle{color:var(--muted);font-size:13px;margin-bottom:24px}
@@ -603,8 +786,9 @@ main{overflow:auto;padding:28px 32px 60px}
 
 /* Data tables */
 table.data{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:13px}
-table.data th{background:var(--surface-2);text-align:left;padding:10px 12px;font-weight:500;border-bottom:1px solid var(--border);color:var(--muted);white-space:nowrap;position:sticky;top:0;z-index:1;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
-table.data td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+table.data th{background:var(--surface-2);text-align:left;padding:7px 10px;font-weight:600;border-bottom:1px solid var(--border);color:var(--muted);white-space:nowrap;position:sticky;top:0;z-index:1;font-size:11px;text-transform:uppercase;letter-spacing:.03em}
+table.data td{padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+table.data tbody tr:hover td{background:var(--hover)}
 table.data tr:last-child td{border-bottom:none}
 table.data tr.clickable{cursor:pointer}
 table.data tr.clickable:hover{background:var(--soft)}
@@ -640,7 +824,44 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 .row > *{flex:1}
 
 /* Section card */
-.section{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px;margin-bottom:18px}
+.section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:15px;margin-bottom:15px;box-shadow:var(--shadow-sm)}
+/* Ficha: secciones contraíbles (cap. 4 de la especificación) */
+.ficha-sec{background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden}
+.ficha-sec>summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;user-select:none}
+.ficha-sec>summary::-webkit-details-marker{display:none}
+.ficha-sec>summary::before{content:'▸';color:var(--muted);transition:transform .15s;font-size:12px}
+.ficha-sec[open]>summary::before{transform:rotate(90deg)}
+.ficha-sec>summary:hover{background:var(--bg)}
+.ficha-sec-body{padding:4px 16px 16px}
+.ficha-sec-body>.section{border:none;padding:0;margin:0;background:transparent}
+/* Recorrer equipos desde la ficha (◀ N/total ▶) */
+.ficha-nav{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:8px;padding:2px 6px;background:var(--surface)}
+.ficha-nav button{padding:2px 8px}
+/* Filtro de columna estilo Excel (marcar uno/varios + buscar escribiendo) */
+.col-filter{position:relative}
+.col-filter-btn{width:100%;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:400;padding:4px 6px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text);text-transform:none;letter-spacing:0}
+.col-filter-btn .cf-txt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+.col-filter-btn .cf-caret{color:var(--muted);font-size:9px}
+.col-filter-btn.activo{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);font-weight:600}
+.col-filter-pop{position:fixed;z-index:200;width:240px;background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;box-shadow:var(--shadow-lg);padding:8px}
+.col-filter-pop .cf-search{margin-bottom:6px}
+.col-filter-pop .cf-actions{display:flex;gap:6px;margin-bottom:6px}
+.col-filter-pop .cf-actions button{flex:1;font-size:11px}
+.cf-list{max-height:230px;overflow:auto;display:flex;flex-direction:column;gap:1px}
+.cf-item{display:flex;align-items:center;gap:8px;padding:4px 5px;border-radius:5px;cursor:pointer;font-size:12.5px;font-weight:400;text-transform:none;letter-spacing:0;white-space:normal}
+.cf-item:hover{background:var(--hover)}
+.cf-item input{width:auto;margin:0;flex-shrink:0}
+/* Buscar equipos: la fila completa abre la ficha al hacer clic */
+.eq-grid tbody tr.row-click{cursor:pointer}
+.eq-grid tbody tr.row-click:hover td{background:var(--bg)}
+/* "Ajustar a pantalla" (ancho 100%, títulos que envuelven, sin scroll lateral) SOLO para
+   Buscar equipos (13 columnas). NO para Registro MP, que tiene ~42 columnas y necesita
+   desplazamiento horizontal: ahí se dejan anchos naturales. */
+/* La planilla cabe en el ancho de la pantalla (sin scroll lateral): títulos que
+   envuelven, celdas que parten palabras largas y espaciado compacto. */
+.buscar-grid{width:100%}
+.buscar-grid th.th-sort{white-space:normal;vertical-align:bottom}
+.buscar-grid th,.buscar-grid td{padding:7px 8px;font-size:12px;overflow-wrap:anywhere;word-break:break-word}
 .section h3{margin-top:0}
 
 /* Key-value */
@@ -959,12 +1180,13 @@ header.top nav .nav-more-menu button.active{background:var(--accent-soft);color:
 <body>
 <div class="app">
   <aside class="sidebar">
-    <div class="s-logo">HHHA <small>Equipos Críticos · v0.38</small></div>
+    <div class="s-logo">HHHA <small>Equipos Críticos · v0.63</small></div>
     <nav id="nav"></nav>
     <div class="s-foot"><span class="user-tag">👤 Cristian</span></div>
   </aside>
   <div class="content">
     <header class="topbar">
+      <button id="btn-sidebar" class="sb-toggle" title="Plegar / expandir el menú lateral">☰</button>
       <div style="flex:1"></div>
       <span id="state-indicator" class="state-indicator" title="">—</span>
       <button id="btn-theme" title="Cambiar tema claro/oscuro" class="theme-btn">🌞</button>
@@ -1007,7 +1229,7 @@ const SEED = {"equipos":[{"id":1,"carpeta":1,"inv":"2-115361","fam":"Incubadoras
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.38';
+const APP_VERSION = '0.63';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1049,7 +1271,7 @@ const SUBESTADOS_ST  = ['enviado','cotizacion_pendiente','OC_emitida','en_repara
 const DOCS_CORRECTIVO = ['Solicitud SIGEM con tarea cerrada','Cotización','Informe técnico trato directo','Orden de compra','Guía de despacho de repuestos','Informe visita diagnóstica','Informe visita correctiva','Hoja de envío','Informe técnico ST externo','Guía de despacho de retorno'];
 const DOCS_PREVENTIVO = ['Protocolo / hoja de MP','Pauta de monitoreo diario (DEA)','Firma jefe equipo médico','Informe técnico de empresa externa'];
 
-const TIPO_PENDIENTE = {documento_faltante:'Documento faltante',reprogramacion:'Reprogramación MP',recomendacion_tecnica:'Recomendación técnica',gestion_general:'Gestión general'};
+const TIPO_PENDIENTE = {documento_faltante:'Documento faltante',firma_faltante:'Firma faltante',reprogramacion:'Reprogramación MP',recomendacion_tecnica:'Recomendación técnica',gestion_general:'Gestión general'};
 // Estados de pendiente orientados a la acción: No iniciado -> En proceso -> Resuelto.
 // 'cerrado' se conserva como estado final (= Resuelto) para no romper los conteos existentes (!== 'cerrado').
 const ESTADO_PEND_LABEL = {no_iniciado:'No iniciado', en_proceso:'En proceso', cerrado:'Resuelto'};
@@ -1104,6 +1326,18 @@ function migrate(d){
   (d.pendientes||[]).forEach(p => { p.estado = normalizarEstadoPend(p.estado); });
   d.__v = APP_VERSION;
   return d;
+}
+
+// Campos de texto del equipo que el Excel a veces trae como número (ej. modelo "840",
+// ubicación "501"). Las planillas que ordenan/filtran por texto (Equipos, Registro MP)
+// se caen con localeCompare sobre un número, dejando la lista vacía. Esto los uniforma.
+const CAMPOS_TEXTO_EQUIPO = ['fam','equipo','servicio','unidad','ubic','proc','marca','modelo','serie','clasif','freq'];
+function normalizarEquipos(){
+  (state.equipos||[]).forEach(e => {
+    CAMPOS_TEXTO_EQUIPO.forEach(k => {
+      if(e[k] != null && typeof e[k] !== 'string') e[k] = String(e[k]);
+    });
+  });
 }
 
 // Limpia efectos huérfanos de eventos anulados que quedaron de versiones previas.
@@ -1293,7 +1527,7 @@ function resetState(){
   localStorage.removeItem(STORAGE_KEY);
   state = init();
   save();
-  navigate('porResolver');
+  navigate('pendientes');
   toast('Datos reseteados','success');
 }
 
@@ -1332,6 +1566,31 @@ function encargadoDe(equipo){
 // C2 = en servicio técnico, C3 = no operativo (espera repuestos), FS/NU = no operativo, Baja = baja.
 // C1, C4-C8 y 'Si' NO indican falla del equipo -> se asume operativo.
 const MP_CAUSAL_ESTADO = {C2:'en_servicio_tecnico', C3:'no_operativo', FS:'no_operativo', NU:'no_operativo', Baja:'baja'};
+// Estado resultante (texto del formulario) de una MP según su resultado/causal. Espeja
+// MP_CAUSAL_ESTADO para que el evento guarde el estado correcto (C2 = en servicio técnico, no
+// "operativo"). C1 y C4–C8 son reprogramaciones sin falla: el equipo queda operativo.
+function estadoMPDesdeResultado(resultado){
+  if(resultado === 'Si') return 'operativo';
+  if(resultado === 'C2') return 'en servicio técnico';
+  if(resultado === 'C3' || resultado === 'FS' || resultado === 'NU') return 'no operativo';
+  if(resultado === 'Baja') return 'baja';
+  return ''; // C1, C4–C8 (reprogramación sin falla) y otros: no declaran estado
+}
+// Estado resultante FINAL de una MP. Cuando el resultado es "Si" (MP realizada), lo decide
+// quien registra: Operativo o No operativo. Con cualquier causal (C2, C3, FS, NU, Baja…) el
+// estado se deriva solo de la causal (estadoMPDesdeResultado). C1/C4–C8: no cambia el estado.
+function estadoMPFinal(resultado, estadoManualSi){
+  if(resultado === 'Si') return estadoManualSi === 'no operativo' ? 'no operativo' : 'operativo';
+  return estadoMPDesdeResultado(resultado);
+}
+// Nombre que se MUESTRA del evento. Una Mantención Preventiva con causal de REPROGRAMACIÓN
+// (C1–C8) se muestra como "Reprogramación mantención preventiva". Si / FS / NU / Baja / No
+// conservan "Mantención preventiva". El dato interno ev.tipo NO cambia (sigue siendo
+// 'Mantención preventiva'), para no romper cálculos/filtros.
+function etiquetaTipoEvento(ev){
+  if(ev.tipo === 'Mantención preventiva' && /^C[1-8]$/.test(ev.resultado||'')) return 'Reprogramación mantención preventiva';
+  return ev.tipo;
+}
 // Cuando no hay eventos que declaren estado, infiere desde la carta gantt usando el
 // resultado del último mes registrado del año vigente. Devuelve {estado,fecha} o null.
 function estadoDesdeMatriz(equipo){
@@ -1357,6 +1616,19 @@ function recalcEstadoEquipo(equipo){
   // Último evento con estado declarado
   for(let i=evs.length-1; i>=0; i--){
     const ev = evs[i];
+    // Para una MP, el estado lo manda el RESULTADO/causal (misma matriz que la carta gantt),
+    // NO el campo ev.estado (que en los eventos automáticos del maestro venía como "operativo"
+    // y tapaba el "en servicio técnico" de un C2). C2→serv. técnico, C3/FS/NU→no operativo,
+    // Baja→baja, Si→operativo. C1 y C4–C8 son reprogramaciones SIN falla: no declaran estado
+    // (se sigue buscando hacia atrás / la carta gantt).
+    if(ev.tipo === 'Mantención preventiva' && ev.resultado){
+      // Resultado "Si": el estado lo eligió quien registró (operativo / no operativo).
+      if(ev.resultado === 'Si'){ equipo.estado = ev.estado === 'no operativo' ? 'no_operativo' : 'operativo'; equipo.estadoDesde=ev.fecha; return; }
+      // Causales: el estado se deriva de la causal (C2→serv. técnico, C3/FS/NU→no operativo, Baja→baja).
+      const estMP = MP_CAUSAL_ESTADO[ev.resultado];
+      if(estMP){ equipo.estado=estMP; equipo.estadoDesde=ev.fecha; return; }
+      continue; // C1, C4–C8: reprogramación sin falla declarada
+    }
     if(ev.estado){
       const estado = ev.estado === 'operativo' ? 'operativo' :
                      ev.estado === 'en servicio técnico' ? 'en_servicio_tecnico' :
@@ -1393,6 +1665,11 @@ function resultadoMPMes(equipo, year, month){
     if(r) return r;
   }
   return null;
+}
+// Evento MP (no anulado) de un equipo en un mes/año dado. Sirve para ejecutor y estado del registro.
+function eventoMPMes(inv, year, month){
+  return state.eventos.find(e => e.inv === inv && e.tipo === 'Mantención preventiva' && !e.anulado &&
+    e.fecha && new Date(e.fecha + 'T00:00:00').getFullYear() === year && new Date(e.fecha + 'T00:00:00').getMonth() === month);
 }
 // Estado de la MP del mes: ejecutada (Si) / reprogramada (C1-C8) / otro (FS,NU,Baja,No) / pendiente (nada).
 function mpEstadoMes(equipo, year, month){
@@ -1511,6 +1788,14 @@ function aplicarEfectosEvento(ev){
       crearPendienteAuto(ev.inv, 'reprogramacion',
         `Reprogramar MP por causal ${r} — ${c.desc}. ${c.reprog30?'Reprogramar dentro de 30 días.':'Esperar reintegro del equipo.'}`,
         ev.ejecutor, ev.id, fechaComp);
+      // Una causal reprograma la MP: marca "R" (reprogramado) en la programación del MES
+      // SIGUIENTE para que se vea de inmediato en la carta gantt. No pisa una programación
+      // ya existente de ese mes (solo escribe si está vacía).
+      if(mesIdx < 11){
+        const mesSig = NUM_MES[mesIdx+1];
+        eq.registro[mesSig] = eq.registro[mesSig] || {};
+        if(!eq.registro[mesSig].P) eq.registro[mesSig].P = 'R';
+      }
     }
     if(r === 'NU'){
       crearPendienteAuto(ev.inv,'gestion_general','Localizar equipo (resultado MP = NU)',ev.ejecutor,ev.id,null);
@@ -1545,6 +1830,13 @@ function el(tag, attrs={}, ...children){
   return n;
 }
 function fmt(v){ return v==null||v==='' ? '—' : v; }
+// Sección contraíble para la ficha del equipo (se pliega/despliega; cap. 4 de la especificación).
+function seccionColapsable(titulo, contenido, abierto){
+  return el('details',{class:'ficha-sec', open: abierto!==false},
+    el('summary',{}, titulo),
+    el('div',{class:'ficha-sec-body'}, contenido)
+  );
+}
 // FIX zona horaria: si el string es YYYY-MM-DD lo tratamos como fecha LOCAL,
 // no UTC, así no aparece corrida un día (Chile UTC-3/-4).
 function fmtFecha(v){
@@ -1588,6 +1880,12 @@ function setTheme(theme){
 function toggleTheme(){
   const cur = document.documentElement.getAttribute('data-theme') || 'light';
   setTheme(cur === 'dark' ? 'light' : 'dark');
+}
+function toggleSidebar(){
+  const app = document.querySelector('.app');
+  const colapsada = app.classList.toggle('sb-collapsed');
+  setPref('sidebarColapsada', colapsada);
+  save({internal:true});
 }
 function toast(msg, type='', action){
   const t = el('div',{class:'toast '+type});
@@ -1655,22 +1953,25 @@ const VIEWS = {};
 let currentView = 'dashboard';
 let viewParams = {};
 const navStack = []; // pila de {view, params} para "volver"
+let navEquipos = []; // invs en el orden/filtro actual de Buscar equipos (para ◀/▶ en la ficha)
 
 function navigate(view, params, opts){
   const replace = opts && opts.replace;
+  const main = $('#main');
+  const mismoLugar = currentView === view && JSON.stringify(viewParams) === JSON.stringify(params||{});
+  const prevScroll = main ? main.scrollTop : 0;
   if(!replace && currentView){
     // No empujar si vamos al mismo lugar
-    const sameView = currentView === view && JSON.stringify(viewParams) === JSON.stringify(params||{});
-    if(!sameView) navStack.push({view: currentView, params: {...viewParams}});
+    if(!mismoLugar) navStack.push({view: currentView, params: {...viewParams}});
     // Limitar stack a 30
     if(navStack.length > 30) navStack.shift();
   }
   currentView = view; viewParams = params || {};
   $$('#nav button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  const main = $('#main');
   main.innerHTML = '';
   if(VIEWS[view]) VIEWS[view](main, viewParams);
-  main.scrollTop = 0;
+  // Re-dibujado del MISMO lugar (p. ej. tras oficializar): conserva el scroll; si no, sube.
+  main.scrollTop = mismoLugar ? prevScroll : 0;
   recorder.event('nav',{view,params:viewParams});
 }
 
@@ -1732,68 +2033,6 @@ VIEWS.dashboard = function(root){
   ));
 };
 
-VIEWS.porResolver = function(root){
-  state.equipos.forEach(recalcEstadoEquipo);
-  const hoy = hoyLocal();
-  const activos = state.pendientes.filter(p=>!p.anulado && p.estado!=='cerrado');
-  const venc = activos.filter(p=>p.fechaComp && p.fechaComp < hoy);
-  const noInic = activos.filter(p=>p.estado==='no_iniciado' && !(p.fechaComp && p.fechaComp < hoy));
-  const enProc = activos.filter(p=>p.estado==='en_proceso' && !(p.fechaComp && p.fechaComp < hoy));
-  const ciclos = state.ciclos.filter(c=>c.estado==='abierto');
-  const borr = state.eventos.filter(e=>e.oficial!=='Sí' && !e.anulado);
-  const confl = (state.conflictos||[]).filter(c=>c.estado==='pendiente'||c.estado==='pospuesto');
-  const total = activos.length + ciclos.length + borr.length + confl.length;
-
-  const v = el('div',{class:'view'},
-    el('div',{class:'pr-hero'},
-      el('h2',{}, 'Por resolver'),
-      el('div',{class:'subtitle'},
-        new Date().toLocaleDateString('es-CL',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}) +
-        (total>0 ? ` · te quedan ${total} cosa${total!==1?'s':''} por resolver` : ' · todo al día'))
-    )
-  );
-
-  if(total === 0){
-    v.appendChild(el('div',{class:'pr-allclear'},
-      el('div',{style:{fontSize:'15px',fontWeight:'700',color:'var(--op)',marginBottom:'4px'}},'¡Todo al día!'),
-      el('div',{},'No tienes pendientes, ciclos abiertos, borradores ni conflictos por resolver.')));
-    root.appendChild(v); return;
-  }
-
-  const seccion = (titulo, count, urge) => el('div',{class:'pr-section'},
-    el('div',{class:'pr-section-hd'}, el('h3',{style:urge?{color:'var(--noop)'}:null}, titulo), el('span',{class:'count'}, count)));
-  const tarjetaPend = (p, color) => {
-    const acts = el('div',{class:'pr-acts'});
-    if(p.estado==='no_iniciado') acts.appendChild(el('button',{class:'small',onclick:()=>cambiarEstadoPend(p,'en_proceso')},'Empezar'));
-    acts.appendChild(el('button',{class:'small primary',onclick:()=>cerrarPendiente(p)},'Resolver'));
-    return el('div',{class:'pr-card '+color},
-      el('div',{class:'pr-body'},
-        el('div',{class:'pr-title'}, (p.inv||'')+' · '+(p.equipo||'')),
-        el('div',{class:'pr-sub'}, (TIPO_PENDIENTE[p.tipo]||p.tipo) + (p.desc? ' — '+p.desc : '')),
-        el('div',{style:{marginTop:'7px'}}, badgePend(p.estado),
-          p.fechaComp ? el('span',{class:'badge',style:{marginLeft:'6px'}}, 'Compromiso '+fmtFecha(p.fechaComp)) : null)
-      ), acts);
-  };
-  const tarjeta = (color, titulo, sub, btnLabel, onclick, btnPrimary) => el('div',{class:'pr-card '+color},
-    el('div',{class:'pr-body'}, el('div',{class:'pr-title'}, titulo), el('div',{class:'pr-sub'}, sub)),
-    el('div',{class:'pr-acts'}, el('button',{class:'small'+(btnPrimary?' primary':''),onclick}, btnLabel)));
-
-  if(venc.length){ const s=seccion('Vencidos', venc.length+' atrasado(s)', true); venc.forEach(p=>s.appendChild(tarjetaPend(p,'red'))); v.appendChild(s); }
-  if(noInic.length){ const s=seccion('No iniciados', noInic.length+' por empezar'); noInic.forEach(p=>s.appendChild(tarjetaPend(p,'gray'))); v.appendChild(s); }
-  if(enProc.length){ const s=seccion('En proceso', enProc.length+' en curso'); enProc.forEach(p=>s.appendChild(tarjetaPend(p,'amber'))); v.appendChild(s); }
-  if(ciclos.length){ const s=seccion('Ciclos correctivos abiertos', String(ciclos.length));
-    ciclos.slice(0,15).forEach(c=>{ const eq=findEquipo(c.inv);
-      s.appendChild(tarjeta('teal', c.folio||'(sin folio)', (c.inv||'')+' · '+(eq?eq.equipo:'')+' · abierto '+fmtFecha(c.fechaApertura), 'Ver equipo', ()=>navigate('equipo',{inv:c.inv}))); });
-    v.appendChild(s); }
-  if(borr.length){ const s=seccion('Borradores por archivar', borr.length+' documento(s)');
-    borr.slice(0,15).forEach(e=>
-      s.appendChild(tarjeta('gray', e.tipo+' · '+(e.equipo||''), (e.inv||'')+' · '+fmtFecha(e.fecha)+' · confirma el documento y oficialízalo', 'Ver ficha', ()=>navigate('equipo',{inv:e.inv}))));
-    v.appendChild(s); }
-  if(confl.length){ const s=seccion('Conflictos con el maestro', confl.length+' por revisar');
-    s.appendChild(tarjeta('teal','Diferencias con la carta gantt', confl.length+' celda(s) por confirmar', 'Revisar', ()=>navigate('conciliacion'), true));
-    v.appendChild(s); }
-  root.appendChild(v);
-};
 
 function kpiCell(lbl, val, onclick, cls){
   return el('div',{class:'kpi '+(cls||''),onclick},
@@ -2027,7 +2266,7 @@ function renderSumMesesMP(year, returnParts){
   const pctTot = tot.programadas === 0 ? null : Math.round(tot.ejecutadas/tot.programadas*100);
   function c(val, mIdx, params){
     if(val === 0) return el('td',{class:'cell zero'}, '–');
-    return el('td',{class:'cell',onclick:()=>navigate('mp',{mes:MESES[mIdx], ...params})}, el('span',{class:'v'}, String(val)));
+    return el('td',{class:'cell',onclick:()=>navigate('asignaciones',{mes:MESES[mIdx], year, ...params})}, el('span',{class:'v'}, String(val)));
   }
   const table = el('table',{class:'sum-table'},
     el('thead',{}, el('tr',{},
@@ -2044,7 +2283,7 @@ function renderSumMesesMP(year, returnParts){
         el('td',{}, r.mes),
         c(r.programadas, r.monthIdx, {}),
         c(r.asignadas, r.monthIdx, {}),
-        r.sinAsignar > 0 ? el('td',{class:'cell',onclick:()=>navigate('mp',{mes:r.mes, sinAsignar:'1'}),style:{color:r.sinAsignar>0?'var(--st)':null}}, el('span',{class:'v'}, String(r.sinAsignar))) : el('td',{class:'cell zero'},'–'),
+        r.sinAsignar > 0 ? el('td',{class:'cell',onclick:()=>navigate('asignaciones',{mes:r.mes, year, sinAsignar:'1'}),style:{color:r.sinAsignar>0?'var(--st)':null}}, el('span',{class:'v'}, String(r.sinAsignar))) : el('td',{class:'cell zero'},'–'),
         c(r.ejecutadas, r.monthIdx, {estadoMP:'ejec'}),
         c(r.pendientes, r.monthIdx, {estadoMP:'pend'}),
         el('td',{}, r.pct == null ? '–' : el('span',{},
@@ -2096,7 +2335,7 @@ function renderSumEjecutoresMP(year, monthIdx, returnParts){
 
   function c(val, ejecutor, params){
     if(val === 0) return el('td',{class:'cell zero'}, '–');
-    return el('td',{class:'cell', onclick:()=>navigate('mp', {ejecutor, ...params})}, el('span',{class:'v'}, String(val)));
+    return el('td',{class:'cell', onclick:()=>navigate('asignaciones', {ejecutor, mes:NUM_MES[monthIdx], year, ...params})}, el('span',{class:'v'}, String(val)));
   }
 
   const table = el('table',{class:'sum-table'},
@@ -2124,7 +2363,7 @@ function renderSumEjecutoresMP(year, monthIdx, returnParts){
       )),
       sinAsignar > 0 ? el('tr',{style:{background:'#fef9c3'}},
         el('td',{}, el('strong',{}, 'Sin asignar')),
-        el('td',{class:'cell', onclick:()=>navigate('mp',{sinAsignar:'1'})}, el('span',{class:'v'}, String(sinAsignar))),
+        el('td',{class:'cell', onclick:()=>navigate('asignaciones',{mes:NUM_MES[monthIdx], year, sinAsignar:'1'})}, el('span',{class:'v'}, String(sinAsignar))),
         el('td',{}, '–'), el('td',{}, '–'), el('td',{}, '–')
       ) : null,
       el('tr',{class:'total-row'},
@@ -2172,26 +2411,80 @@ function renderSumAlertas(alertaDias){
   );
 }
 
+// Componente reutilizable: filtro de columna ESTILO EXCEL (marca uno o varios valores + escribe
+// para buscar en la lista). Lo usan Buscar equipos y Pendientes. El popup se ancla al body con
+// position:fixed para no cortarse dentro de un contenedor con scroll.
+const normFiltro = s => (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+function cerrarColPopups(){ document.querySelectorAll('.col-filter-pop').forEach(p=>p.remove()); }
+if(typeof window!=='undefined' && !window.__cfBound){ document.addEventListener('click', ()=>{ document.querySelectorAll('.col-filter-pop').forEach(p=>p.remove()); }); window.__cfBound = true; }
+function filtroColumnaExcel(label, valores, filtros, key, onChange){
+  const cur = (filtros[key] instanceof Set) ? filtros[key] : new Set();
+  const etiqueta = ()=> cur.size===0 ? '(todos)' : (cur.size===1 ? [...cur][0] : cur.size+' seleccionados');
+  const btnTxt = el('span',{class:'cf-txt'}, etiqueta());
+  const btn = el('button',{class:'col-filter-btn'+(cur.size?' activo':''),title:'Filtrar '+label}, btnTxt, el('span',{class:'cf-caret'},'▾'));
+  const buscar = el('input',{type:'search',placeholder:'Escribe para buscar…',class:'cf-search'});
+  const listaBox = el('div',{class:'cf-list'});
+  const pop = el('div',{class:'col-filter-pop',onclick:e=>e.stopPropagation()});
+  function pintar(){
+    listaBox.innerHTML='';
+    const q = normFiltro(buscar.value.trim());
+    const vis = valores.filter(v=>!q || normFiltro(v).includes(q));
+    if(vis.length===0){ listaBox.appendChild(el('div',{class:'muted',style:{padding:'6px 4px',fontSize:'12px'}},'Sin coincidencias')); return; }
+    vis.forEach(v=>{
+      const cb = el('input',{type:'checkbox'}); cb.checked = cur.has(v);
+      cb.onchange = ()=>{ if(cb.checked) cur.add(v); else cur.delete(v); aplicarSel(); };
+      listaBox.appendChild(el('label',{class:'cf-item'}, cb, el('span',{}, v)));
+    });
+  }
+  function aplicarSel(){
+    if(cur.size===0) delete filtros[key]; else filtros[key]=cur;
+    btnTxt.textContent = etiqueta();
+    btn.classList.toggle('activo', cur.size>0);
+    onChange();
+  }
+  buscar.addEventListener('input', pintar);
+  pop.appendChild(buscar);
+  pop.appendChild(el('div',{class:'cf-actions'},
+    el('button',{class:'small ghost',onclick:()=>{ valores.forEach(v=>cur.add(v)); pintar(); aplicarSel(); }},'Marcar todos'),
+    el('button',{class:'small ghost',onclick:()=>{ cur.clear(); pintar(); aplicarSel(); }},'Ninguno')
+  ));
+  pop.appendChild(listaBox);
+  btn.onclick = e=>{ e.stopPropagation();
+    const abierto = document.body.contains(pop);
+    cerrarColPopups();
+    if(!abierto){
+      document.body.appendChild(pop);
+      const r = btn.getBoundingClientRect();
+      let left = r.left; if(left + 240 > window.innerWidth) left = Math.max(8, window.innerWidth - 248);
+      pop.style.left = left+'px'; pop.style.top = (r.bottom+3)+'px';
+      pintar(); setTimeout(()=>buscar.focus(),0);
+    }
+  };
+  return el('div',{class:'col-filter'}, btn);
+}
+
 //---------------- EQUIPOS ----------------
 VIEWS.equipos = function(root, params){
+  // Columnas según la especificación funcional (cap. 3): ID, N° Inventario, Serie, Equipo,
+  // Marca, Modelo, Servicio, Unidad, Ubicación, Procedencia y, al final, Estado, Días y Pendientes.
   const COLS = [
-    {k:'id',l:'ID',g:e=>e.id!=null?String(e.id):'',num:true},
-    {k:'carpeta',l:'N° Carpeta',g:e=>e.carpeta!=null?String(e.carpeta):'',num:true},
-    {k:'inv',l:'N° Inventario',g:e=>e.inv||''},
+    {k:'id',l:'ID',g:e=>e.id!=null?String(e.id):'',num:true, cell:e=>el('td',{class:'num'}, e.id!=null?String(e.id):'—')},
+    {k:'inv',l:'N° Inventario',g:e=>e.inv||'', cell:e=>el('td',{}, el('strong',{}, e.inv||'—'))},
+    {k:'serie',l:'Serie',g:e=>e.serie||''},
     {k:'equipo',l:'Equipo',g:e=>e.equipo||'',lista:true},
+    {k:'marca',l:'Marca',g:e=>e.marca||'',lista:true},
+    {k:'modelo',l:'Modelo',g:e=>e.modelo||'',lista:true},
     {k:'servicio',l:'Servicio',g:e=>e.servicio||'',lista:true},
     {k:'unidad',l:'Unidad',g:e=>e.unidad||'',lista:true},
     {k:'ubic',l:'Ubicación',g:e=>e.ubic||'',lista:true},
     {k:'proc',l:'Procedencia',g:e=>e.proc||'',lista:true},
-    {k:'marca',l:'Marca',g:e=>e.marca||'',lista:true},
-    {k:'modelo',l:'Modelo',g:e=>e.modelo||'',lista:true},
-    {k:'estado',l:'Estado',g:e=>ESTADO_LABEL[e.estado]||e.estado||'',lista:true},
-    {k:'pend',l:'Pendientes',g:e=>String(pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length),num:true},
-    {k:'dias',l:'Días en estado',g:e=>e.estadoDesde?String(diasEnEstado(e)):'0',num:true}
+    {k:'estado',l:'Estado',g:e=>ESTADO_LABEL[e.estado]||e.estado||'',lista:true, cell:e=>el('td',{}, badgeEstado(e.estado), (e.estado==='en_servicio_tecnico'||e.estado==='no_operativo') ? el('div',{style:{marginTop:'3px'}}, el('small',{class:'muted'}, 'Enc: '+(encargadoDe(e)||'—'))) : null)},
+    {k:'dias',l:'Días en estado',g:e=>e.estadoDesde?String(diasEnEstado(e)):'0',num:true, cell:e=>el('td',{class:'num'}, e.estadoDesde ? diasEnEstado(e)+' d' : el('small',{class:'muted'},'—'))},
+    {k:'pend',l:'Pendientes',g:e=> pendientesDe(e.inv).some(p=>p.estado!=='cerrado') ? 'Sí' : 'No', lista:true, cell:e=>{const n=pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length; return el('td',{}, n>0?el('span',{class:'badge abierto',title:n+' pendiente(s)'},'Sí'):el('small',{class:'muted'},'No'));}}
   ];
   const filtros = {};
-  if(params.estado) filtros.estado = ESTADO_LABEL[params.estado] || params.estado;
-  if(params.servicio) filtros.servicio = params.servicio;
+  if(params.estado) filtros.estado = new Set([ESTADO_LABEL[params.estado] || params.estado]);
+  if(params.servicio) filtros.servicio = new Set([params.servicio]);
   let ordK = null, ordDir = 1;
   const search = el('input',{type:'search',placeholder:'Buscar en todo (N° Inv., serie, equipo, marca, modelo, servicio…)',value:params.q||''});
   const thead = el('thead',{});
@@ -2224,35 +2517,31 @@ VIEWS.equipos = function(root, params){
   }
 
   const norm = s => (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-  const valoresUnicos = c => [...new Set(state.equipos.map(e=>c.g(e)).filter(v=>v!==''))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
+  const valoresUnicos = c => [...new Set(state.equipos.map(e=>{const v=c.g(e); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 
   function buildHead(){
+    cerrarColPopups();
     thead.innerHTML = '';
     const trH = el('tr',{});
     COLS.forEach(c=>{
       const flecha = ordK===c.k ? (ordDir>0?' ▲':' ▼') : '';
       trH.appendChild(el('th',{class:'th-sort',title:'Ordenar por '+c.l, onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else { ordK=c.k; ordDir=1; } render(); }}, c.l+flecha));
     });
-    trH.appendChild(el('th',{},'Acciones'));
     thead.appendChild(trH);
     const trF = el('tr',{class:'filtros-col'});
     COLS.forEach(c=>{
       let ctrl;
       if(c.lista){
-        ctrl = el('select',{onchange:e=>{ filtros[c.k]=e.target.value; render(); }},
-          el('option',{value:''},'(todos)'),
-          ...valoresUnicos(c).map(v=>el('option',{value:v}, v.length>24?v.slice(0,24)+'…':v)));
-        ctrl.value = filtros[c.k]||'';
+        ctrl = filtroColumnaExcel(c.l, valoresUnicos(c), filtros, c.k, aplicar);
       } else {
-        ctrl = el('input',{type:'text',placeholder:'filtrar…',value:filtros[c.k]||'',oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__eqf); window.__eqf=setTimeout(render,200); }});
+        ctrl = el('input',{type:'text',placeholder:'filtrar…',value:(typeof filtros[c.k]==='string'?filtros[c.k]:''),oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__eqf); window.__eqf=setTimeout(aplicar,200); }});
       }
       trF.appendChild(el('th',{}, ctrl));
     });
-    trF.appendChild(el('th',{}));
     thead.appendChild(trF);
   }
 
-  function render(){
+  function aplicar(){
     state.equipos.forEach(recalcEstadoEquipo);
     const tokens = norm(search.value.trim()).split(/\s+/).filter(Boolean);
     let lista = state.equipos.filter(e => {
@@ -2263,44 +2552,26 @@ VIEWS.equipos = function(root, params){
       for(const c of COLS){
         const fv = filtros[c.k]; if(!fv) continue;
         const val = c.g(e);
-        if(c.lista){ if(val !== fv) return false; }
+        if(c.lista){ if(fv instanceof Set && fv.size>0 && !fv.has(String(val))) return false; }
         else { if(!norm(val).includes(norm(fv))) return false; }
       }
-      if(filtros.__conPend && !pendientesDe(e.inv).some(p=>p.estado!=='cerrado')) return false;
       return true;
     });
     lista = applyParamsFilter(lista);
     if(ordK){ const c = COLS.find(x=>x.k===ordK);
-      lista.sort((a,b)=> c.num ? ((+c.g(a)||0)-(+c.g(b)||0))*ordDir : c.g(a).localeCompare(c.g(b),'es')*ordDir);
+      lista.sort((a,b)=> c.num ? ((+c.g(a)||0)-(+c.g(b)||0))*ordDir : String(c.g(a)).localeCompare(String(c.g(b)),'es')*ordDir);
     }
-    buildHead();
+    navEquipos = lista.map(e=>e.inv); // recorrido ◀/▶ desde la ficha sigue el filtro/orden actual
     tbody.innerHTML = '';
     lista.slice(0,500).forEach(e => {
-      const pend = pendientesDe(e.inv).filter(p => p.estado !== 'cerrado').length;
-      tbody.appendChild(el('tr',{},
-        el('td',{class:'num'}, e.id != null ? String(e.id) : '—'),
-        el('td',{}, e.carpeta != null ? String(e.carpeta) : '—'),
-        el('td',{}, el('strong',{}, e.inv||'—')),
-        el('td',{}, e.equipo||'—'),
-        el('td',{}, e.servicio||'—'),
-        el('td',{}, e.unidad||'—'),
-        el('td',{}, e.ubic||'—'),
-        el('td',{}, e.proc||'—'),
-        el('td',{}, e.marca||'—'),
-        el('td',{}, e.modelo||'—'),
-        el('td',{}, badgeEstado(e.estado), (e.estado==='en_servicio_tecnico'||e.estado==='no_operativo') ? el('div',{style:{marginTop:'3px'}}, el('small',{class:'muted'}, 'Enc: '+(encargadoDe(e)||'—'))) : null),
-        el('td',{class:'num'}, pend > 0 ? el('span',{class:'badge abierto'},pend) : el('small',{class:'muted'},'—')),
-        el('td',{class:'num'}, e.estadoDesde ? diasEnEstado(e)+' d' : el('small',{class:'muted'},'—')),
-        el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
-          el('button',{class:'small',title:'Registrar evento',onclick:()=>nuevoEvento({invDefault:e.inv})},'➕ Evento'),
-          el('button',{class:'small',title:'Registrar pendiente',onclick:()=>nuevoPendiente({invDefault:e.inv})},'➕ Pend.'),
-          el('button',{class:'small ghost',title:'Abrir ficha',onclick:()=>navigate('equipo',{inv:e.inv})},'Ficha')
-        )
-      ));
+      const tr = el('tr',{class:'row-click', title:'Abrir ficha del equipo', onclick:()=>navigate('equipo',{inv:e.inv})});
+      COLS.forEach(c => tr.appendChild(c.cell ? c.cell(e) : el('td',{}, c.g(e)||'—')));
+      tbody.appendChild(tr);
     });
     counter.textContent = `${lista.length} equipos${lista.length>500?' (mostrando primeros 500)':''}`;
     renderChips();
   }
+  function render(){ buildHead(); aplicar(); }
 
   function renderChips(){
     chipsBar.innerHTML = '';
@@ -2315,7 +2586,7 @@ VIEWS.equipos = function(root, params){
       el('span',{class:'k'}, k+':'), el('span',{}, v),
       el('span',{class:'x',onclick:onclr}, '×')
     )));
-    const hayCol = Object.keys(filtros).some(k=>filtros[k]);
+    const hayCol = Object.keys(filtros).some(k=>{const f=filtros[k]; return f instanceof Set ? f.size>0 : !!f;});
     if(chips.length > 0 || hayCol || search.value){
       chipsBar.appendChild(el('button',{class:'filter-clear',onclick:()=>{
         Object.keys(params).forEach(k=>delete params[k]);
@@ -2326,26 +2597,26 @@ VIEWS.equipos = function(root, params){
     }
   }
 
-  search.addEventListener('input', ()=>{ clearTimeout(window.__eqs); window.__eqs=setTimeout(render,200); });
+  search.addEventListener('input', ()=>{ clearTimeout(window.__eqs); window.__eqs=setTimeout(aplicar,200); });
 
   state.equipos.forEach(recalcEstadoEquipo);
   const limpiarFiltros = ()=>{ Object.keys(filtros).forEach(k=>delete filtros[k]); };
   const _qa = (lbl, n, fn, cls) => el('button',{class:'qa-btn'+(cls?' '+cls:''), onclick:fn}, `${lbl} (${n})`);
   const barraQA = el('div',{class:'quick-access'},
     el('button',{class:'qa-btn',onclick:()=>{limpiarFiltros();render();}},'Todos'),
-    _qa('En servicio técnico', state.equipos.filter(e=>e.estado==='en_servicio_tecnico').length, ()=>{limpiarFiltros();filtros.estado='En servicio técnico';render();}, 'st'),
-    _qa('No operativos', state.equipos.filter(e=>e.estado==='no_operativo').length, ()=>{limpiarFiltros();filtros.estado='No operativo';render();}, 'noop'),
-    _qa('Con pendientes', state.equipos.filter(e=>pendientesDe(e.inv).some(p=>p.estado!=='cerrado')).length, ()=>{limpiarFiltros();filtros.__conPend=true;render();})
+    _qa('En servicio técnico', state.equipos.filter(e=>e.estado==='en_servicio_tecnico').length, ()=>{limpiarFiltros();filtros.estado=new Set(['En servicio técnico']);render();}, 'st'),
+    _qa('No operativos', state.equipos.filter(e=>e.estado==='no_operativo').length, ()=>{limpiarFiltros();filtros.estado=new Set(['No operativo']);render();}, 'noop'),
+    _qa('Con pendientes', state.equipos.filter(e=>pendientesDe(e.inv).some(p=>p.estado!=='cerrado')).length, ()=>{limpiarFiltros();filtros.pend=new Set(['Sí']);render();})
   );
-  root.appendChild(el('div',{class:'view'},
-    el('h2',{},'Equipos'),
-    el('div',{class:'subtitle'},'Planilla de equipos: ordena por cualquier columna (clic en su título), filtra en cada una y registra evento o pendiente desde la fila.'),
+  root.appendChild(el('div',{class:'view view-equipos'},
+    el('h2',{},'Buscar equipos'),
+    el('div',{class:'subtitle'},'Planilla de equipos: haz clic en una fila para abrir su ficha (ahí registras eventos y pendientes). Ordena por cualquier columna (clic en su título) y filtra en cada una.'),
     barraQA,
     el('div',{class:'toolbar'}, el('div',{class:'grow'},search)),
     chipsBar,
     counter,
-    el('div',{style:{maxHeight:'calc(100vh - 300px)',overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
-      el('table',{class:'data eq-grid',style:{border:'none'}}, thead, tbody)
+    el('div',{class:'eq-grid-wrap',style:{overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
+      el('table',{class:'data eq-grid buscar-grid',style:{border:'none'}}, thead, tbody)
     )
   ));
   render();
@@ -2353,99 +2624,6 @@ VIEWS.equipos = function(root, params){
 };
 
 //---------------- REGISTRO MP (carta gantt navegable) ----------------
-VIEWS.registroMP = function(root){
-  state.equipos.forEach(recalcEstadoEquipo);
-  const year = new Date().getFullYear();
-  let mostrarMeses = getPref('regmp_meses', true) !== false;
-  const filtros = {};
-  let ordK = null, ordDir = 1;
-  const norm = s => (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-  const IDENT = [
-    {k:'id',l:'ID',g:e=>e.id!=null?String(e.id):'',num:true},
-    {k:'carpeta',l:'N° Carpeta',g:e=>e.carpeta!=null?String(e.carpeta):'',num:true},
-    {k:'inv',l:'N° Inventario',g:e=>e.inv||''},
-    {k:'equipo',l:'Equipo',g:e=>e.equipo||'',lista:true},
-    {k:'servicio',l:'Servicio',g:e=>e.servicio||'',lista:true},
-    {k:'unidad',l:'Unidad',g:e=>e.unidad||'',lista:true},
-    {k:'ubic',l:'Ubicación',g:e=>e.ubic||'',lista:true},
-    {k:'proc',l:'Procedencia',g:e=>e.proc||'',lista:true},
-    {k:'marca',l:'Marca',g:e=>e.marca||'',lista:true},
-    {k:'modelo',l:'Modelo',g:e=>e.modelo||'',lista:true},
-    {k:'serie',l:'Serie',g:e=>e.serie||''},
-    {k:'ano',l:'Año',g:e=>e.ano!=null?String(e.ano):'',lista:true},
-    {k:'vur',l:'VUR',g:e=>e.vur!=null?String(e.vur):'',lista:true},
-    {k:'clasif',l:'Clasificación',g:e=>e.clasif||'',lista:true},
-    {k:'freq',l:'Frecuencia MP',g:e=>e.freq||'',lista:true}
-  ];
-  const FINAL = [
-    {k:'estado',l:'Estado',g:e=>ESTADO_LABEL[e.estado]||e.estado||'',lista:true},
-    {k:'dias',l:'Días en estado',g:e=>e.estadoDesde?String(diasEnEstado(e)):'0',num:true},
-    {k:'pendi',l:'Pendientes',g:e=>String(pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length),num:true}
-  ];
-  const mesCols = () => { const a=[]; MESES.forEach(m=>{ a.push({k:'P_'+m,l:m+'·P',g:e=>((e.registro||{})[m]||{}).P||(e.prog||{})[m]||'',lista:true,mes:true}); a.push({k:'R_'+m,l:m+'·R',g:e=>((e.registro||{})[m]||{}).R||'',lista:true,mes:true,esR:true}); }); return a; };
-  const cols = () => mostrarMeses ? [...IDENT, ...mesCols(), ...FINAL] : [...IDENT, ...FINAL];
-  const colByK = k => cols().find(x=>x.k===k);
-  const valoresUnicos = c => [...new Set(state.equipos.map(e=>c.g(e)).filter(v=>v!==''))].sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
-
-  const thead = el('thead',{}); const tbody = el('tbody',{});
-  const counter = el('div',{class:'muted',style:{fontSize:'12px',padding:'8px 0'}},'');
-  const search = el('input',{type:'search',placeholder:'Buscar equipo, marca, modelo, servicio…'});
-
-  function buildHead(){
-    const CS = cols();
-    thead.innerHTML = '';
-    const trH = el('tr',{});
-    CS.forEach(c => trH.appendChild(el('th',{class:'th-sort'+(c.mes?' mp-col':''), onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else { ordK=c.k; ordDir=1; } render(); }}, c.l + (ordK===c.k?(ordDir>0?' ▲':' ▼'):''))));
-    trH.appendChild(el('th',{},'Acción'));
-    thead.appendChild(trH);
-    const trF = el('tr',{class:'filtros-col'});
-    CS.forEach(c=>{
-      let ctrl;
-      if(c.lista){ ctrl = el('select',{onchange:e=>{ filtros[c.k]=e.target.value; render(); }}, el('option',{value:''},'(todos)'), ...valoresUnicos(c).map(v=>el('option',{value:v}, v.length>16?v.slice(0,16)+'…':v))); ctrl.value = filtros[c.k]||''; }
-      else { ctrl = el('input',{type:'text',placeholder:'…',value:filtros[c.k]||'',oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__rmf); window.__rmf=setTimeout(render,200); }}); }
-      trF.appendChild(el('th',{class:c.mes?'mp-col':''}, ctrl));
-    });
-    trF.appendChild(el('th',{}));
-    thead.appendChild(trF);
-  }
-  function render(){
-    state.equipos.forEach(recalcEstadoEquipo);
-    const CS = cols();
-    const tokens = norm(search.value.trim()).split(/\s+/).filter(Boolean);
-    let lista = state.equipos.filter(e=>{
-      if(tokens.length){ const hay=[e.inv,e.serie,e.equipo,e.marca,e.modelo,e.servicio,e.unidad,e.ubic].map(norm).join(' '); if(!tokens.every(t=>hay.includes(t))) return false; }
-      for(const c of CS){ const fv=filtros[c.k]; if(!fv) continue; const val=c.g(e); if(c.lista){ if(val!==fv) return false; } else if(!norm(val).includes(norm(fv))) return false; }
-      return true;
-    });
-    if(ordK){ const c=colByK(ordK); if(c) lista.sort((a,b)=> c.num?((+c.g(a)||0)-(+c.g(b)||0))*ordDir : c.g(a).localeCompare(c.g(b),'es')*ordDir); }
-    buildHead();
-    tbody.innerHTML = '';
-    lista.slice(0,500).forEach(e=>{
-      const tr = el('tr',{});
-      CS.forEach(c=>{
-        if(c.k==='estado') tr.appendChild(el('td',{}, badgeEstado(e.estado)));
-        else if(c.k==='pendi'){ const n=pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length; tr.appendChild(el('td',{class:'num'}, n>0?el('span',{class:'badge abierto'},n):el('small',{class:'muted'},'—'))); }
-        else if(c.mes){ const v=c.g(e); tr.appendChild(el('td',{class:'mp-col'+(c.esR&&v==='Si'?' mp-ok':'')+(c.esR&&/^C[1-8]$/.test(v)?' mp-rep':'')}, v||'')); }
-        else tr.appendChild(el('td',{}, c.g(e)||'—'));
-      });
-      tr.appendChild(el('td',{class:'actions'}, el('button',{class:'small',onclick:()=>navigate('equipo',{inv:e.inv})},'Abrir')));
-      tbody.appendChild(tr);
-    });
-    counter.textContent = `${lista.length} equipos${lista.length>500?' (mostrando primeros 500)':''}`;
-  }
-  search.addEventListener('input', ()=>{ clearTimeout(window.__rms); window.__rms=setTimeout(render,200); });
-  const btnMeses = el('button',{class:'qa-btn',onclick:()=>{ mostrarMeses=!mostrarMeses; setPref('regmp_meses',mostrarMeses); save({internal:true}); btnMeses.textContent = mostrarMeses?'➖ Ocultar meses':'➕ Mostrar meses'; render(); }}, mostrarMeses?'➖ Ocultar meses':'➕ Mostrar meses');
-  root.appendChild(el('div',{class:'view'},
-    el('h2',{},'Registro MP '+year),
-    el('div',{class:'subtitle'},'Carta gantt navegable: programado (P) y realizado (R) por mes, más estado, días y pendientes. Ordena y filtra en cualquier columna; "Abrir" lleva a la ficha.'),
-    el('div',{class:'toolbar'}, el('div',{class:'grow'},search), btnMeses, counter),
-    el('div',{style:{overflow:'auto',maxHeight:'calc(100vh - 230px)',border:'1px solid var(--border)',borderRadius:'10px'}},
-      el('table',{class:'data eq-grid',style:{border:'none',fontSize:'12px'}}, thead, tbody)
-    )
-  ));
-  render();
-};
-
 //---------------- EQUIPO (ficha) ----------------
 VIEWS.equipo = function(root, params){
   const eq = findEquipo(params.inv);
@@ -2463,98 +2641,89 @@ VIEWS.equipo = function(root, params){
   const pends = pendientesDe(eq.inv);
   const conflicts = conflictosDe(eq.inv);
 
-  let tab = params.openTab === 'conflictos' && conflicts.length > 0 ? 'conflictos' : (params.openTab || 'resumen');
-  const tabsContent = el('div',{});
-  const tabs = el('div',{class:'tabs'});
-  function renderTabs(){
-    tabs.innerHTML = '';
-    const lblBit = evsAnulados.length > 0
-      ? `Bitácora (${evs.length} + ${evsAnulados.length} anulado${evsAnulados.length>1?'s':''})`
-      : `Bitácora (${evs.length})`;
-    const lblConf = conflicts.length > 0 ? `Conflictos (${conflicts.length})` : null;
-    const cfg = [['resumen','Resumen'],['datos','Datos generales'],['mp','Programación MP'],['bitacora', lblBit],['ciclos',`Ciclos correctivos (${ciclos.length})`],['pendientes',`Pendientes (${pends.filter(p=>p.estado!=='cerrado').length}/${pends.length})`]];
-    if(lblConf) cfg.push(['conflictos', lblConf]);
-    cfg.forEach(([k,l])=>{
-      const b = el('button',{class:tab===k?'active':'',onclick:()=>{tab=k;renderTabs();renderTabBody();}},l);
-      if(k === 'conflictos') b.classList.add('tab-conflict');
-      tabs.appendChild(b);
-    });
-  }
-  function renderTabBody(){
-    tabsContent.innerHTML = '';
-    if(tab==='resumen'){
-      tabsContent.appendChild(renderResumenEquipo(eq, ()=>{ tab=tab; renderTabBody(); }, (k)=>{ tab=k; renderTabs(); renderTabBody(); }));
-    } else if(tab==='datos'){
-      tabsContent.appendChild(el('div',{class:'grid-2'},
-        el('div',{class:'section'},
-          el('h3',{},'Identificación'),
-          el('dl',{class:'kv'},
-            el('dt',{},'N° Inventario'), el('dd',{}, eq.inv||'—'),
-            el('dt',{},'N° Carpeta'), el('dd',{}, fmt(eq.carpeta)),
-            el('dt',{},'Serie'), el('dd',{}, fmt(eq.serie)),
-            el('dt',{},'Familia'), el('dd',{}, fmt(eq.fam)),
-            el('dt',{},'Equipo'), el('dd',{}, fmt(eq.equipo)),
-            el('dt',{},'Marca / Modelo'), el('dd',{}, `${fmt(eq.marca)} ${fmt(eq.modelo)}`),
-            el('dt',{},'Año instalación'), el('dd',{}, fmt(eq.ano)),
-            el('dt',{},'Procedencia'), el('dd',{}, fmt(eq.proc))
-          )
-        ),
-        el('div',{class:'section'},
-          el('h3',{},'Ubicación y estado'),
-          el('dl',{class:'kv'},
-            el('dt',{},'Servicio'), el('dd',{}, fmt(eq.servicio)),
-            el('dt',{},'Unidad'), el('dd',{}, fmt(eq.unidad)),
-            el('dt',{},'Ubicación'), el('dd',{}, fmt(eq.ubic)),
-            el('dt',{},'Clasificación'), el('dd',{}, fmt(eq.clasif)),
-            el('dt',{},'Vida útil residual'), el('dd',{}, fmt(eq.vur)),
-            el('dt',{},'Frecuencia MP'), el('dd',{}, fmt(eq.freq)),
-            el('dt',{},'Estado actual'), el('dd',{}, badgeEstado(eq.estado), ' ', el('small',{class:'muted'}, diasEnEstado(eq)+' días')),
-            el('dt',{},'Sub-estado'), el('dd',{}, fmt(eq.subestado))
-          )
-        )
-      ));
-    } else if(tab==='mp'){
-      tabsContent.appendChild(renderMatrizMP(eq));
-    } else if(tab==='bitacora'){
-      tabsContent.appendChild(renderBitacora(eq));
-    } else if(tab==='ciclos'){
-      tabsContent.appendChild(renderCiclos(eq));
-    } else if(tab==='pendientes'){
-      tabsContent.appendChild(renderPendientesEquipo(eq));
-    } else if(tab==='conflictos'){
-      tabsContent.appendChild(renderConflictosEquipo(eq, ()=>{ navigate('equipo',{inv:eq.inv, openTab:'conflictos'}); }));
-    }
-  }
+  const year = new Date().getFullYear();
+
+  // --- 4.1 Datos del equipo ---
+  const datosBlock = el('div',{class:'grid-2'},
+    el('div',{class:'section'},
+      el('h3',{},'Identificación'),
+      el('dl',{class:'kv'},
+        el('dt',{},'N° Inventario'), el('dd',{}, eq.inv||'—'),
+        el('dt',{},'N° Carpeta'), el('dd',{}, fmt(eq.carpeta)),
+        el('dt',{},'Serie'), el('dd',{}, fmt(eq.serie)),
+        el('dt',{},'Familia'), el('dd',{}, fmt(eq.fam)),
+        el('dt',{},'Equipo'), el('dd',{}, fmt(eq.equipo)),
+        el('dt',{},'Marca / Modelo'), el('dd',{}, `${fmt(eq.marca)} ${fmt(eq.modelo)}`),
+        el('dt',{},'Año instalación'), el('dd',{}, fmt(eq.ano)),
+        el('dt',{},'Procedencia'), el('dd',{}, fmt(eq.proc))
+      )
+    ),
+    el('div',{class:'section'},
+      el('h3',{},'Ubicación y estado'),
+      el('dl',{class:'kv'},
+        el('dt',{},'Servicio'), el('dd',{}, fmt(eq.servicio)),
+        el('dt',{},'Unidad'), el('dd',{}, fmt(eq.unidad)),
+        el('dt',{},'Ubicación'), el('dd',{}, fmt(eq.ubic)),
+        el('dt',{},'Clasificación'), el('dd',{}, fmt(eq.clasif)),
+        el('dt',{},'Vida útil residual'), el('dd',{}, fmt(eq.vur)),
+        el('dt',{},'Frecuencia MP'), el('dd',{}, fmt(eq.freq)),
+        el('dt',{},'Estado actual'), el('dd',{}, badgeEstado(eq.estado), ' ', el('small',{class:'muted'}, diasEnEstado(eq)+' días')),
+        el('dt',{},'Sub-estado'), el('dd',{}, fmt(eq.subestado))
+      )
+    )
+  );
+
+  // --- Secciones contraíbles, una bajo otra (cap. 4 de la especificación) ---
+  const pendAbiertos = pends.filter(p=>p.estado!=='cerrado').length;
+  const lblHist = evsAnulados.length > 0
+    ? `Historial de eventos (${evs.length} activos · ${evsAnulados.length} anulado${evsAnulados.length>1?'s':''})`
+    : `Historial de eventos (${evs.length})`;
+  const secHistorial = seccionColapsable(lblHist, renderBitacora(eq), true);
+  const secciones = el('div',{},
+    seccionColapsable('Datos del equipo', datosBlock, true),
+    seccionColapsable(`Programación PMP ${year}`, renderMatrizMP(eq), true),
+    secHistorial,
+    seccionColapsable(`Pendientes (${pendAbiertos} abierto${pendAbiertos!==1?'s':''} · ${pends.length} total)`, renderPendientesEquipo(eq), pendAbiertos>0),
+    seccionColapsable(`Ciclos correctivos (${ciclos.length})`, renderCiclos(eq), ciclos.some(c=>c.estado==='abierto')),
+    conflicts.length > 0 ? seccionColapsable(`⚠ Conflictos con el maestro (${conflicts.length})`, renderConflictosEquipo(eq, ()=>navigate('equipo',{inv:eq.inv})), true) : null
+  );
 
   // Eventos creados hoy en este equipo (sin contar anulados)
-  const hoy = hoyLocal();
   const evsHoy = state.eventos.filter(e => e.inv === eq.inv && !e.anulado &&
     e.ts && new Date(e.ts).toISOString().slice(0,10) === new Date().toISOString().slice(0,10));
   const evsHoyBanner = evsHoy.length > 0
-    ? el('div',{class:'today-chip', title:'Eventos registrados hoy en este equipo. Click para ir a Bitácora.',
-        onclick:()=>{tab='bitacora'; renderTabs(); renderTabBody();}},
+    ? el('div',{class:'today-chip', title:'Eventos registrados hoy en este equipo. Click para ir al Historial.',
+        onclick:()=>{ secHistorial.open=true; secHistorial.scrollIntoView({behavior:'smooth',block:'start'}); }},
         `${evsHoy.length} evento${evsHoy.length>1?'s':''} hoy`,
         el('span',{style:{marginLeft:'5px',opacity:.7}}, '→'))
     : null;
+
+  // Recorrer la lista (filtro/orden de Buscar equipos) sin volver atrás: ◀ / ▶ + "MP y siguiente".
+  const idxNav = navEquipos.indexOf(eq.inv);
+  const prevInv = idxNav > 0 ? navEquipos[idxNav-1] : null;
+  const nextInv = (idxNav >= 0 && idxNav < navEquipos.length-1) ? navEquipos[idxNav+1] : null;
+  const navFicha = idxNav >= 0 ? el('div',{class:'ficha-nav'},
+    el('button',{class:'small ghost',disabled:!prevInv,onclick:()=>prevInv&&navigate('equipo',{inv:prevInv}),title:'Equipo anterior de la lista'},'◀'),
+    el('span',{class:'muted',style:{fontSize:'12px',whiteSpace:'nowrap'}}, `${idxNav+1} / ${navEquipos.length}`),
+    el('button',{class:'small ghost',disabled:!nextInv,onclick:()=>nextInv&&navigate('equipo',{inv:nextInv}),title:'Equipo siguiente de la lista'},'▶')
+  ) : null;
 
   root.appendChild(el('div',{class:'view'},
     el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'10px',flexWrap:'wrap',gap:'8px'}},
       el('div',{style:{display:'flex',alignItems:'center',gap:'8px',flexWrap:'wrap'}},
         el('button',{class:'ghost',onclick:()=>navBack('equipos')},'← Volver'),
+        navFicha,
         el('h2',{style:{display:'inline-block',marginLeft:'4px'}},`${eq.equipo} · ${eq.inv}`),
         evsHoyBanner
       ),
-      el('div',{style:{display:'flex',gap:'6px'}},
-        el('button',{class:'primary',onclick:()=>mpRapida({invDefault:eq.inv}),title:'Registrar Mantención Preventiva rápida'},'➕ MP'),
-        el('button',{onclick:()=>nuevoEvento({invDefault:eq.inv}),title:'Crear evento completo (7 tipos)'},'➕ Evento'),
+      el('div',{style:{display:'flex',gap:'6px',flexWrap:'wrap'}},
+        el('button',{class:'primary',onclick:()=>nuevoEvento({invDefault:eq.inv}),title:'Crear evento completo (7 tipos)'},'➕ Evento'),
         el('button',{onclick:()=>nuevoPendiente({invDefault:eq.inv}),title:'Crear pendiente / tarea'},'➕ Pendiente'),
         eq.estado !== 'baja' ? el('button',{class:'danger',onclick:()=>darDeBaja(eq),title:'Marcar equipo como baja'},'⊘ Dar de baja') : null
       )
     ),
-    tabs, tabsContent
+    secciones
   ));
-  renderTabs();
-  renderTabBody();
 };
 
 function renderMatrizMP(eq){
@@ -2573,6 +2742,7 @@ function renderMatrizMP(eq){
   };
   const trP = el('tr',{}, el('td',{class:'lbl-row'},'P (Programación)'));
   const trR = el('tr',{}, el('td',{class:'lbl-row'},'R (Resultado)'));
+  const trE = el('tr',{}, el('td',{class:'lbl-row'},'Ejecutor'));
   const year = new Date().getFullYear();
   // Mapa de eventos MP por mes de este equipo (para tooltip)
   const evsMPPorMes = {};
@@ -2583,7 +2753,7 @@ function renderMatrizMP(eq){
     if(!evsMPPorMes[mes] || ev.fecha > evsMPPorMes[mes].fecha) evsMPPorMes[mes] = ev;
   });
   MESES.forEach((m, idx) => {
-    const p = (eq.prog||{})[m] || '';
+    const p = ((eq.registro||{})[m]||{}).P || (eq.prog||{})[m] || '';
     const r = ((eq.registro||{})[m]||{}).R || '';
     const conflP = celdaTieneConflicto(eq.inv, m, 'P');
     const conflR = celdaTieneConflicto(eq.inv, m, 'R');
@@ -2615,15 +2785,17 @@ function renderMatrizMP(eq){
     }
     if(conflR) tdR.onclick = ()=>navigate('conciliacion');
     if(conflR) tdR.style.cursor = 'pointer';
+    const ejec = (evsMPPorMes[m] && evsMPPorMes[m].ejecutor) || '';
     trP.appendChild(tdP);
     trR.appendChild(tdR);
+    trE.appendChild(el('td',{class:'mp-ejec', title: ejec || ''}, ejec ? (ejec.length>10?ejec.slice(0,9)+'…':ejec) : ''));
   });
   return el('div',{class:'section'},
-    el('h3',{},'Matriz MP 2026'),
+    el('h3',{},`Programación PMP ${year}`),
     el('div',{style:{overflowX:'auto'}},
       el('table',{class:'mp-matrix'},
-        el('thead',{}, el('tr',{}, el('th',{},''), ...MESES.map(m=>el('th',{},m)))),
-        el('tbody',{}, trP, trR)
+        el('thead',{}, el('tr',{}, el('th',{},'Mes'), ...MESES.map(m=>el('th',{},m)))),
+        el('tbody',{}, trP, trR, trE)
       )
     ),
     el('div',{style:{marginTop:'10px',fontSize:'12px'},class:'muted'},
@@ -2633,51 +2805,108 @@ function renderMatrizMP(eq){
   );
 }
 
+// Imprime el historial de eventos del equipo: abre una ventana limpia y lanza el diálogo
+// de impresión del navegador (también permite "Guardar como PDF"). 100% offline.
+function imprimirHistorial(eq){
+  const esc = s => (s==null?'':String(s)).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const evs = eventosDeTodos(eq.inv).slice().reverse();
+  const filas = evs.map(ev => {
+    const pendAsoc = state.pendientes.filter(p => p.eventoOrigen === ev.id && !p.anulado).length;
+    const desc = esc(etiquetaTipoEvento(ev))
+      + (ev.folio ? ' · Folio '+esc(ev.folio) : '')
+      + (ev.resultado ? ' · R: '+esc(ev.resultado) : '')
+      + (ev.oficial==='Sí' ? ' · OFICIAL' : '')
+      + (ev.anulado ? ' · ANULADO' : '');
+    return `<tr class="${ev.anulado?'anu':''}"><td>${esc(fmtFecha(ev.fecha))}</td><td>${desc}</td>`
+      + `<td>${esc(ev.estado||'')}</td><td>${esc(ev.ejecutor||'')}</td>`
+      + `<td>${esc(ev.obs||'')}</td><td>${pendAsoc>0?pendAsoc:''}</td></tr>`;
+  }).join('');
+  const html = '<!doctype html><html lang="es"><head><meta charset="utf-8">'
+    + '<title>Historial '+esc(eq.inv)+'</title><style>'
+    + 'body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#111;padding:24px}'
+    + 'h1{font-size:16px;margin:0 0 4px} h2{font-size:12px;font-weight:400;color:#555;margin:0 0 14px}'
+    + 'table{border-collapse:collapse;width:100%} th,td{border:1px solid #999;padding:5px 7px;text-align:left;vertical-align:top}'
+    + 'th{background:#eee} tr.anu td{color:#999;text-decoration:line-through}'
+    + '.tb{margin:10px 0 16px} @media print{.noprint{display:none}}'
+    + '</style></head><body>'
+    + '<h1>Historial de eventos — '+esc(eq.equipo||'')+' · '+esc(eq.inv)+'</h1>'
+    + '<h2>'+esc(fmt(eq.marca))+' '+esc(fmt(eq.modelo))+' · Serie '+esc(fmt(eq.serie))
+    +   ' · '+esc(fmt(eq.servicio))+' · Estado: '+esc(ESTADO_LABEL[eq.estado]||eq.estado||'—')
+    +   ' · Impreso '+esc(new Date().toLocaleString('es-CL'))+'</h2>'
+    + '<div class="tb noprint"><button onclick="window.print()">🖨 Imprimir</button></div>'
+    + '<table><thead><tr><th>Fecha</th><th>Descripción</th><th>Estado</th><th>Ejecutor</th><th>Observación</th><th>Pend.</th></tr></thead>'
+    + '<tbody>'+(filas||'<tr><td colspan="6">Sin eventos registrados.</td></tr>')+'</tbody></table>'
+    + '</body></html>';
+  const w = window.open('', '_blank');
+  if(!w){ toast('Permite las ventanas emergentes del navegador para imprimir.', 'error'); return; }
+  w.document.open(); w.document.write(html); w.document.close(); w.focus();
+  setTimeout(()=>{ try{ w.print(); }catch(e){} }, 350);
+}
+
 function renderBitacora(eq){
   const todos = eventosDeTodos(eq.inv).slice().reverse();
   const activos = todos.filter(e => !e.anulado);
   const anulados = todos.filter(e => e.anulado);
-  if(todos.length === 0) return el('div',{class:'empty'},'Sin eventos registrados.');
-  return el('div',{class:'section'},
-    el('h3',{},
-      'Bitácora — hoja de vida',
-      anulados.length > 0
-        ? el('small',{style:{fontWeight:'400',color:'var(--muted)',marginLeft:'8px',textTransform:'none',letterSpacing:'0'}},
-            `${activos.length} activo${activos.length!==1?'s':''} · ${anulados.length} anulado${anulados.length!==1?'s':''}`)
-        : null
-    ),
-    el('div',{class:'bitacora'}, ...todos.map(ev => el('div',{class:'ev'+(ev.anulado?' anulado':'')+(ev.origen==='conciliacion_auto'||ev.origen==='conciliacion'?' auto':'')},
-      el('div',{class:'hd'},
-        el('div',{}, el('strong',{}, ev.tipo), ' ',
-          ev.anulado ? el('span',{class:'badge anulado-badge'},'Anulado') :
-            (ev.oficial==='Sí' ? el('span',{class:'badge ofic-si'},'Oficial') : el('span',{class:'badge ofic-no'},'Borrador')),
-          ev.origen === 'conciliacion_auto' ? el('span',{class:'badge auto-badge',title:'Evento creado automáticamente al subir el maestro (v0.21). Fecha = día 15 del mes. No fue registrado manualmente.'},'🔗 Auto-maestro') : null,
-          ev.origen === 'conciliacion' ? el('span',{class:'badge auto-badge',title:'Evento creado al aceptar un conflicto del maestro en Conciliación.'},'🔗 Conciliación') : null,
-          ev.origen === 'masivo' ? el('span',{class:'badge ofic-no',title:'Registrado en lote desde MP del mes'},'⚡ Lote') : null,
-          ev.folio ? el('span',{class:'pill'}, 'Folio: '+ev.folio) : null,
-          ev.resultado ? el('span',{class:'pill'}, 'R: '+ev.resultado) : null
-        ),
-        el('span',{class:'fecha'}, fmtFecha(ev.fecha),
-          ev.ts ? el('small',{class:'muted',style:{display:'block',fontSize:'10px',marginTop:'2px'}}, 'creado '+new Date(ev.ts).toLocaleString('es-CL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})) : null
-        )
+  // Una fila por evento, en columnas: Fecha · Descripción · Estado · Ejecutor · Pendientes · Acciones.
+  const fila = (ev) => {
+    const pendsEv = state.pendientes.filter(p => p.eventoOrigen === ev.id && !p.anulado);
+    // Descripción: tipo + sellos (oficial/borrador/auto/lote) + folio + resultado + observación.
+    const desc = el('td',{},
+      el('div',{},
+        el('strong',{}, etiquetaTipoEvento(ev)), ' ',
+        ev.anulado ? el('span',{class:'badge anulado-badge'},'Anulado') :
+          (ev.oficial==='Sí' ? el('span',{class:'badge ofic-si'},'Oficial') : el('span',{class:'badge ofic-no'},'Borrador')),
+        ev.origen === 'conciliacion_auto' ? el('span',{class:'badge auto-badge',title:'Creado automáticamente al subir el maestro. Fecha = día 15 del mes.'},'🔗 Auto-maestro') : null,
+        ev.origen === 'conciliacion' ? el('span',{class:'badge auto-badge',title:'Creado al aceptar un conflicto del maestro en Conciliación.'},'🔗 Conciliación') : null,
+        ev.origen === 'masivo' ? el('span',{class:'badge ofic-no',title:'Registrado en lote desde MP del mes'},'⚡ Lote') : null,
+        ev.folio ? el('span',{class:'pill'}, 'Folio: '+ev.folio) : null,
+        ev.resultado ? el('span',{class:'pill'}, 'R: '+ev.resultado) : null
       ),
-      el('div',{class:'meta'},
-        ev.ejecutor ? 'Ejecutor: '+ev.ejecutor+' · ' : '',
-        ev.empresa ? 'Empresa: '+ev.empresa+' · ' : '',
-        ev.estado ? 'Estado resultante: '+ev.estado : ''
-      ),
-      ev.obs ? el('div',{class:'obs'}, ev.obs) : null,
-      ev.anulado ? el('div',{class:'anulacion-info'},
-        '⊘ Anulado',
-        ev.fechaAnulacion ? ' · ' + new Date(ev.fechaAnulacion).toLocaleString('es-CL') : '',
-        ev.motivoAnulacion ? ' · Motivo: '+ev.motivoAnulacion : ''
-      ) : null,
-      !ev.anulado ? el('div',{style:{marginTop:'6px',display:'flex',gap:'5px'}},
-        ev.oficial !== 'Sí' ? el('button',{class:'small primary',onclick:()=>oficializarEvento(ev),title:'Marcar como oficial'},'✓ Oficializar') : null,
-        el('button',{class:'small',onclick:()=>editarEvento(ev),title:'Editar campos básicos'},'✎ Editar'),
-        el('button',{class:'small danger',onclick:()=>anularEvento(ev),title:'Anular evento (revierte efectos)'},'⊘ Anular')
+      ev.empresa ? el('div',{class:'muted',style:{fontSize:'12px',marginTop:'3px'}}, 'Empresa: '+ev.empresa) : null,
+      ev.obs ? el('div',{class:'muted',style:{fontSize:'12px',marginTop:'4px',whiteSpace:'pre-wrap'}}, ev.obs) : null,
+      ev.anulado ? el('div',{class:'muted',style:{fontSize:'12px',marginTop:'4px',color:'var(--noop)'}},
+        '⊘ Anulado'+(ev.fechaAnulacion ? ' · '+new Date(ev.fechaAnulacion).toLocaleString('es-CL') : '')+(ev.motivoAnulacion ? ' · Motivo: '+ev.motivoAnulacion : '')
       ) : null
-    )))
+    );
+    return el('tr',{class: ev.anulado?'ev-anulado':''},
+      el('td',{style:{whiteSpace:'nowrap'}}, fmtFecha(ev.fecha),
+        ev.ts ? el('small',{class:'muted',style:{display:'block',fontSize:'10px',marginTop:'2px'}}, 'creado '+new Date(ev.ts).toLocaleString('es-CL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})) : null),
+      desc,
+      el('td',{}, (ev.tipo==='Mantención preventiva' && ev.resultado ? estadoMPFinal(ev.resultado, ev.estado) : ev.estado) || el('small',{class:'muted'},'—')),
+      el('td',{}, ev.ejecutor || el('small',{class:'muted'},'—')),
+      el('td',{}, pendsEv.length === 0
+        ? el('small',{class:'muted'},'—')
+        : el('div',{}, ...pendsEv.map(p => el('span',{class:'tag',title:'Abrir pendiente',style:{cursor:'pointer',display:'inline-block',margin:'2px 3px 0 0'},onclick:()=>abrirPendiente(p)},
+            (TIPO_PENDIENTE[p.tipo]||p.tipo)+' · '+(ESTADO_PEND_LABEL[p.estado]||p.estado))))),
+      el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
+        !ev.anulado ? el('div',{style:{display:'flex',gap:'4px',flexWrap:'wrap'}},
+          el('button',{class:'small',onclick:()=>nuevoPendiente({invDefault:ev.inv, eventoOrigen:ev.id}),title:'Agregar un pendiente ligado a este evento'},'➕ Pend.'),
+          ev.oficial !== 'Sí' ? el('button',{class:'small primary',onclick:()=>oficializarEvento(ev),title:'Marcar como oficial'},'✓ Oficializar') : null,
+          el('button',{class:'small',onclick:()=>editarEvento(ev),title:'Editar campos básicos'},'✎ Editar'),
+          el('button',{class:'small danger',onclick:()=>anularEvento(ev),title:'Anular evento (revierte efectos)'},'⊘ Anular')
+        ) : el('small',{class:'muted'},'—')
+      )
+    );
+  };
+  return el('div',{class:'section'},
+    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'8px',flexWrap:'wrap'}},
+      el('h3',{style:{margin:'0'}},
+        'Historial de eventos',
+        anulados.length > 0
+          ? el('small',{style:{fontWeight:'400',color:'var(--muted)',marginLeft:'8px',textTransform:'none',letterSpacing:'0'}},
+              `${activos.length} activo${activos.length!==1?'s':''} · ${anulados.length} anulado${anulados.length!==1?'s':''}`)
+          : null
+      ),
+      el('button',{class:'small',title:'Imprimir el registro de eventos (o guardarlo como PDF)',onclick:()=>imprimirHistorial(eq)},'🖨 Imprimir')
+    ),
+    el('div',{style:{overflow:'auto'}},
+      el('table',{class:'data bitacora-grid'},
+        el('thead',{}, el('tr',{}, ['Fecha','Descripción','Estado','Ejecutor','Pendientes','Acciones'].map(h=>el('th',{},h)))),
+        el('tbody',{}, todos.length===0
+          ? el('tr',{}, el('td',{colspan:'6',class:'empty small'},'Sin eventos registrados.'))
+          : null, ...todos.map(fila))
+      )
+    )
   );
 }
 
@@ -2701,110 +2930,6 @@ function renderCiclos(eq){
       c.descripcionInicial ? el('div',{style:{fontSize:'13px',marginTop:'5px'}}, c.descripcionInicial) : null,
       c.estado==='abierto' ? el('div',{style:{marginTop:'5px'}}, el('button',{class:'small',onclick:()=>cerrarCicloManual(c)},'Cerrar manualmente')) : null
     )))
-  );
-}
-
-function renderResumenEquipo(eq, refresh, setTab){
-  const evs = eventosDe(eq.inv).slice().reverse();
-  const ultimos = evs.slice(0,3);
-  const pends = pendientesDe(eq.inv).filter(p => p.estado !== 'cerrado');
-  const ciclos = ciclosAbiertosDe(eq.inv);
-  const confl = conflictosDe(eq.inv);
-  const year = new Date().getFullYear();
-  // Mini matriz MP
-  const cellClass = (v) => {
-    if(!v) return '';
-    if(v==='X') return 'mp-cell-x';
-    if(v==='R') return 'mp-cell-r';
-    if(v==='RA') return 'mp-cell-ra';
-    if(v==='PM') return 'mp-cell-pm';
-    if(v==='Si') return 'mp-cell-si';
-    if(/^C[1-8]$/.test(v)) return 'mp-cell-c';
-    if(v==='FS') return 'mp-cell-fs';
-    if(v==='Baja') return 'mp-cell-baja';
-    if(v==='NU') return 'mp-cell-nu';
-    return '';
-  };
-  const matrizMini = el('table',{class:'mp-matrix',style:{fontSize:'11px'}},
-    el('thead',{}, el('tr',{}, el('th',{},''), ...MESES.map(m=>el('th',{},m)))),
-    el('tbody',{},
-      el('tr',{}, el('td',{class:'lbl-row'},'P'), ...MESES.map(m => {
-        const p = (eq.prog||{})[m] || '';
-        return el('td',{class:cellClass(p)}, p||'');
-      })),
-      el('tr',{}, el('td',{class:'lbl-row'},'R'), ...MESES.map(m => {
-        const r = ((eq.registro||{})[m]||{}).R || '';
-        return el('td',{class:cellClass(r)}, r||'');
-      }))
-    )
-  );
-
-  return el('div',{class:'resumen-grid'},
-    // Bloque MP
-    el('div',{class:'section resumen-block'},
-      el('div',{class:'resumen-block-hd'},
-        el('h3',{},`Programación MP ${year}`),
-        el('button',{class:'small primary',onclick:()=>mpRapida({invDefault:eq.inv})}, '➕ Registrar MP')
-      ),
-      el('div',{style:{overflowX:'auto'}}, matrizMini),
-      el('div',{style:{fontSize:'11px',color:'var(--muted)',marginTop:'8px'}},
-        `Frecuencia: ${fmt(eq.freq)} · Estado: ${ESTADO_LABEL[eq.estado]||eq.estado||'—'} · Desde: ${fmtFecha(eq.estadoDesde)}`
-      )
-    ),
-    // Bloque últimos eventos
-    el('div',{class:'section resumen-block'},
-      el('div',{class:'resumen-block-hd'},
-        el('h3',{}, `Últimos eventos (${evs.length} total)`),
-        el('button',{class:'small ghost',onclick:()=>setTab('bitacora')}, 'Ver bitácora completa →')
-      ),
-      ultimos.length === 0
-        ? el('div',{class:'empty small'},'Sin eventos registrados.')
-        : el('div',{class:'resumen-events'}, ...ultimos.map(ev => el('div',{class:'resumen-event-row'},
-            el('div',{class:'rev-fecha'}, fmtFecha(ev.fecha)),
-            el('div',{class:'rev-tipo'},
-              el('strong',{}, ev.tipo),
-              ev.resultado ? el('span',{class:'pill'}, ev.resultado) : null,
-              ev.oficial==='Sí' ? el('span',{class:'badge ofic-si',style:{marginLeft:'4px'}},'Oficial') : null
-            ),
-            el('div',{class:'rev-ejec'}, ev.ejecutor||'—'),
-            ev.obs ? el('div',{class:'rev-obs'}, ev.obs.slice(0,160)+(ev.obs.length>160?'…':'')) : null
-          )))
-    ),
-    // Bloque pendientes
-    el('div',{class:'section resumen-block'},
-      el('div',{class:'resumen-block-hd'},
-        el('h3',{}, `Pendientes abiertos (${pends.length})`),
-        el('button',{class:'small ghost',onclick:()=>setTab('pendientes')}, pends.length>0?'Ver todos →':null)
-      ),
-      pends.length === 0
-        ? el('div',{class:'empty small'},'Sin pendientes abiertos.')
-        : el('div',{}, ...pends.slice(0,4).map(p => el('div',{class:'resumen-pend-row',onclick:()=>abrirPendiente(p)},
-            el('span',{class:'tag'}, TIPO_PENDIENTE[p.tipo]||p.tipo),
-            el('span',{class:'rev-pend-desc'}, p.desc||'—'),
-            p.fechaComp ? el('span',{class:'rev-pend-comp'}, fmtFecha(p.fechaComp)) : null
-          )))
-    ),
-    // Bloque conflictos (solo si hay)
-    confl.length > 0 ? el('div',{class:'section resumen-block resumen-block-warn'},
-      el('div',{class:'resumen-block-hd'},
-        el('h3',{style:{color:'var(--noop)'}}, `⚠ ${confl.length} conflicto${confl.length>1?'s':''} con maestro`),
-        el('button',{class:'small primary',onclick:()=>setTab('conflictos')},'Resolver →')
-      ),
-      el('div',{style:{fontSize:'13px',color:'var(--muted)'}},
-        confl.slice(0,3).map(c => el('div',{}, '· '+nombreCampoConflicto(c)+' → maestro: '+(c.valorMaestro||'(vacío)')))
-      )
-    ) : null,
-    // Bloque ciclos (solo si hay)
-    ciclos.length > 0 ? el('div',{class:'section resumen-block resumen-block-warn'},
-      el('div',{class:'resumen-block-hd'},
-        el('h3',{}, `Ciclos correctivos abiertos (${ciclos.length})`),
-        el('button',{class:'small ghost',onclick:()=>setTab('ciclos')}, 'Ver →')
-      ),
-      el('div',{}, ...ciclos.map(c => el('div',{style:{fontSize:'13px',marginBottom:'4px'}},
-        el('strong',{}, c.folio), ' · apertura: ', fmtFecha(c.fechaApertura),
-        c.ingenieroAsignado ? ' · '+c.ingenieroAsignado : ''
-      )))
-    ) : null
   );
 }
 
@@ -2887,174 +3012,152 @@ function renderPendientesEquipo(eq){
   );
 }
 
-//---------------- MP DEL MES ----------------
-VIEWS.mp = function(root, params){
+//---------------- ASIGNACIONES (consulta de MP por mes) ----------------
+VIEWS.asignaciones = function(root, params){
+  params = params || {};
   const today = new Date();
-  let year = today.getFullYear(), monthIdx = today.getMonth();
-  const mesActual = ()=> NUM_MES[monthIdx];
-  const keyMes = ()=> `${year}-${String(monthIdx+1).padStart(2,'0')}`;
-  state.asignacionesMP[keyMes()] = state.asignacionesMP[keyMes()] || {};
+  const norm = normFiltro;
+  const filtros = {};
+  if(params.ejecutor) filtros.ejecutor = new Set([params.ejecutor]);
+  // Filtro "drill-down" que llega desde el Resumen (estado de la MP / sin asignar).
+  const drill = { estadoMP: params.estadoMP || '', sinAsignar: !!params.sinAsignar };
+  let ordK=null, ordDir=1, rowsAll=[];
 
-  const ANIOS = [year-1, year, year+1];
-  const selMes = el('select',{}, ...NUM_MES.map((m,i)=>el('option',{value:i}, m)));
-  selMes.value = monthIdx;
-  const selAnio = el('select',{}, ...ANIOS.map(a=>el('option',{value:a}, String(a))));
-  selAnio.value = year;
-  function irAMes(d){
-    monthIdx += d;
-    if(monthIdx > 11){ monthIdx = 0; year++; }
-    if(monthIdx < 0){ monthIdx = 11; year--; }
-    if(year < ANIOS[0]) year = ANIOS[0];
-    if(year > ANIOS[ANIOS.length-1]) year = ANIOS[ANIOS.length-1];
-    selMes.value = monthIdx; selAnio.value = year; render();
-  }
-  selMes.onchange = ()=>{ monthIdx = +selMes.value; render(); };
-  selAnio.onchange = ()=>{ year = +selAnio.value; render(); };
-  const btnPrevMes = el('button',{class:'small',title:'Mes anterior',onclick:()=>irAMes(-1)},'‹');
-  const btnNextMes = el('button',{class:'small',title:'Mes siguiente',onclick:()=>irAMes(1)},'›');
+  const ANIOS = [today.getFullYear()-1, today.getFullYear(), today.getFullYear()+1];
+  const selAnio = el('select',{}, ...ANIOS.map(a=>el('option',{value:a},String(a))));
+  selAnio.value = (params.year && ANIOS.includes(+params.year)) ? +params.year : today.getFullYear();
+  const selMes = el('select',{}, el('option',{value:'todos'},'Todos los meses'), ...MESES.map((m,i)=>el('option',{value:i}, m)));
+  selMes.value = (params.mes!=null && MES_NUM[params.mes]!=null) ? String(MES_NUM[params.mes]) : String(today.getMonth());
+  const search = el('input',{type:'search',placeholder:'Buscar por equipo, N° inventario, servicio…'});
+  const thead=el('thead',{}); const tbody=el('tbody',{});
+  const counter=el('div',{class:'muted',style:{fontSize:'12px',whiteSpace:'nowrap'}},'');
+  const chipsBar=el('div',{class:'filters'});
 
-  const selExec = el('select',{},
-    el('option',{value:''},'Todos los ejecutores'),
-    ...EJECUTORES.map(x=>el('option',{value:x,selected:x===params.ejecutor?'selected':false},x))
-  );
-  if(params.ejecutor) selExec.value = params.ejecutor;
-  const selEst = el('select',{},
-    el('option',{value:''},'Todos'),
-    el('option',{value:'ejec',selected:params.estadoMP==='ejec'?'selected':false},'Ejecutadas'),
-    el('option',{value:'pend',selected:params.estadoMP==='pend'?'selected':false},'Pendientes'),
-    el('option',{value:'reprog'},'Reprogramadas (C1–C8)'),
-    el('option',{value:'sinAsignar',selected:params.sinAsignar?'selected':false},'Sin asignar')
-  );
-  if(params.estadoMP) selEst.value = params.estadoMP;
-  if(params.sinAsignar) selEst.value = 'sinAsignar';
+  // Plantillas (requieren un mes específico; se deshabilitan con "Todos los meses").
+  const btnDescPlantilla = el('button',{onclick:()=>descargarPlantillaMP(+selAnio.value, +selMes.value)},'📥 Descargar plantilla');
+  const fileInputPlantilla = el('input',{type:'file',accept:'.xlsx',style:{display:'none'},onchange:async e=>{ const f=e.target.files[0]; if(!f) return; await subirPlantillaMP(f, +selAnio.value, +selMes.value); e.target.value=''; render(); }});
+  const btnSubirPlantilla = el('button',{class:'primary',onclick:()=>fileInputPlantilla.click()},'📤 Subir plantilla');
+  function syncPlantilla(){ const todos = selMes.value==='todos'; btnDescPlantilla.disabled=todos; btnSubirPlantilla.disabled=todos;
+    const t = todos?'Elige un mes específico para usar la plantilla':''; btnDescPlantilla.title=t||'Descargar plantilla Excel del mes'; btnSubirPlantilla.title=t||'Subir plantilla con las asignaciones llenadas'; }
 
-  const tbody = el('tbody',{});
-  const counter = el('div',{class:'muted',style:{fontSize:'12px'}},'');
-  const seleccion = new Set();
-  const bulkBar = el('div',{class:'bulk-bar',style:{display:'none'}});
-
-  function asignar(inv, ejec){
-    state.asignacionesMP[keyMes()][inv] = ejec || null;
+  function asignarEjecutor(keyMes, inv, ejec){
+    state.asignacionesMP[keyMes] = state.asignacionesMP[keyMes] || {};
+    state.asignacionesMP[keyMes][inv] = ejec || null;
     save();
   }
 
-  function renderBulkBar(){
-    bulkBar.innerHTML = '';
-    if(seleccion.size === 0){ bulkBar.style.display = 'none'; return; }
-    bulkBar.style.display = 'flex';
-    bulkBar.appendChild(el('span',{class:'bulk-count'}, `${seleccion.size} seleccionado${seleccion.size>1?'s':''}`));
-    bulkBar.appendChild(el('button',{class:'small',onclick:()=>{seleccion.clear();render();}},'Limpiar selección'));
-    bulkBar.appendChild(el('div',{style:{flex:'1'}}));
-    bulkBar.appendChild(el('button',{class:'small primary',onclick:()=>mpMasiva([...seleccion], year, monthIdx, ()=>{seleccion.clear();render();})}, '➕ Registrar MP a todos'));
-    bulkBar.appendChild(el('button',{class:'small',onclick:()=>{
-      const ej = prompt('Asignar a:\n'+EJECUTORES.map((e,i)=>(i+1)+'. '+e).join('\n')+'\n\nNúmero (1-11):');
-      const idx = parseInt(ej) - 1;
-      if(idx >= 0 && idx < EJECUTORES.length){
-        seleccion.forEach(inv => { state.asignacionesMP[keyMes()][inv] = EJECUTORES[idx]; });
-        save();
-        toast(`${seleccion.size} equipos asignados a ${EJECUTORES[idx]}`,'success');
-        seleccion.clear();
-        render();
-      }
-    }}, '👤 Asignar a ejecutor'));
-  }
+  const COLS = [
+    {k:'mes',      l:'Mes',          g:r=>MESES[r.m], lista:true},
+    {k:'carpeta',  l:'N° Carpeta',   g:r=> r.eq.carpeta!=null?String(r.eq.carpeta):''},
+    {k:'inv',      l:'N° Inventario',g:r=>r.eq.inv||'', cell:r=>el('td',{}, el('strong',{}, r.eq.inv||'—'))},
+    {k:'serie',    l:'Serie',        g:r=>r.eq.serie||''},
+    {k:'equipo',   l:'Equipo',       g:r=>r.eq.equipo||'', lista:true},
+    {k:'marca',    l:'Marca',        g:r=>r.eq.marca||'', lista:true},
+    {k:'modelo',   l:'Modelo',       g:r=>r.eq.modelo||'', lista:true},
+    {k:'servicio', l:'Servicio',     g:r=>r.eq.servicio||'', lista:true},
+    {k:'unidad',   l:'Unidad',       g:r=>r.eq.unidad||'', lista:true},
+    {k:'ubic',     l:'Ubicación',    g:r=>r.eq.ubic||'', lista:true},
+    {k:'proc',     l:'Procedencia',  g:r=>r.eq.proc||'', lista:true},
+    {k:'prog',     l:'Programación', g:r=>r.P||'', lista:true},
+    {k:'resultado',l:'Resultado',    g:r=>r.R||'', lista:true},
+    {k:'ejecutor', l:'Ejecutor (asignado)', g:r=>r.ejecutor||'', lista:true, cell:r=>{
+      const sel = el('select',{onchange:e=>{ asignarEjecutor(r.keyMes, r.eq.inv, e.target.value); r.ejecutor = e.target.value||''; }},
+        el('option',{value:''},'— sin asignar —'), ...EJECUTORES.map(x=>el('option',{value:x},x)));
+      sel.value = r.ejecutor||''; return el('td',{}, sel);
+    }},
+    {k:'estadoReg',l:'Estado registro', g:r=>r.estadoReg||'', lista:true, cell:r=>el('td',{}, r.estadoReg? el('span',{class:'badge '+(r.estadoReg==='Oficial'?'ofic-si':'ofic-no')}, r.estadoReg) : el('small',{class:'muted'},'—'))}
+  ];
 
-  function render(){
+  function buildRows(){
     state.equipos.forEach(recalcEstadoEquipo);
-    const m = mesActual();
-    let lista = state.equipos.filter(eq => {
-      if(eq.estado === 'baja') return false;
-      if(!mpProgramadaEnMes(eq, m)) return false;
-      const prevR = Object.entries(eq.registro||{}).some(([mes,obj]) => {
-        const idx = MES_NUM[mes];
-        return idx < monthIdx && ['FS','Baja','NU'].includes(obj.R);
+    const yy = +selAnio.value;
+    const meses = selMes.value==='todos' ? MESES.map((_,i)=>i) : [ +selMes.value ];
+    const rows=[];
+    state.equipos.forEach(eq=>{
+      if(eq.estado==='baja') return;
+      meses.forEach(m=>{
+        const P = ((eq.registro||{})[MESES[m]]||{}).P || (eq.prog||{})[MESES[m]] || '';
+        const R = resultadoMPMes(eq, yy, m) || '';
+        if(!P && !R) return; // solo filas con programación o resultado en ese mes
+        const keyMes = `${yy}-${String(m+1).padStart(2,'0')}`;
+        const ev = eventoMPMes(eq.inv, yy, m);
+        rows.push({eq, m, keyMes, P, R, ejecutor: (state.asignacionesMP[keyMes]||{})[eq.inv] || '', estadoReg: ev?(ev.oficial==='Sí'?'Oficial':'Borrador'):''});
       });
-      if(prevR) return false;
-      return true;
     });
-
-    const fExec = selExec.value, fEst = selEst.value;
-    lista = lista.filter(eq => {
-      const ej = ((state.asignacionesMP[keyMes()]||{})[eq.inv])||null;
-      if(fExec && ej !== fExec) return false;
-      const est = mpEstadoMes(eq, year, monthIdx);
-      if(fEst === 'ejec' && est !== 'ejecutada') return false;
-      if(fEst === 'pend' && est !== 'pendiente') return false;
-      if(fEst === 'reprog' && est !== 'reprogramada') return false;
-      if(fEst === 'sinAsignar' && ej) return false;
-      return true;
-    });
-
-    tbody.innerHTML = '';
-    lista.forEach(eq => {
-      const est = mpEstadoMes(eq, year, monthIdx);
-      state.asignacionesMP[keyMes()] = state.asignacionesMP[keyMes()] || {};
-      const asign = state.asignacionesMP[keyMes()][eq.inv] || '';
-      const selA = el('select',{onchange:e=>asignar(eq.inv,e.target.value)},
-        el('option',{value:''},'— sin asignar —'),
-        ...EJECUTORES.map(x=>el('option',{value:x,selected:x===asign?'selected':false},x))
-      );
-      selA.value = asign;
-      const cb = el('input',{type:'checkbox',checked:seleccion.has(eq.inv)?'checked':false,onclick:e=>{e.stopPropagation();if(e.target.checked) seleccion.add(eq.inv); else seleccion.delete(eq.inv); renderBulkBar();}});
-      cb.checked = seleccion.has(eq.inv);
-      tbody.appendChild(el('tr',{},
-        el('td',{style:{width:'30px'}}, cb),
-        el('td',{}, el('strong',{},eq.inv)),
-        el('td',{}, eq.equipo),
-        el('td',{}, eq.servicio, el('br'), el('small',{class:'muted'}, eq.unidad||'')),
-        el('td',{}, eq.marca+' '+eq.modelo),
-        el('td',{}, el('span',{class:'badge mp-cause'}, (eq.prog||{})[m])),
-        el('td',{}, eq.freq||'—'),
-        el('td',{}, selA),
-        el('td',{}, est==='ejecutada' ? el('span',{class:'badge mp-si'},'Ejecutada')
-                  : est==='reprogramada' ? el('span',{class:'badge st'},'Reprogramada')
-                  : est==='otro' ? el('span',{class:'badge'}, resultadoMPMes(eq, year, monthIdx)||'—')
-                  : el('span',{class:'badge mp-no'},'Pendiente')),
-        el('td',{class:'actions'},
-          el('button',{class:'small primary',onclick:()=>mpRapida({invDefault:eq.inv, fechaDefault:fechaSugeridaMP(year, monthIdx)})}, est==='ejecutada'?'➕ MP':'➕ Registrar MP'),
-          el('button',{class:'small ghost',onclick:()=>navigate('equipo',{inv:eq.inv})},'Ficha')
-        )
-      ));
-    });
-    counter.textContent = `${lista.length} equipos`;
-    renderBulkBar();
+    return rows;
   }
-  [selExec,selEst].forEach(s => s.addEventListener('change',render));
-  // Botón seleccionar todos visibles
-  const btnSelTodos = el('button',{class:'small ghost',onclick:()=>{
-    const m = mesActual();
-    const visibles = state.equipos.filter(eq => eq.estado!=='baja' && mpProgramadaEnMes(eq, m));
-    visibles.forEach(eq => seleccion.add(eq.inv));
-    render();
-  }},'☐ Seleccionar todos los visibles');
+  const valoresUnicos = c => [...new Set(rowsAll.map(r=>{const v=c.g(r); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 
-  // Botones plantilla
-  const btnDescargarPlantilla = el('button',{onclick:()=>descargarPlantillaMP(year, monthIdx), title:'Descargar plantilla Excel del mes'}, '📥 Descargar plantilla');
-  const fileInputPlantilla = el('input',{type:'file',accept:'.xlsx',style:{display:'none'},onchange:async e=>{
-    const f = e.target.files[0]; if(!f) return;
-    await subirPlantillaMP(f, year, monthIdx);
-    e.target.value = '';
-    render();
-  }});
-  const btnSubirPlantilla = el('button',{class:'primary',onclick:()=>fileInputPlantilla.click(), title:'Subir plantilla con asignaciones llenadas'}, '📤 Subir plantilla');
+  function buildHead(){
+    cerrarColPopups();
+    thead.innerHTML='';
+    const trH=el('tr',{});
+    COLS.forEach(c=> trH.appendChild(el('th',{class:'th-sort',title:'Ordenar por '+c.l,onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else {ordK=c.k;ordDir=1;} buildHead(); aplicar(); }}, c.l+(ordK===c.k?(ordDir>0?' ▲':' ▼'):''))));
+    trH.appendChild(el('th',{},'Acciones'));
+    thead.appendChild(trH);
+    const trF=el('tr',{class:'filtros-col'});
+    COLS.forEach(c=>{
+      let ctrl;
+      if(c.lista) ctrl=filtroColumnaExcel(c.l, valoresUnicos(c), filtros, c.k, aplicar);
+      else ctrl=el('input',{type:'text',placeholder:'filtrar…',value:(typeof filtros[c.k]==='string'?filtros[c.k]:''),oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__af); window.__af=setTimeout(aplicar,200); }});
+      trF.appendChild(el('th',{}, ctrl));
+    });
+    trF.appendChild(el('th',{}));
+    thead.appendChild(trF);
+  }
+  function renderChips(){
+    chipsBar.innerHTML='';
+    const etq={ejec:'Ejecutadas',pend:'Pendientes',reprog:'Reprogramadas (C1–C8)',otro:'Otro resultado'}[drill.estadoMP];
+    const addChip=(k,v,onclr)=>chipsBar.appendChild(el('span',{class:'filter-chip'}, el('span',{class:'k'},k+':'), el('span',{},v), el('span',{class:'x',onclick:onclr},'×')));
+    if(etq) addChip('Resumen', etq, ()=>{drill.estadoMP='';renderChips();aplicar();});
+    if(drill.sinAsignar) addChip('Resumen','Sin asignar',()=>{drill.sinAsignar=false;renderChips();aplicar();});
+  }
+  function aplicar(){
+    const tokens=norm(search.value.trim()).split(/\s+/).filter(Boolean);
+    let list=rowsAll.filter(r=>{
+      if(drill.estadoMP==='ejec' && r.R!=='Si') return false;
+      if(drill.estadoMP==='pend' && r.R) return false;
+      if(drill.estadoMP==='reprog' && !/^C[1-8]$/.test(r.R||'')) return false;
+      if(drill.estadoMP==='otro' && (!r.R || r.R==='Si' || /^C[1-8]$/.test(r.R))) return false;
+      if(drill.sinAsignar && r.ejecutor) return false;
+      if(tokens.length){ const hay=[r.eq.inv,r.eq.serie,r.eq.equipo,r.eq.marca,r.eq.modelo,r.eq.servicio,r.eq.unidad].map(norm).join(' '); if(!tokens.every(t=>hay.includes(t))) return false; }
+      for(const c of COLS){ const fv=filtros[c.k]; if(!fv) continue; const val=c.g(r);
+        if(c.lista){ if(fv instanceof Set && fv.size>0 && !fv.has(String(val))) return false; }
+        else { if(!norm(val).includes(norm(fv))) return false; } }
+      return true;
+    });
+    if(ordK){ const c=COLS.find(x=>x.k===ordK); list.sort((a,b)=> String(c.g(a)).localeCompare(String(c.g(b)),'es',{numeric:true})*ordDir); }
+    tbody.innerHTML='';
+    list.slice(0,1000).forEach(r=>{
+      const tr=el('tr',{});
+      COLS.forEach(c=> tr.appendChild(c.cell ? c.cell(r) : el('td',{}, c.g(r)||'—')));
+      tr.appendChild(el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
+        el('button',{class:'small primary',onclick:()=>mpRapida({invDefault:r.eq.inv, fechaDefault:fechaSugeridaMP(+selAnio.value, r.m)})},'➕ MP'),
+        el('button',{class:'small ghost',onclick:()=>navigate('equipo',{inv:r.eq.inv})},'Ficha')
+      ));
+      tbody.appendChild(tr);
+    });
+    counter.textContent = `${list.length} registros${list.length>1000?' (mostrando 1000)':''}`;
+    renderChips();
+  }
+  function render(){ syncPlantilla(); rowsAll = buildRows(); buildHead(); aplicar(); }
+  selAnio.onchange = render; selMes.onchange = render;
+  search.addEventListener('input', ()=>{ clearTimeout(window.__as); window.__as=setTimeout(aplicar,200); });
 
-  root.appendChild(el('div',{class:'view'},
-    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:'8px'}},
-      el('h2',{},'MP del mes'),
-      el('div',{style:{display:'flex',gap:'6px'}},
-        btnDescargarPlantilla, btnSubirPlantilla, fileInputPlantilla
+  root.appendChild(el('div',{class:'view view-full'},
+    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'8px',flexWrap:'wrap',gap:'10px'}},
+      el('h2',{},'Asignaciones'),
+      el('div',{style:{display:'flex',gap:'6px',alignItems:'center',flexWrap:'wrap'}},
+        el('span',{class:'muted',style:{fontSize:'12px'}},'Año'), selAnio,
+        el('span',{class:'muted',style:{fontSize:'12px'}},'Mes'), selMes,
+        btnDescPlantilla, btnSubirPlantilla, fileInputPlantilla
       )
     ),
-    el('div',{class:'subtitle'},'Selecciona mes, asigna ejecutor y registra el evento al recibir la documentación. Marca varios y usa "Registrar MP a todos" para batch. Se excluyen equipos con FS/Baja/NU en meses previos.'),
-    el('div',{class:'toolbar'}, btnPrevMes, selMes, selAnio, btnNextMes, selExec, selEst, btnSelTodos, counter),
-    bulkBar,
-    el('div',{style:{maxHeight:'calc(100vh - 280px)',overflow:'auto',border:'1px solid var(--border)',borderRadius:'6px'}},
-      el('table',{class:'data',style:{border:'none'}},
-        el('thead',{}, el('tr',{},
-          ['','N° Inv.','Equipo','Servicio/Unidad','Marca-Modelo','Cód. P','Freq.','Ejecutor asignado','Estado MP','Acciones'].map(h=>el('th',{},h))
-        )),
-        tbody
-      )
+    el('div',{class:'subtitle'},'Programación, resultado y ejecutor ASIGNADO de la MP por equipo y mes. Asigna el ejecutor en su columna; descarga/sube la plantilla del mes; filtra por columna o por mes ("Todos los meses").'),
+    el('div',{class:'toolbar'}, el('div',{class:'grow'},search), counter),
+    chipsBar,
+    el('div',{class:'eq-grid-wrap',style:{overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
+      el('table',{class:'data eq-grid buscar-grid',style:{border:'none'}}, thead, tbody)
     )
   ));
   render();
@@ -3107,72 +3210,84 @@ VIEWS.ciclos = function(root, params){
 
 //---------------- PENDIENTES ----------------
 VIEWS.pendientes = function(root, params){
-  const search = el('input',{type:'search',placeholder:'Buscar pendiente…'});
-  const selTipo = el('select',{},
-    el('option',{value:''},'Todos los tipos'),
-    ...Object.entries(TIPO_PENDIENTE).map(([k,v])=>el('option',{value:k,selected:k===params.tipo?'selected':false},v))
-  );
-  if(params.tipo) selTipo.value = params.tipo;
-  const selEst = el('select',{},
-    el('option',{value:''},'Todos los estados'),
-    el('option',{value:'no_iniciado',selected:params.estado==='no_iniciado'?'selected':false},'No iniciado'),
-    el('option',{value:'en_proceso',selected:params.estado==='en_proceso'?'selected':false},'En proceso'),
-    el('option',{value:'cerrado',selected:params.estado==='cerrado'?'selected':false},'Resuelto')
-  );
-  if(params.estado) selEst.value = params.estado;
-  const selExec = el('select',{},
-    el('option',{value:''},'Todos los ejecutores'),
-    ...EJECUTORES.map(x=>el('option',{value:x,selected:x===params.ejecutor?'selected':false},x))
-  );
-  if(params.ejecutor) selExec.value = params.ejecutor;
-  const selServ = el('select',{},
-    el('option',{value:''},'Todos los servicios'),
-    ...[...new Set(state.pendientes.map(p=>p.servicio).filter(Boolean))].sort().map(s=>el('option',{value:s,selected:s===params.servicio?'selected':false},s))
-  );
-  if(params.servicio) selServ.value = params.servicio;
-  const container = el('div',{});
-  const chipsBar = el('div',{class:'filters'});
-  function render(){
-    const q = search.value.trim().toLowerCase();
-    const t = selTipo.value, e = selEst.value, ex = selExec.value, srv = selServ.value;
-    const list = state.pendientes.filter(p => !p.anulado)
-      .filter(p => !t || p.tipo === t)
-      .filter(p => !e || p.estado === e)
-      .filter(p => !ex || p.ejecutor === ex)
-      .filter(p => !srv || p.servicio === srv)
-      .filter(p => !q || ((p.desc||'')+(p.inv||'')+(p.equipo||'')+(p.servicio||'')).toLowerCase().includes(q))
-      .sort((a,b)=>(a.fechaComp||'9999').localeCompare(b.fechaComp||'9999'));
-    container.innerHTML = '';
-    container.appendChild(el('div',{class:'muted',style:{fontSize:'12px',padding:'8px 0'}}, `${list.length} pendientes`));
-    container.appendChild(renderPendientesTabla(list));
-    renderChips();
+  // Planilla a pantalla completa con filtros por columna (estilo Excel) y barra de búsqueda.
+  const COLS = [
+    {k:'carpeta',  l:'N° Carpeta', g:p=>{const eq=findEquipo(p.inv); return eq&&eq.carpeta!=null?String(eq.carpeta):'';}},
+    {k:'servicio', l:'Servicio',   g:p=>p.servicio||((findEquipo(p.inv)||{}).servicio)||'', lista:true},
+    {k:'equipo',   l:'Equipo',     g:p=>p.equipo||((findEquipo(p.inv)||{}).equipo)||'', lista:true},
+    {k:'inv',      l:'N° Inventario', g:p=>p.inv||'', cell:p=>el('td',{}, el('strong',{}, p.inv||'—'))},
+    {k:'tipo',     l:'Tipo',       g:p=>TIPO_PENDIENTE[p.tipo]||p.tipo||'', lista:true, cell:p=>el('td',{}, el('span',{class:'tag'}, TIPO_PENDIENTE[p.tipo]||p.tipo))},
+    {k:'desc',     l:'Descripción',g:p=>p.desc||'', cell:p=>el('td',{style:{maxWidth:'380px'}}, p.desc||'—')},
+    {k:'ejecutor', l:'Ejecutor',   g:p=>p.ejecutor||'', lista:true},
+    {k:'fechaComp',l:'Compromiso', g:p=>p.fechaComp||'', cell:p=>{const venc=p.fechaComp&&p.fechaComp<hoyLocal()&&p.estado!=='cerrado'; return el('td',{style:venc?{color:'var(--noop)',fontWeight:'600',whiteSpace:'nowrap'}:{whiteSpace:'nowrap'}}, fmtFecha(p.fechaComp));}},
+    {k:'estado',   l:'Estado',     g:p=>ESTADO_PEND_LABEL[p.estado]||p.estado||'', lista:true, cell:p=>el('td',{}, badgePend(p.estado))}
+  ];
+  const filtros = {};
+  if(params.tipo)     filtros.tipo     = new Set([TIPO_PENDIENTE[params.tipo]||params.tipo]);
+  if(params.estado)   filtros.estado   = new Set([ESTADO_PEND_LABEL[params.estado]||params.estado]);
+  if(params.ejecutor) filtros.ejecutor = new Set([params.ejecutor]);
+  if(params.servicio) filtros.servicio = new Set([params.servicio]);
+  let ordK=null, ordDir=1;
+  const norm = normFiltro;
+  const search = el('input',{type:'search',placeholder:'Buscar por equipo, N° inventario o descripción…'});
+  const thead = el('thead',{}); const tbody = el('tbody',{});
+  const counter = el('div',{class:'muted',style:{fontSize:'12px',whiteSpace:'nowrap'}},'');
+  const valoresUnicos = c => [...new Set(state.pendientes.filter(p=>!p.anulado).map(p=>{const v=c.g(p); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
+
+  function buildHead(){
+    cerrarColPopups();
+    thead.innerHTML='';
+    const trH = el('tr',{});
+    COLS.forEach(c=> trH.appendChild(el('th',{class:'th-sort',title:'Ordenar por '+c.l,onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else {ordK=c.k;ordDir=1;} render(); }}, c.l+(ordK===c.k?(ordDir>0?' ▲':' ▼'):''))));
+    trH.appendChild(el('th',{},'Acciones'));
+    thead.appendChild(trH);
+    const trF = el('tr',{class:'filtros-col'});
+    COLS.forEach(c=>{
+      let ctrl;
+      if(c.lista) ctrl = filtroColumnaExcel(c.l, valoresUnicos(c), filtros, c.k, aplicar);
+      else ctrl = el('input',{type:'text',placeholder:'filtrar…',value:(typeof filtros[c.k]==='string'?filtros[c.k]:''),oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__pf); window.__pf=setTimeout(aplicar,200); }});
+      trF.appendChild(el('th',{}, ctrl));
+    });
+    trF.appendChild(el('th',{}));
+    thead.appendChild(trF);
   }
-  function renderChips(){
-    chipsBar.innerHTML = '';
-    const chips = [];
-    if(params.tipo) chips.push(['Tipo', TIPO_PENDIENTE[params.tipo], ()=>{delete params.tipo; selTipo.value=''; render();}]);
-    if(params.estado) chips.push(['Estado', params.estado, ()=>{delete params.estado; selEst.value=''; render();}]);
-    if(params.ejecutor) chips.push(['Ejecutor', params.ejecutor, ()=>{delete params.ejecutor; selExec.value=''; render();}]);
-    if(params.servicio) chips.push(['Servicio', params.servicio, ()=>{delete params.servicio; selServ.value=''; render();}]);
-    chips.forEach(([k,v,onclr]) => chipsBar.appendChild(el('span',{class:'filter-chip'},
-      el('span',{class:'k'}, k+':'), el('span',{}, v), el('span',{class:'x',onclick:onclr}, '×')
-    )));
-    if(chips.length>0) chipsBar.appendChild(el('button',{class:'filter-clear',onclick:()=>{
-      Object.keys(params).forEach(k=>delete params[k]);
-      selTipo.value=''; selEst.value=''; selExec.value=''; selServ.value=''; search.value='';
-      render();
-    }},'Limpiar todo'));
+  function aplicar(){
+    const tokens = norm(search.value.trim()).split(/\s+/).filter(Boolean);
+    let list = state.pendientes.filter(p=>{
+      if(p.anulado) return false;
+      if(tokens.length){ const hay=[p.inv,p.equipo,p.servicio,p.desc,p.ejecutor,TIPO_PENDIENTE[p.tipo]].map(norm).join(' '); if(!tokens.every(t=>hay.includes(t))) return false; }
+      for(const c of COLS){ const fv=filtros[c.k]; if(!fv) continue; const val=c.g(p);
+        if(c.lista){ if(fv instanceof Set && fv.size>0 && !fv.has(String(val))) return false; }
+        else { if(!norm(val).includes(norm(fv))) return false; } }
+      return true;
+    });
+    if(ordK){ const c=COLS.find(x=>x.k===ordK); list.sort((a,b)=> String(c.g(a)).localeCompare(String(c.g(b)),'es',{numeric:true})*ordDir); }
+    else list.sort((a,b)=>(a.fechaComp||'9999').localeCompare(b.fechaComp||'9999'));
+    tbody.innerHTML='';
+    list.forEach(p=>{
+      const tr = el('tr',{});
+      COLS.forEach(c=> tr.appendChild(c.cell ? c.cell(p) : el('td',{}, c.g(p)||'—')));
+      tr.appendChild(el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
+        el('button',{class:'small',onclick:()=>abrirPendiente(p)},'Ver'),
+        p.estado==='no_iniciado' ? el('button',{class:'small',onclick:()=>cambiarEstadoPend(p,'en_proceso')},'Empezar') : null,
+        p.estado!=='cerrado' ? el('button',{class:'small primary',onclick:()=>cerrarPendiente(p)},'Resolver') : null,
+        el('button',{class:'small ghost',onclick:()=>navigate('equipo',{inv:p.inv})},'Ficha')
+      ));
+      tbody.appendChild(tr);
+    });
+    counter.textContent = `${list.length} pendientes`;
   }
-  [search,selTipo,selEst,selExec,selServ].forEach(i => i.addEventListener('input',render));
-  root.appendChild(el('div',{class:'view'},
-    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'6px',flexWrap:'wrap',gap:'10px'}},
+  function render(){ buildHead(); aplicar(); }
+  search.addEventListener('input', ()=>{ clearTimeout(window.__ps); window.__ps=setTimeout(aplicar,200); });
+  root.appendChild(el('div',{class:'view view-full'},
+    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'8px',flexWrap:'wrap',gap:'10px'}},
       el('h2',{},'Pendientes'),
       el('button',{class:'primary',onclick:()=>nuevoPendiente({})},'➕ Nuevo pendiente')
     ),
-    el('div',{class:'subtitle'},'Gestiones, reprogramaciones de MP, documentos faltantes y recomendaciones.'),
-    el('div',{class:'toolbar'}, el('div',{class:'grow'},search), selTipo, selEst, selExec, selServ),
-    chipsBar,
-    container
+    el('div',{class:'toolbar'}, el('div',{class:'grow'},search), counter),
+    el('div',{class:'eq-grid-wrap',style:{overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
+      el('table',{class:'data eq-grid buscar-grid',style:{border:'none'}}, thead, tbody)
+    )
   ));
   render();
 };
@@ -3255,7 +3370,7 @@ VIEWS.eventos = function(root, params){
         el('thead',{}, el('tr',{}, ['Fecha','Tipo','Equipo','Servicio','Ejecutor','Folio','Resultado','Estado','Ofic.','Acciones'].map(h=>el('th',{},h)))),
         el('tbody',{}, ...list.map(ev => el('tr',{class:'clickable',onclick:()=>navigate('equipo',{inv:ev.inv})},
           el('td',{}, fmtFecha(ev.fecha)),
-          el('td',{}, el('strong',{}, ev.tipo)),
+          el('td',{}, el('strong',{}, etiquetaTipoEvento(ev))),
           el('td',{}, ev.equipo||'—', el('br'), el('small',{class:'muted'}, ev.inv||'')),
           el('td',{}, ev.servicio||'—'),
           el('td',{}, ev.ejecutor||'—'),
@@ -3312,14 +3427,6 @@ const CONF_KEY = (inv, hoja, mes, campo) => `${inv}|${hoja}|${mes}|${campo||''}`
 function valNorm(v){
   if(v == null) return '';
   return String(v).trim();
-}
-
-function conflictoPendiente(inv, hoja, mes, campo){
-  return (state.conflictos||[]).find(c =>
-    c.tipo === 'mp_diferencia' &&
-    c.inv === inv && c.hoja === hoja && c.mes === mes && c.campo === campo &&
-    (c.estado === 'pendiente' || c.estado === 'pospuesto')
-  );
 }
 
 function celdaTieneConflicto(inv, mes, campo){
@@ -3529,9 +3636,9 @@ function compararMaestro(parsed, importacionId){
                 fecha, fechaReg: hoyLocal(),
                 resultado: vm,
                 ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
-                estado: vm === 'Si' ? 'operativo' : vm === 'Baja' ? 'baja' : (eq.estado||'operativo'),
+                estado: estadoMPDesdeResultado(vm),
                 obs: `[Conciliación auto] Importado desde maestro · Importación #${importacionId}`,
-                oficial: 'No', anulado: false,
+                oficial: 'Sí', anulado: false,
                 origen: 'conciliacion_auto',
                 creadoPor: 'Cristian',
                 ts: new Date().toISOString()
@@ -3618,9 +3725,9 @@ function resolverConflicto(c, accion, valorManual, opts){
             fecha, fechaReg: hoyLocal(),
             resultado: v,
             ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
-            estado: v === 'Si' ? 'operativo' : v === 'Baja' ? 'baja' : (eq.estado||'operativo'),
+            estado: estadoMPDesdeResultado(v),
             obs: `[Conciliación] Importado desde maestro · Importación #${c.importacionId||'-'}`,
-            oficial: 'No',
+            oficial: 'Sí',
             anulado: false,
             origen: 'conciliacion',
             creadoPor: 'Cristian',
@@ -4139,95 +4246,6 @@ function fechaSugeridaMP(year, monthIdx){
 }
 
 // Registro masivo de MPs sobre varios equipos.
-function mpMasiva(invs, year, monthIdx, refresh){
-  if(!invs || invs.length === 0) return;
-  const fecha = el('input',{type:'date', value: fechaSugeridaMP(year, monthIdx)});
-  const resultado = el('select',{}, ...['Si','C1','C2','C3','C4','C5','C6','C7','C8','FS','Baja','NU','No'].map(x=>el('option',{value:x},x)));
-  resultado.value = getPref('ultimoResultadoMP','Si');
-  const ejecutor = el('select',{}, el('option',{value:''},'—'), ...EJECUTORES.map(x=>el('option',{value:x},x)));
-  ejecutor.value = getPref('ultimoEjecutor','');
-  const obs = el('textarea',{placeholder:'Observación común a todos los registros (opcional)'});
-  const omitirDup = el('input',{type:'checkbox',checked:'checked'});
-  function guardar(){
-    if(!fecha.value){ toast('Fecha requerida','error'); return; }
-    if(!ejecutor.value){ toast('Selecciona ejecutor','error'); return; }
-    let creados = 0, omitidos = 0, errores = [];
-    const yy = parseInt(fecha.value.slice(0,4));
-    const mm = parseInt(fecha.value.slice(5,7))-1;
-    invs.forEach(inv => {
-      const eq = findEquipo(inv);
-      if(!eq){ errores.push(inv+': no encontrado'); return; }
-      // Omitir si ya tiene MP no anulada en ese mes
-      if(omitirDup.checked && state.eventos.some(e =>
-        e.inv === inv && !e.anulado && e.tipo === 'Mantención preventiva' && e.fecha &&
-        e.fecha.startsWith(`${yy}-${String(mm+1).padStart(2,'0')}`))){
-        omitidos++;
-        return;
-      }
-      const ev = {
-        id: state.counters.evento++,
-        inv, equipo: eq.equipo, servicio: eq.servicio, fam: eq.fam,
-        tipo: 'Mantención preventiva',
-        fecha: fecha.value, fechaReg: hoyLocal(),
-        resultado: resultado.value,
-        ejecutor: ejecutor.value,
-        estado: resultado.value === 'Si' ? 'operativo' : resultado.value === 'Baja' ? 'baja' : (eq.estado||'operativo'),
-        obs: obs.value || null,
-        oficial: 'No',
-        anulado: false,
-        creadoPor: 'Cristian',
-        origen: 'masivo',
-        ts: new Date().toISOString()
-      };
-      state.eventos.push(ev);
-      aplicarEfectosEvento(ev);
-      audit('evento', ev.id, 'creado', null, 'MP masiva');
-      creados++;
-    });
-    setPref('ultimoEjecutor', ejecutor.value);
-    setPref('ultimoResultadoMP', resultado.value);
-    save();
-    closeModal();
-    let msg = `${creados} MP registradas`;
-    if(omitidos > 0) msg += ` · ${omitidos} omitidas (ya tenían MP en el mes)`;
-    if(errores.length > 0) msg += ` · ${errores.length} errores`;
-    toast(msg, 'success');
-    if(refresh) refresh();
-  }
-  modal({title:`Registrar MP a ${invs.length} equipos`, wide:true,
-    hasUnsavedData: ()=> obs.value.trim() !== '',
-    body: el('div',{},
-      el('div',{class:'notice info'},
-        `Se registrará una Mantención Preventiva con los mismos datos a los ${invs.length} equipos seleccionados.`
-      ),
-      el('div',{class:'grid-2'},
-        formField('Fecha de la MP', fecha),
-        formField('Resultado', resultado)
-      ),
-      formField('Ejecutor', ejecutor),
-      formField('Observación común (opcional)', obs),
-      el('label',{style:{display:'flex',alignItems:'center',gap:'8px',marginTop:'10px',fontSize:'13px',textTransform:'none',letterSpacing:'0'}},
-        omitirDup, 'Omitir equipos que ya tienen MP registrada en el mes (evita duplicados)'
-      ),
-      el('div',{class:'eq-info-card',style:{marginTop:'14px'}},
-        el('div',{class:'eq-info-lbl'}, 'Equipos seleccionados ('+invs.length+')'),
-        el('div',{style:{fontSize:'12px',color:'var(--muted)',maxHeight:'120px',overflow:'auto',marginTop:'6px'}},
-          invs.slice(0,30).map(i => {
-            const e = findEquipo(i);
-            return el('div',{}, `${i} · ${e?e.equipo:'?'} · ${e?e.servicio:'?'}`);
-          }),
-          invs.length > 30 ? el('div',{style:{fontStyle:'italic'}}, `… y ${invs.length-30} más`) : null
-        )
-      )
-    ),
-    footer: [
-      el('button',{onclick:closeModal},'Cancelar'),
-      el('button',{class:'primary',onclick:guardar}, `✓ Registrar MP a ${invs.length} equipos`)
-    ]
-  });
-  setTimeout(()=>ejecutor.value ? resultado.focus() : ejecutor.focus(), 80);
-}
-
 function mpRapida(opts){
   const eq = findEquipo(opts.invDefault);
   if(!eq){ toast('Equipo no encontrado','error'); return; }
@@ -4244,6 +4262,15 @@ function mpRapida(opts){
   );
   ejecutor.value = getPref('ultimoEjecutor','');
   const obs = el('textarea',{placeholder:'Observación (opcional)'});
+  // Estado resultante: con "Si" lo elige el usuario (operativo/no operativo); con causal se deriva.
+  const estadoSel = el('select',{}, el('option',{value:'operativo'},'Operativo'), el('option',{value:'no operativo'},'No operativo'));
+  const estadoAuto = el('input',{type:'text',readonly:true});
+  const estadoSelWrap = el('div',{}, estadoSel, estadoAuto);
+  const syncEstadoMP = ()=>{
+    if(resultado.value === 'Si'){ estadoSel.style.display=''; estadoAuto.style.display='none'; }
+    else { estadoSel.style.display='none'; estadoAuto.style.display=''; estadoAuto.value = estadoMPDesdeResultado(resultado.value) || '(sin cambio de estado)'; }
+  };
+  syncEstadoMP(); resultado.addEventListener('change', syncEstadoMP);
 
   function guardar(continuar){
     if(!fecha.value){ toast('Fecha requerida','error'); return; }
@@ -4268,7 +4295,7 @@ function mpRapida(opts){
       fecha: fecha.value, fechaReg: hoyLocal(),
       resultado: resultado.value,
       ejecutor: ejecutor.value,
-      estado: resultado.value === 'Si' ? 'operativo' : resultado.value === 'Baja' ? 'baja' : (eq.estado || 'operativo'),
+      estado: estadoMPFinal(resultado.value, estadoSel.value),
       obs: obs.value || null,
       oficial: 'No',
       anulado: false,
@@ -4287,6 +4314,9 @@ function mpRapida(opts){
     if(continuar){
       // Mantiene el flujo: vuelve a Equipos para registrar la siguiente
       navigate('equipos');
+    } else if(opts && opts.despuesIr){
+      // "MP y siguiente": pasa directo a la ficha del siguiente equipo de la lista
+      navigate('equipo',{inv:opts.despuesIr});
     } else if(currentView === 'equipo'){
       navigate('equipo',{inv:eq.inv});
     } else {
@@ -4323,9 +4353,10 @@ function mpRapida(opts){
         eqInfoCell('Frecuencia MP', eq.freq)
       )
     ),
-    el('div',{class:'grid-2'},
+    el('div',{class:'grid-3'},
       formField('Fecha de la MP', fecha),
-      formField('Resultado', resultado)
+      formField('Resultado', resultado),
+      formField('Estado resultante', estadoSelWrap)
     ),
     formField('Ejecutor', ejecutor),
     formField('Observación', obs),
@@ -4400,6 +4431,7 @@ function nuevoEvento(opts){
       const oficial = el('select',{}, el('option',{value:'No'},'Borrador (No oficial)'), el('option',{value:'Sí'},'Oficial'));
 
       let extra = {};
+      let mpEstadoSel = null; // selector Operativo/No operativo de la MP (solo aplica si resultado='Si')
       if(tipo === 'Solicitud de trabajo'){
         const folio = el('input',{type:'text',placeholder:'2025-NNNNNN-NN-NNNNN (déjalo vacío para auto)'});
         extra = {folio};
@@ -4489,13 +4521,23 @@ function nuevoEvento(opts){
         const resultado = el('select',{},
           ...['Si','C1','C2','C3','C4','C5','C6','C7','C8','FS','Baja','NU','No'].map(x=>el('option',{value:x},x))
         );
-        const estado = el('select',{}, ...['operativo','no operativo','en servicio técnico'].map(s=>el('option',{value:s},s)));
-        extra = {ejec2,resultado,estado};
+        // Con resultado "Si" el estado lo ELIGE el usuario (operativo / no operativo). Con una
+        // causal (C2, C3, FS, NU, Baja…) el estado se deriva solo y se muestra de solo lectura.
+        const estadoSel = el('select',{}, el('option',{value:'operativo'},'Operativo'), el('option',{value:'no operativo'},'No operativo'));
+        const estadoAuto = el('input',{type:'text',readonly:true});
+        const estadoWrap = el('div',{}, estadoSel, estadoAuto);
+        const syncEstadoMP = ()=>{
+          if(resultado.value === 'Si'){ estadoSel.style.display=''; estadoAuto.style.display='none'; }
+          else { estadoSel.style.display='none'; estadoAuto.style.display=''; estadoAuto.value = estadoMPDesdeResultado(resultado.value) || '(sin cambio de estado)'; }
+        };
+        syncEstadoMP(); resultado.addEventListener('change', syncEstadoMP);
+        mpEstadoSel = estadoSel;
+        extra = {ejec2,resultado};
         campos.appendChild(el('div',{class:'grid-3'},
           formField('Fecha MP',fecha), formField('Ejecutor',ejecutor), formField('Ejecutor 2',ejec2)
         ));
         campos.appendChild(el('div',{class:'grid-3'},
-          formField('Resultado',resultado), formField('Estado resultante',estado), formField('Oficial',oficial)
+          formField('Resultado',resultado), formField('Estado resultante',estadoWrap), formField('Oficial',oficial)
         ));
         campos.appendChild(formField('Observación',obs));
         const noticeBox = el('div',{class:'notice info'},'Si resultado es C1–C8 se creará automáticamente un pendiente de reprogramación. Si es NU → pendiente "Localizar equipo". Si es Baja → equipo pasa a baja.');
@@ -4538,6 +4580,8 @@ function nuevoEvento(opts){
         // Persistir estado y resultado en campos top-level
         if(extra.estado) ev.estado = extra.estado.value;
         if(extra.resultado) ev.resultado = extra.resultado.value;
+        // MP: con "Si" el estado lo eligió el usuario; con causal se deriva.
+        if(tipo === 'Mantención preventiva') ev.estado = estadoMPFinal(ev.resultado, mpEstadoSel ? mpEstadoSel.value : 'operativo');
         if(extra.folio) ev.folio = extra.folio.value || null;
         if(extra.nEnvio) ev.nEnvio = extra.nEnvio.value || null;
         if(extra.nOC) ev.nOC = extra.nOC.value || null;
@@ -4821,6 +4865,7 @@ function anularEventoAplicar(ev, motivo){
 // PENDIENTES — abrir, cerrar, crear, tareas
 //==============================================================
 function nuevoPendiente(opts){
+  opts = opts || {};
   const eqList = state.equipos.slice().sort((a,b)=>a.inv.localeCompare(b.inv));
   const invInput = el('input',{type:'text',list:'eq-list-p',value:opts.invDefault||'',placeholder:'N° Inventario'});
   const dataList = el('datalist',{id:'eq-list-p'}, ...eqList.slice(0,200).map(e=>el('option',{value:e.inv}, `${e.inv} — ${e.equipo}`)));
@@ -4829,10 +4874,13 @@ function nuevoPendiente(opts){
   const ejec = el('select',{}, el('option',{value:''},'—'), ...EJECUTORES.map(x=>el('option',{value:x},x)));
   const fComp = el('input',{type:'date'});
   const fRec = el('input',{type:'date'});
+  // Si se crea desde un evento del historial, queda LIGADO a ese evento (eventoOrigen).
+  const evLigado = opts.eventoOrigen != null ? state.eventos.find(e=>e.id===opts.eventoOrigen) : null;
 
-  modal({title:'Nuevo pendiente',
+  modal({title: evLigado ? 'Nuevo pendiente (ligado a un evento)' : 'Nuevo pendiente',
     hasUnsavedData: ()=> desc.value.trim() !== '' || ejec.value !== '' || fComp.value !== '' || fRec.value !== '',
     body: el('div',{},
+    evLigado ? el('div',{class:'notice'}, '🔗 Quedará ligado al evento: '+evLigado.tipo+' · '+fmtFecha(evLigado.fecha)+(evLigado.folio?(' · Folio '+evLigado.folio):'')) : null,
     el('div',{class:'grid-2'},
       formField('N° Inventario', el('div',{},invInput,dataList)),
       formField('Tipo', tipo)
@@ -4858,6 +4906,7 @@ function nuevoPendiente(opts){
         fechaCrea: hoyLocal(),
         fechaComp: fComp.value||null, proxRecord: fRec.value||null,
         fechaCierre:null, estado:'no_iniciado', origen:'manual',
+        eventoOrigen: opts.eventoOrigen != null ? opts.eventoOrigen : null,
         seguimientos:[], tareas:[], anulado:false
       };
       state.pendientes.push(p);
@@ -5436,6 +5485,7 @@ function importData(){
       const msg = `Importar backup?\n· Versión: ${data.__v}\n· Equipos: ${data.equipos?.length||0}\n· Eventos: ${data.eventos?.length||0}\n· Pendientes: ${data.pendientes?.length||0}\n· Conflictos: ${data.conflictos?.length||0}\n\nReemplazará los datos actuales.`;
       if(!confirm(msg)) return;
       state = migrate(data);
+      normalizarEquipos();
       state.__userActions = state.__userActions || 0;
       save();
       toast(`Importado · ${state.eventos.length} eventos`, 'success',
@@ -5713,14 +5763,14 @@ setInterval(()=>{ if(recorder.status==='recording') recorder.updateUI(); }, 1000
 //==============================================================
 // INIT
 //==============================================================
-// Barra lateral agrupada en los dos momentos del trabajo. Pendientes/Ciclos/Eventos
-// no van en el menú: se acceden desde "Por resolver" y desde la ficha del equipo.
+// Barra lateral agrupada en los dos momentos del trabajo. Ciclos/Eventos no van en el
+// menú: se acceden desde Pendientes, el Resumen y la ficha del equipo.
 const NAV_GRUPOS = [
-  ['GESTIONAR', [['porResolver','Por resolver'],['equipos','Equipos'],['registroMP','Registro MP'],['dashboard','Resumen']]],
-  ['REGISTRAR', [['mp','MP del mes'],['conciliacion','Conciliación']]]
+  ['GESTIONAR', [['pendientes','Pendientes'],['equipos','Buscar equipos'],['asignaciones','Asignaciones'],['dashboard','Resumen']]],
+  ['REGISTRAR', [['conciliacion','Conciliación']]]
 ];
 function navBadge(k, b){
-  if(k === 'porResolver'){
+  if(k === 'pendientes'){
     const n = state.pendientes.filter(p=>!p.anulado && p.estado!=='cerrado').length;
     if(n > 0) b.appendChild(el('span',{class:'nav-badge'}, String(n)));
   }
@@ -5835,6 +5885,7 @@ function bootstrap(){
     state.equipos.forEach(recalcEstadoEquipo);
     save({internal:true});
   }
+  normalizarEquipos();
 
   buildNav();
   $('#btn-excel').onclick = exportExcel;
@@ -5842,6 +5893,8 @@ function bootstrap(){
   $('#btn-import').onclick = importData;
   $('#btn-reset').onclick = resetState;
   $('#btn-theme').onclick = toggleTheme;
+  $('#btn-sidebar').onclick = toggleSidebar;
+  if(getPref('sidebarColapsada', false) === true) document.querySelector('.app').classList.add('sb-collapsed');
   // Aplicar tema persistido
   setTheme(getPref('theme', 'light'));
   recorder.init();
@@ -5860,7 +5913,7 @@ function bootstrap(){
     }
   });
   refreshStateIndicator();
-  navigate('porResolver');
+  navigate('pendientes');
 }
 document.addEventListener('DOMContentLoaded', bootstrap);
 </script>
