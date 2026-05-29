@@ -84,21 +84,27 @@ setTimeout(() => {
   check('Lista de Equipos se ve completa', !equiposErr && equiposRows > 0 && equiposTotal >= 100,
     equiposErr || `filas=${equiposRows}, total=${equiposTotal}`);
 
-  // 3) Filtro por columna Modelo con un valor numérico (el bug histórico)
-  let filtroRows = -1, filtroErr = null, valorNum = null;
+  // 3) Filtro de columna estilo Excel: buscador + marcar uno/varios valores
+  let filtroErr = null, filtroDet = '', filtroOk = false;
   try{
     window.navigate('equipos', {});
-    const main = doc.querySelector('#main');
-    const selects = [...main.querySelectorAll('thead select')];
-    let sel = null;
-    for(const s of selects){ const o = [...s.options].find(o=>/^\d+$/.test(o.value)); if(o){ sel=s; valorNum=o.value; break; } }
-    if(sel){ sel.value = valorNum; sel.dispatchEvent(new window.Event('change'));
-      filtroRows = main.querySelectorAll('table tbody tr').length;
-    }
-  }catch(e){ filtroErr = e.message; }
-  check('Filtro por columna numérica (Modelo) funciona',
-    !filtroErr && (valorNum===null || filtroRows > 0),
-    filtroErr || (valorNum===null ? 'sin valor numérico que probar (ok)' : `Modelo=${valorNum} → ${filtroRows} filas`));
+    let main = doc.querySelector('#main');
+    const total = main.querySelectorAll('tbody tr.row-click').length;
+    const btn = main.querySelector('thead tr.filtros-col th .col-filter-btn');
+    btn.click();
+    const pop = doc.querySelector('.col-filter-pop');
+    const tieneBuscador = !!(pop && pop.querySelector('.cf-search'));
+    const items = pop ? [...pop.querySelectorAll('.cf-item input')] : [];
+    if(items.length){
+      items[0].checked = true; items[0].dispatchEvent(new window.Event('change'));
+      main = doc.querySelector('#main');
+      const filtrado = main.querySelectorAll('tbody tr.row-click').length;
+      filtroOk = tieneBuscador && filtrado > 0 && filtrado <= total;
+      filtroDet = `buscador=${tieneBuscador}, ${items.length} valores, 1 marcado → ${filtrado}/${total} filas`;
+    } else { filtroDet = 'sin valores para probar'; filtroOk = tieneBuscador; }
+    doc.querySelectorAll('.col-filter-pop').forEach(p=>p.remove());
+  }catch(e){ filtroErr = e.message; filtroOk = false; }
+  check('Filtro de columna estilo Excel (buscar + marcar)', filtroOk, filtroErr || filtroDet);
 
   // 4) Abrir ficha de un equipo
   let fichaOk = false, fichaErr = null;

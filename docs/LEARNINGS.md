@@ -843,4 +843,28 @@
 - **Dónde aplica:** build_app.py (CSS `.view-equipos`/`.eq-grid-wrap`, clase del root de
   `VIEWS.equipos`, contenedor de la tabla sin maxHeight fijo); CHANGELOG v0.55.
 
+## [2026-05-29] Filtros de columna estilo Excel + Pendientes pantalla completa (v0.56)
+
+- **Disparador:** el usuario pidió filtros de columna "como Excel" (marcar uno o varios valores +
+  escribir para buscar) y aplicar la pantalla completa a las demás tablas.
+- **Hecho:** en Buscar equipos, las columnas categóricas pasan de `<select>` simple a un **popup
+  tipo Excel** (`filtroExcel`): buscador (escribe para filtrar la lista) + casillas para marcar
+  varios. `filtros[c.k]` ahora es un **Set** (varios valores); el botón muestra "(todos)" / el
+  valor / "N seleccionados". El popup se ancla al `body` con `position:fixed` (rect del botón) para
+  NO cortarse dentro del contenedor con overflow. Pendientes ahora usa `.view-full` (ancho total +
+  tabla que llena el alto).
+- **Clave técnica:** se separó `render()` (= `buildHead()` + `aplicar()`) de `aplicar()` (solo el
+  cuerpo). Los filtros llaman `aplicar()` → NO se redibuja el encabezado, así el popup no se cierra
+  al marcar varios ni se pierde el foco al escribir. `buildHead`/click-fuera/`cerrarPopups` limpian
+  los popups del body. Accesos rápidos y params pasan a Sets.
+- **Verificado end-to-end:** buscar "Neonat" filtra la lista; marcar 2 servicios → 5 filas; botón
+  "2 seleccionados". Chequeo de humo #3 reescrito (el viejo buscaba un `<select>` que ya no existe):
+  "Filtro de columna estilo Excel (buscar + marcar)" → ok. Humo 11/11 + guardián 8 vistas.
+- **Heurística:** un popup dentro de un contenedor con `overflow:auto` se corta → anclarlo al body
+  con coordenadas fijas. Y para filtros multi-selección en vivo, NO rebuilds del encabezado: separar
+  "dibujar encabezado" de "re-filtrar cuerpo".
+- **Dónde aplica:** build_app.py (`VIEWS.equipos` filtroExcel/aplicar/render, Sets en filtros/QA/
+  params/chips; `VIEWS.pendientes` `.view-full`/`.pend-fill`; CSS `.col-filter*`/`.view-full`),
+  tools/smoke_test.js (#3 reescrito); CHANGELOG v0.56.
+
 <!-- Próximas entradas debajo de esta línea -->

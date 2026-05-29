@@ -17,6 +17,14 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.56 [2026-05-29] Filtros de columna estilo Excel + Pendientes a pantalla completa.
+  - Buscar equipos: los filtros de columna categórica (Equipo, Marca, Modelo, Servicio, Unidad,
+    Ubicación, Procedencia, Estado) ahora son tipo Excel: un menú con BUSCADOR (escribes para
+    filtrar la lista) y CASILLAS para marcar UNO O VARIOS valores a la vez. El botón muestra
+    "(todos)", el valor, o "N seleccionados". El popup se ancla a la pantalla para no cortarse.
+  - Pendientes: ahora también a pantalla completa (ancho total + tabla que llena el alto).
+  - Técnico: el filtro se aplica sin redibujar el encabezado (no se pierde el foco ni se cierra
+    el menú al marcar varios); filtros categóricos pasan a conjuntos (varios valores).
 v0.55 [2026-05-29] "Buscar equipos" a pantalla completa.
   - La vista se centraba con tope de ancho (1280px) y la tabla tenía un alto fijo, dejando espacio
     sin usar. Ahora "Buscar equipos" usa TODO el ancho y la planilla llena el alto disponible
@@ -683,6 +691,10 @@ main{overflow:auto;padding:28px 32px 60px}
 /* Buscar equipos a pantalla completa: sin tope de ancho y la tabla llena el alto disponible */
 .view-equipos{max-width:none;display:flex;flex-direction:column;height:100%}
 .view-equipos .eq-grid-wrap{flex:1;min-height:0}
+/* Vistas con tabla a pantalla completa (ancho total + tabla que llena el alto) */
+.view-full{max-width:none;display:flex;flex-direction:column;height:100%}
+.pend-fill{flex:1;min-height:0;display:flex;flex-direction:column}
+.pend-fill>div:last-child{flex:1;min-height:0}
 .view h2{margin:0 0 6px;font-size:22px;font-weight:600;letter-spacing:-.015em}
 .view h3{margin:24px 0 12px;font-size:13px;font-weight:600;color:var(--text);text-transform:uppercase;letter-spacing:.05em}
 .subtitle{color:var(--muted);font-size:13px;margin-bottom:24px}
@@ -785,6 +797,20 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 /* Recorrer equipos desde la ficha (◀ N/total ▶) */
 .ficha-nav{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:8px;padding:2px 6px;background:var(--surface)}
 .ficha-nav button{padding:2px 8px}
+/* Filtro de columna estilo Excel (marcar uno/varios + buscar escribiendo) */
+.col-filter{position:relative}
+.col-filter-btn{width:100%;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:400;padding:4px 6px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text);text-transform:none;letter-spacing:0}
+.col-filter-btn .cf-txt{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+.col-filter-btn .cf-caret{color:var(--muted);font-size:9px}
+.col-filter-btn.activo{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);font-weight:600}
+.col-filter-pop{position:fixed;z-index:200;width:240px;background:var(--surface);border:1px solid var(--border-strong);border-radius:8px;box-shadow:var(--shadow-lg);padding:8px}
+.col-filter-pop .cf-search{margin-bottom:6px}
+.col-filter-pop .cf-actions{display:flex;gap:6px;margin-bottom:6px}
+.col-filter-pop .cf-actions button{flex:1;font-size:11px}
+.cf-list{max-height:230px;overflow:auto;display:flex;flex-direction:column;gap:1px}
+.cf-item{display:flex;align-items:center;gap:8px;padding:4px 5px;border-radius:5px;cursor:pointer;font-size:12.5px;font-weight:400;text-transform:none;letter-spacing:0;white-space:normal}
+.cf-item:hover{background:var(--hover)}
+.cf-item input{width:auto;margin:0;flex-shrink:0}
 /* Buscar equipos: la fila completa abre la ficha al hacer clic */
 .eq-grid tbody tr.row-click{cursor:pointer}
 .eq-grid tbody tr.row-click:hover td{background:var(--bg)}
@@ -1163,7 +1189,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.55';
+const APP_VERSION = '0.56';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2352,8 +2378,8 @@ VIEWS.equipos = function(root, params){
     {k:'pend',l:'Pendientes',g:e=>String(pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length),num:true, cell:e=>{const n=pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length; return el('td',{class:'num'}, n>0?el('span',{class:'badge abierto'},n):el('small',{class:'muted'},'—'));}}
   ];
   const filtros = {};
-  if(params.estado) filtros.estado = ESTADO_LABEL[params.estado] || params.estado;
-  if(params.servicio) filtros.servicio = params.servicio;
+  if(params.estado) filtros.estado = new Set([ESTADO_LABEL[params.estado] || params.estado]);
+  if(params.servicio) filtros.servicio = new Set([params.servicio]);
   let ordK = null, ordDir = 1;
   const search = el('input',{type:'search',placeholder:'Buscar en todo (N° Inv., serie, equipo, marca, modelo, servicio…)',value:params.q||''});
   const thead = el('thead',{});
@@ -2388,7 +2414,59 @@ VIEWS.equipos = function(root, params){
   const norm = s => (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
   const valoresUnicos = c => [...new Set(state.equipos.map(e=>{const v=c.g(e); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 
+  function cerrarPopups(){ document.querySelectorAll('.col-filter-pop').forEach(p=>p.remove()); }
+  if(!window.__cfBound){ document.addEventListener('click', ()=>{ document.querySelectorAll('.col-filter-pop').forEach(p=>p.remove()); }); window.__cfBound = true; }
+
+  // Filtro de columna ESTILO EXCEL: marca uno o varios valores y escribe para buscar en la lista.
+  function filtroExcel(c){
+    const cur = (filtros[c.k] instanceof Set) ? filtros[c.k] : new Set();
+    const etiqueta = ()=> cur.size===0 ? '(todos)' : (cur.size===1 ? [...cur][0] : cur.size+' seleccionados');
+    const btnTxt = el('span',{class:'cf-txt'}, etiqueta());
+    const btn = el('button',{class:'col-filter-btn'+(cur.size?' activo':''),title:'Filtrar '+c.l}, btnTxt, el('span',{class:'cf-caret'},'▾'));
+    const buscar = el('input',{type:'search',placeholder:'Escribe para buscar…',class:'cf-search'});
+    const listaBox = el('div',{class:'cf-list'});
+    const valores = valoresUnicos(c);
+    const pop = el('div',{class:'col-filter-pop',onclick:e=>e.stopPropagation()});
+    function pintar(){
+      listaBox.innerHTML='';
+      const q = norm(buscar.value.trim());
+      const vis = valores.filter(v=>!q || norm(v).includes(q));
+      if(vis.length===0){ listaBox.appendChild(el('div',{class:'muted',style:{padding:'6px 4px',fontSize:'12px'}},'Sin coincidencias')); return; }
+      vis.forEach(v=>{
+        const cb = el('input',{type:'checkbox'}); cb.checked = cur.has(v);
+        cb.onchange = ()=>{ if(cb.checked) cur.add(v); else cur.delete(v); aplicarSel(); };
+        listaBox.appendChild(el('label',{class:'cf-item'}, cb, el('span',{}, v)));
+      });
+    }
+    function aplicarSel(){
+      if(cur.size===0) delete filtros[c.k]; else filtros[c.k]=cur;
+      btnTxt.textContent = etiqueta();
+      btn.classList.toggle('activo', cur.size>0);
+      aplicar();
+    }
+    buscar.addEventListener('input', pintar);
+    pop.appendChild(buscar);
+    pop.appendChild(el('div',{class:'cf-actions'},
+      el('button',{class:'small ghost',onclick:()=>{ valores.forEach(v=>cur.add(v)); pintar(); aplicarSel(); }},'Marcar todos'),
+      el('button',{class:'small ghost',onclick:()=>{ cur.clear(); pintar(); aplicarSel(); }},'Ninguno')
+    ));
+    pop.appendChild(listaBox);
+    btn.onclick = e=>{ e.stopPropagation();
+      const abierto = document.body.contains(pop);
+      cerrarPopups();
+      if(!abierto){
+        document.body.appendChild(pop);
+        const r = btn.getBoundingClientRect();
+        let left = r.left; if(left + 240 > window.innerWidth) left = Math.max(8, window.innerWidth - 248);
+        pop.style.left = left+'px'; pop.style.top = (r.bottom+3)+'px';
+        pintar(); setTimeout(()=>buscar.focus(),0);
+      }
+    };
+    return el('div',{class:'col-filter'}, btn);
+  }
+
   function buildHead(){
+    cerrarPopups();
     thead.innerHTML = '';
     const trH = el('tr',{});
     COLS.forEach(c=>{
@@ -2400,19 +2478,16 @@ VIEWS.equipos = function(root, params){
     COLS.forEach(c=>{
       let ctrl;
       if(c.lista){
-        ctrl = el('select',{onchange:e=>{ filtros[c.k]=e.target.value; render(); }},
-          el('option',{value:''},'(todos)'),
-          ...valoresUnicos(c).map(v=>el('option',{value:v}, v.length>24?v.slice(0,24)+'…':v)));
-        ctrl.value = filtros[c.k]||'';
+        ctrl = filtroExcel(c);
       } else {
-        ctrl = el('input',{type:'text',placeholder:'filtrar…',value:filtros[c.k]||'',oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__eqf); window.__eqf=setTimeout(render,200); }});
+        ctrl = el('input',{type:'text',placeholder:'filtrar…',value:(typeof filtros[c.k]==='string'?filtros[c.k]:''),oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__eqf); window.__eqf=setTimeout(aplicar,200); }});
       }
       trF.appendChild(el('th',{}, ctrl));
     });
     thead.appendChild(trF);
   }
 
-  function render(){
+  function aplicar(){
     state.equipos.forEach(recalcEstadoEquipo);
     const tokens = norm(search.value.trim()).split(/\s+/).filter(Boolean);
     let lista = state.equipos.filter(e => {
@@ -2423,7 +2498,7 @@ VIEWS.equipos = function(root, params){
       for(const c of COLS){
         const fv = filtros[c.k]; if(!fv) continue;
         const val = c.g(e);
-        if(c.lista){ if(String(val) !== fv) return false; }
+        if(c.lista){ if(fv instanceof Set && fv.size>0 && !fv.has(String(val))) return false; }
         else { if(!norm(val).includes(norm(fv))) return false; }
       }
       if(filtros.__conPend && !pendientesDe(e.inv).some(p=>p.estado!=='cerrado')) return false;
@@ -2434,7 +2509,6 @@ VIEWS.equipos = function(root, params){
       lista.sort((a,b)=> c.num ? ((+c.g(a)||0)-(+c.g(b)||0))*ordDir : String(c.g(a)).localeCompare(String(c.g(b)),'es')*ordDir);
     }
     navEquipos = lista.map(e=>e.inv); // recorrido ◀/▶ desde la ficha sigue el filtro/orden actual
-    buildHead();
     tbody.innerHTML = '';
     lista.slice(0,500).forEach(e => {
       const tr = el('tr',{class:'row-click', title:'Abrir ficha del equipo', onclick:()=>navigate('equipo',{inv:e.inv})});
@@ -2444,6 +2518,7 @@ VIEWS.equipos = function(root, params){
     counter.textContent = `${lista.length} equipos${lista.length>500?' (mostrando primeros 500)':''}`;
     renderChips();
   }
+  function render(){ buildHead(); aplicar(); }
 
   function renderChips(){
     chipsBar.innerHTML = '';
@@ -2458,7 +2533,7 @@ VIEWS.equipos = function(root, params){
       el('span',{class:'k'}, k+':'), el('span',{}, v),
       el('span',{class:'x',onclick:onclr}, '×')
     )));
-    const hayCol = Object.keys(filtros).some(k=>filtros[k]);
+    const hayCol = Object.keys(filtros).some(k=>{const f=filtros[k]; return f instanceof Set ? f.size>0 : !!f;});
     if(chips.length > 0 || hayCol || search.value){
       chipsBar.appendChild(el('button',{class:'filter-clear',onclick:()=>{
         Object.keys(params).forEach(k=>delete params[k]);
@@ -2469,15 +2544,15 @@ VIEWS.equipos = function(root, params){
     }
   }
 
-  search.addEventListener('input', ()=>{ clearTimeout(window.__eqs); window.__eqs=setTimeout(render,200); });
+  search.addEventListener('input', ()=>{ clearTimeout(window.__eqs); window.__eqs=setTimeout(aplicar,200); });
 
   state.equipos.forEach(recalcEstadoEquipo);
   const limpiarFiltros = ()=>{ Object.keys(filtros).forEach(k=>delete filtros[k]); };
   const _qa = (lbl, n, fn, cls) => el('button',{class:'qa-btn'+(cls?' '+cls:''), onclick:fn}, `${lbl} (${n})`);
   const barraQA = el('div',{class:'quick-access'},
     el('button',{class:'qa-btn',onclick:()=>{limpiarFiltros();render();}},'Todos'),
-    _qa('En servicio técnico', state.equipos.filter(e=>e.estado==='en_servicio_tecnico').length, ()=>{limpiarFiltros();filtros.estado='En servicio técnico';render();}, 'st'),
-    _qa('No operativos', state.equipos.filter(e=>e.estado==='no_operativo').length, ()=>{limpiarFiltros();filtros.estado='No operativo';render();}, 'noop'),
+    _qa('En servicio técnico', state.equipos.filter(e=>e.estado==='en_servicio_tecnico').length, ()=>{limpiarFiltros();filtros.estado=new Set(['En servicio técnico']);render();}, 'st'),
+    _qa('No operativos', state.equipos.filter(e=>e.estado==='no_operativo').length, ()=>{limpiarFiltros();filtros.estado=new Set(['No operativo']);render();}, 'noop'),
     _qa('Con pendientes', state.equipos.filter(e=>pendientesDe(e.inv).some(p=>p.estado!=='cerrado')).length, ()=>{limpiarFiltros();filtros.__conPend=true;render();})
   );
   root.appendChild(el('div',{class:'view view-equipos'},
@@ -3238,7 +3313,7 @@ VIEWS.pendientes = function(root, params){
     ...[...new Set(state.pendientes.map(p=>p.servicio).filter(Boolean))].sort().map(s=>el('option',{value:s,selected:s===params.servicio?'selected':false},s))
   );
   if(params.servicio) selServ.value = params.servicio;
-  const container = el('div',{});
+  const container = el('div',{class:'pend-fill'});
   const chipsBar = el('div',{class:'filters'});
   function render(){
     const q = search.value.trim().toLowerCase();
@@ -3272,7 +3347,7 @@ VIEWS.pendientes = function(root, params){
     }},'Limpiar todo'));
   }
   [search,selTipo,selEst,selExec,selServ].forEach(i => i.addEventListener('input',render));
-  root.appendChild(el('div',{class:'view'},
+  root.appendChild(el('div',{class:'view view-full'},
     el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'6px',flexWrap:'wrap',gap:'10px'}},
       el('h2',{},'Pendientes'),
       el('button',{class:'primary',onclick:()=>nuevoPendiente({})},'➕ Nuevo pendiente')
