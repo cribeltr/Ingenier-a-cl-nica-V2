@@ -17,6 +17,14 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.63 [2026-05-29] Fix: el historial mostraba "Operativo" en una MP registrada como "No operativo".
+  - Causa: la columna Estado del historial recalculaba el estado con estadoMPDesdeResultado(resultado),
+    que para resultado "Si" SIEMPRE devuelve "operativo" e ignora la elección del usuario. Ahora usa
+    estadoMPFinal(resultado, ev.estado): respeta Operativo/No operativo elegido cuando el resultado es
+    "Si" y deriva de la causal en el resto. (El dato ya se guardaba bien; era solo la visualización.)
+  - Auditoría: limpieza de código muerto (badgePendEstado, copia duplicada de badgePend,
+    renderResumenEquipo, conflictoPendiente, mpMasiva). Smoke 11/11, guardián OK, 8 vistas + flujos
+    simulados sin errores.
 v0.62 [2026-05-29] Se elimina "MP del mes"; nace "Asignaciones"; menú corregido; guardián valida menú↔vistas.
   - Nueva vista "Asignaciones" (reemplaza MP del mes): planilla a pantalla completa con datos del
     equipo + Programación + Resultado + Ejecutor ASIGNADO (selector editable que guarda la
@@ -1219,7 +1227,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.62';
+const APP_VERSION = '0.63';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2862,7 +2870,7 @@ function renderBitacora(eq){
       el('td',{style:{whiteSpace:'nowrap'}}, fmtFecha(ev.fecha),
         ev.ts ? el('small',{class:'muted',style:{display:'block',fontSize:'10px',marginTop:'2px'}}, 'creado '+new Date(ev.ts).toLocaleString('es-CL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})) : null),
       desc,
-      el('td',{}, (ev.tipo==='Mantención preventiva' && ev.resultado ? estadoMPDesdeResultado(ev.resultado) : ev.estado) || el('small',{class:'muted'},'—')),
+      el('td',{}, (ev.tipo==='Mantención preventiva' && ev.resultado ? estadoMPFinal(ev.resultado, ev.estado) : ev.estado) || el('small',{class:'muted'},'—')),
       el('td',{}, ev.ejecutor || el('small',{class:'muted'},'—')),
       el('td',{}, pendsEv.length === 0
         ? el('small',{class:'muted'},'—')

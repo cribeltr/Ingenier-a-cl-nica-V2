@@ -949,3 +949,19 @@
 - **Dónde aplica:** build_app.py (`VIEWS.asignaciones` rehecha, `NAV_GRUPOS`); CHANGELOG v0.61.
 
 <!-- Próximas entradas debajo de esta línea -->
+
+## [2026-05-29] El historial mostraba mal el estado de una MP "Si" (v0.63)
+
+- **Disparador:** el usuario registró una MP como "No operativo" y el historial mostraba "Operativo".
+- **Causa:** la celda Estado del historial RECALCULABA con `estadoMPDesdeResultado(ev.resultado)`,
+  que para "Si" siempre devuelve "operativo" e ignora la elección Operativo/No operativo del usuario.
+  El dato SÍ se guardaba bien (en su backup había 1 MP con resultado Si + estado "no operativo"): el
+  bug era solo de visualización.
+- **Arreglo:** la celda usa `estadoMPFinal(ev.resultado, ev.estado)` → respeta lo elegido cuando el
+  resultado es "Si" y deriva de la causal en el resto. Verificado end-to-end con su backup (equipo
+  2-116306: ahora "no operativo").
+- **Heurística:** si un campo se GUARDA como elección del usuario, mostrarlo o derivarlo de otra cosa
+  al pintar es un bug latente. Mostrar lo guardado (o el helper que respeta lo guardado), no recalcular.
+- **Prueba de humo:** +1 chequeo (#12) "Historial respeta el estado elegido en la MP". 12/12.
+- **Limpieza:** se confirmó la eliminación de código muerto (guardián 0 avisos). Versión 0.63.
+- **Dónde aplica:** build_app.py (`renderBitacora` celda Estado), tools/smoke_test.js (#12); CHANGELOG v0.63.

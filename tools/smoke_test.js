@@ -215,6 +215,19 @@ setTimeout(() => {
   }catch(e){ mesErr = e.message; }
   check('Resumen→Asignaciones abre el mes correcto (Feb)', mesOk, mesErr || mesDet);
 
+  // 12) El historial muestra el estado GUARDADO de la MP (Si + No operativo => No operativo)
+  let histOk = false, histErr = null, histDet = '';
+  try{
+    if(typeof window.estadoMPFinal === 'function'){
+      const a = window.estadoMPFinal('Si','no operativo');
+      const b = window.estadoMPFinal('Si','operativo');
+      const c = window.estadoMPFinal('C2','operativo'); // causal manda
+      histOk = a==='no operativo' && b==='operativo' && c==='en servicio técnico';
+      histDet = `Si/no-op→${a}, Si/op→${b}, C2→${c}`;
+    }
+  }catch(e){ histErr = e.message; }
+  check('Historial respeta el estado elegido en la MP', histOk, histErr || histDet);
+
   // --- Reporte ---
   const fall = results.filter(r=>!r.ok);
   console.log('\nPRUEBA DE HUMO HHHA  ·  respaldo: ' + path.basename(BACKUP));
