@@ -19,6 +19,13 @@ break;case"<bookViews":;case"<bookViews>":;case"</bookViews>":break;case"<workbo
 <script>var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});</script>
 <!--
 CHANGELOG
+v0.49 [2026-05-29] Rediseño minimalista (paso 1): paleta azul, densidad compacta, sidebar contraíble.
+  - Sin perder ninguna función (solo capa visual). Nueva paleta neutra fría con ACENTO AZUL
+    (claro y oscuro), foco azul en campos. Densidad COMPACTA (fuentes/paddings/tablas más juntas).
+  - Barra lateral oscura ahora CONTRAÍBLE: botón ☰ en la barra superior la pliega/expande y se
+    recuerda la preferencia (sidebarColapsada).
+  - Tablas más limpias (hover de fila, encabezados compactos), tarjetas/secciones con esquinas
+    más suaves y sombra sutil, botones con radio 6px y foco accesible.
 v0.48 [2026-05-29] Autocorrección: guardián automático que bloquea las clases de error cometidas.
   - tools/guard.js corre solo tras build (junto a la prueba de humo) y BLOQUEA: estado de MP no
     derivado de estadoMPDesdeResultado en algún sitio, patrones legacy prohibidos, y cualquier
@@ -205,7 +212,7 @@ v0.28 [2026-05-28] El folio del ciclo se preselecciona; aviso si no hay ciclo ab
     (antes era la misma expresión repetida 5 veces).
 v0.27 [2026-05-28] El número de versión del encabezado se sincroniza solo.
   - El encabezado mostraba "v0.23" fijo (escrito a mano), sin actualizarse al subir
-    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.48
+    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.49
     que build_app.py reemplaza con el valor real de APP_VERSION al generar: una
     sola fuente de verdad, no vuelve a quedar desfasado.
 v0.26 [2026-05-28] Cierre de ciclo por Recepción + Reparación "en servicio técnico".
@@ -529,77 +536,78 @@ v0.3 [2026-05-28] Conciliación con archivo maestro.
 -->
 <style>
 :root{
-  /* Tema CLARO suave (default) — off-white tibio, antifatiga */
-  --bg:#fafaf7;
+  /* Tema CLARO minimalista — neutro frío, acento azul */
+  --bg:#f5f6f8;
   --surface:#ffffff;
-  --surface-2:#f4f3ef;
-  --border:#e8e6df;
-  --border-strong:#cfcdc4;
-  --text:#1a1a1a;
-  --text-2:#3a3a36;
-  --muted:#7a786f;
-  --muted-2:#a8a59a;
-  --accent:#0d7a6b;
-  --accent-2:#0d7a6b;
-  --accent-soft:#e0f0ec;
-  --hover:#efeee9;
-  --soft:#f4f3ef;
-  --op:#1f7a3a;
-  --noop:#b3261e;
-  --st:#a86a00;
-  --baja:#7a786f;
-  --shadow-sm:0 1px 2px rgba(0,0,0,.04);
-  --shadow:0 2px 8px rgba(0,0,0,.06);
-  --shadow-lg:0 12px 28px rgba(0,0,0,.10);
+  --surface-2:#eef1f5;
+  --border:#e6e9ee;
+  --border-strong:#d2d7df;
+  --text:#161a20;
+  --text-2:#39414d;
+  --muted:#6b7280;
+  --muted-2:#9aa1ac;
+  --accent:#2563eb;
+  --accent-2:#1d4ed8;
+  --accent-soft:#e7eefe;
+  --hover:#eef2f7;
+  --soft:#eef1f5;
+  --op:#15803d;
+  --noop:#dc2626;
+  --st:#b45309;
+  --baja:#6b7280;
+  --shadow-sm:0 1px 2px rgba(16,24,40,.05);
+  --shadow:0 1px 3px rgba(16,24,40,.08),0 1px 2px rgba(16,24,40,.04);
+  --shadow-lg:0 10px 30px rgba(16,24,40,.12);
   --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 [data-theme="dark"]{
-  /* Tema OSCURO moderno — gris-azul profundo */
-  --bg:#15181d;
-  --surface:#1d2128;
-  --surface-2:#252a32;
-  --border:#2e333b;
-  --border-strong:#3d434c;
-  --text:#e8eaed;
-  --text-2:#c5c8cc;
-  --muted:#8a8f96;
-  --muted-2:#5e6168;
-  --accent:#5eb8a8;
-  --accent-2:#5eb8a8;
-  --accent-soft:#1d3633;
-  --hover:#252a32;
-  --soft:#1d2128;
-  --op:#5dc77c;
-  --noop:#f47466;
-  --st:#e9a857;
-  --baja:#8a8f96;
+  /* Tema OSCURO — gris-azul profundo, acento azul */
+  --bg:#0f1216;
+  --surface:#161a20;
+  --surface-2:#1e232b;
+  --border:#272d36;
+  --border-strong:#39404a;
+  --text:#e7eaee;
+  --text-2:#c2c7cf;
+  --muted:#8b919b;
+  --muted-2:#5b616b;
+  --accent:#3b82f6;
+  --accent-2:#60a5fa;
+  --accent-soft:#172338;
+  --hover:#1e232b;
+  --soft:#161a20;
+  --op:#4ade80;
+  --noop:#f87171;
+  --st:#fbbf24;
+  --baja:#8b919b;
   --shadow-sm:0 1px 2px rgba(0,0,0,.3);
   --shadow:0 2px 8px rgba(0,0,0,.35);
   --shadow-lg:0 12px 28px rgba(0,0,0,.5);
 }
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%;font-family:var(--font);font-size:14px;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01";line-height:1.4;transition:background-color .2s,color .2s}
+html,body{margin:0;padding:0;height:100%;font-family:var(--font);font-size:13.5px;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01";line-height:1.45;transition:background-color .2s,color .2s}
 .theme-btn{font-size:14px;width:30px;height:28px;padding:0!important;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border)!important}
-button{font-family:inherit;font-size:inherit;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);padding:6px 12px;border-radius:4px;transition:background .12s,border-color .12s,color .12s;font-weight:500}
+button{font-family:inherit;font-size:inherit;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);padding:5px 11px;border-radius:6px;transition:background .12s,border-color .12s,color .12s,box-shadow .12s;font-weight:500}
 button:hover:not(:disabled){background:var(--hover)}
 button:disabled{opacity:.4;cursor:not-allowed}
 button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-button.primary:hover:not(:disabled){background:#000}
+button.primary:hover:not(:disabled){background:var(--accent-2);border-color:var(--accent-2)}
 button.danger{background:#fff;color:var(--noop);border-color:#e8c8c5}
 button.danger:hover:not(:disabled){background:#fff5f4;border-color:var(--noop)}
 button.small{padding:3px 9px;font-size:12px}
 button.ghost{border-color:transparent;background:transparent;color:var(--muted)}
 button.ghost:hover{background:var(--hover);color:var(--text)}
-input,select,textarea{font-family:inherit;font-size:inherit;padding:7px 10px;border:1px solid var(--border-strong);border-radius:4px;background:var(--surface);color:var(--text);width:100%}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--text)}
+input,select,textarea{font-family:inherit;font-size:inherit;padding:6px 9px;border:1px solid var(--border-strong);border-radius:6px;background:var(--surface);color:var(--text);width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 input[readonly]{background:var(--soft);color:var(--muted)}
 label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
 textarea{min-height:64px;resize:vertical;font-family:inherit;line-height:1.5}
 
-.app{display:grid;grid-template-columns:232px 1fr;height:100vh;overflow:hidden;background:var(--bg)}
-/* Barra lateral oscura fija */
-.sidebar{background:#0f172a;color:#cbd5e1;display:flex;flex-direction:column;overflow-y:auto}
+.app{display:grid;grid-template-columns:230px 1fr;height:100vh;overflow:hidden;background:var(--bg);transition:grid-template-columns .18s ease}
+.app.sb-collapsed{grid-template-columns:0 1fr}
+/* Barra lateral oscura, contraíble */
+.sidebar{background:#0f172a;color:#cbd5e1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;white-space:nowrap}
 .s-logo{padding:18px 16px 14px;font-weight:700;font-size:16px;color:#fff;letter-spacing:-.01em}
 .s-logo small{display:block;font-weight:500;font-size:10px;color:#64748b;margin-top:3px;text-transform:uppercase;letter-spacing:.04em}
 .sidebar nav{display:flex;flex-direction:column;gap:2px;padding:8px 10px;flex:1}
@@ -610,9 +618,11 @@ textarea{min-height:64px;resize:vertical;font-family:inherit;line-height:1.5}
 .sidebar .s-group{font-size:10px;font-weight:700;letter-spacing:.08em;color:#475569;text-transform:uppercase;padding:14px 12px 5px}
 .s-foot{padding:12px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:#94a3b8}
 .content{display:grid;grid-template-rows:48px 1fr;overflow:hidden;min-width:0}
-.topbar{display:flex;align-items:center;gap:6px;padding:0 18px;background:var(--surface);border-bottom:1px solid var(--border)}
-.topbar button{font-size:12.5px;padding:6px 10px;color:var(--muted);border:1px solid var(--border);border-radius:9px;background:var(--surface)}
+.topbar{display:flex;align-items:center;gap:6px;padding:0 14px;background:var(--surface);border-bottom:1px solid var(--border)}
+.topbar button{font-size:12.5px;padding:5px 10px;color:var(--muted);border:1px solid var(--border);border-radius:6px;background:var(--surface)}
 .topbar button:hover{color:var(--text);background:var(--surface-2)}
+.sb-toggle{border:none!important;background:transparent!important;color:var(--muted);font-size:17px!important;padding:4px 9px!important;border-radius:6px;line-height:1}
+.sb-toggle:hover{background:var(--surface-2)!important;color:var(--text)}
 .quick-access{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .qa-btn{font-size:13px;font-weight:600;padding:8px 14px;border-radius:99px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);cursor:pointer;transition:.12s}
 .qa-btn:hover{background:var(--surface-2);box-shadow:var(--shadow-sm)}
@@ -689,8 +699,9 @@ main{overflow:auto;padding:28px 32px 60px}
 
 /* Data tables */
 table.data{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;font-size:13px}
-table.data th{background:var(--surface-2);text-align:left;padding:10px 12px;font-weight:500;border-bottom:1px solid var(--border);color:var(--muted);white-space:nowrap;position:sticky;top:0;z-index:1;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
-table.data td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+table.data th{background:var(--surface-2);text-align:left;padding:7px 10px;font-weight:600;border-bottom:1px solid var(--border);color:var(--muted);white-space:nowrap;position:sticky;top:0;z-index:1;font-size:11px;text-transform:uppercase;letter-spacing:.03em}
+table.data td{padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+table.data tbody tr:hover td{background:var(--hover)}
 table.data tr:last-child td{border-bottom:none}
 table.data tr.clickable{cursor:pointer}
 table.data tr.clickable:hover{background:var(--soft)}
@@ -726,7 +737,7 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 .row > *{flex:1}
 
 /* Section card */
-.section{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px;margin-bottom:18px}
+.section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:15px;margin-bottom:15px;box-shadow:var(--shadow-sm)}
 /* Ficha: secciones contraíbles (cap. 4 de la especificación) */
 .ficha-sec{background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden}
 .ficha-sec>summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;user-select:none}
@@ -1065,12 +1076,13 @@ header.top nav .nav-more-menu button.active{background:var(--accent-soft);color:
 <body>
 <div class="app">
   <aside class="sidebar">
-    <div class="s-logo">HHHA <small>Equipos Críticos · v0.48</small></div>
+    <div class="s-logo">HHHA <small>Equipos Críticos · v0.49</small></div>
     <nav id="nav"></nav>
     <div class="s-foot"><span class="user-tag">👤 Cristian</span></div>
   </aside>
   <div class="content">
     <header class="topbar">
+      <button id="btn-sidebar" class="sb-toggle" title="Plegar / expandir el menú lateral">☰</button>
       <div style="flex:1"></div>
       <span id="state-indicator" class="state-indicator" title="">—</span>
       <button id="btn-theme" title="Cambiar tema claro/oscuro" class="theme-btn">🌞</button>
@@ -1113,7 +1125,7 @@ const SEED = {"equipos":[{"id":1,"carpeta":1,"inv":"2-115361","fam":"Incubadoras
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.48';
+const APP_VERSION = '0.49';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1742,6 +1754,12 @@ function setTheme(theme){
 function toggleTheme(){
   const cur = document.documentElement.getAttribute('data-theme') || 'light';
   setTheme(cur === 'dark' ? 'light' : 'dark');
+}
+function toggleSidebar(){
+  const app = document.querySelector('.app');
+  const colapsada = app.classList.toggle('sb-collapsed');
+  setPref('sidebarColapsada', colapsada);
+  save({internal:true});
 }
 function toast(msg, type='', action){
   const t = el('div',{class:'toast '+type});
@@ -6033,6 +6051,8 @@ function bootstrap(){
   $('#btn-import').onclick = importData;
   $('#btn-reset').onclick = resetState;
   $('#btn-theme').onclick = toggleTheme;
+  $('#btn-sidebar').onclick = toggleSidebar;
+  if(getPref('sidebarColapsada', false) === true) document.querySelector('.app').classList.add('sb-collapsed');
   // Aplicar tema persistido
   setTheme(getPref('theme', 'light'));
   recorder.init();

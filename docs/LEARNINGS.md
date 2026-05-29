@@ -729,4 +729,22 @@
 - **Dónde aplica:** tools/guard.js (nuevo), build_app.py (lo ejecuta al final), CLAUDE.md
   (guardián + regla de diseño visual); CHANGELOG v0.48.
 
+## [2026-05-29] Rediseño minimalista paso 1 (v0.49)
+
+- **Disparador:** el usuario pidió un rediseño minimalista y funcional, sin perder funciones.
+  Eligió: sidebar oscura + contenido claro y **contraíble**, densidad **compacta**, acento **azul**,
+  aplicar directo y revisar.
+- **Hecho (solo capa visual):** nueva paleta neutra fría con acento azul (claro/oscuro), foco azul
+  en campos; densidad compacta (fuente 13.5px, paddings y tablas más juntos); barra lateral
+  **contraíble** con botón ☰ (clase `sb-collapsed` en `.app`, preferencia `sidebarColapsada`
+  recordada); tablas con hover de fila y encabezados compactos; secciones/tarjetas con esquinas
+  suaves + sombra sutil; botones radio 6px.
+- **Sin pérdida de función:** guardián (10 vistas dibujan) + humo 10/10 en verde; toggle verificado
+  (pliega/expande/persiste). Cero cambios de lógica.
+- **Pendiente honesto:** lo VISUAL fino (proporciones, que "se vea bien") lo valida el usuario;
+  jsdom no mide píxeles. Este es el paso 1 (sistema base); afinar pantalla por pantalla según su
+  feedback. Sin tocar la barra lateral en modo colapsado por dentro (se oculta por completo).
+- **Dónde aplica:** build_app.py (tokens `:root`/dark, base, `.app`/`.sidebar` colapsable, topbar
+  `.sb-toggle`, `table.data`, `.section`, `toggleSidebar`, bootstrap); CHANGELOG v0.49.
+
 <!-- Próximas entradas debajo de esta línea -->
