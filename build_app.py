@@ -17,6 +17,12 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.42 [2026-05-29] Buscar equipos cabe en pantalla (sin desplazamiento lateral).
+  - Lo que faltaba del pedido anterior: la planilla seguía siendo más ancha que la pantalla.
+  - Se quita la columna "Acciones" del extremo derecho (la fila ya abre la ficha; los ➕ están
+    dentro de la ficha). Los títulos de columna ahora ENVUELVEN (antes en una sola línea
+    forzaban el ancho), las celdas parten palabras largas y el espaciado es más compacto.
+  - Resultado: las 13 columnas (ID … Pendientes) entran en el ancho normal sin scroll lateral.
 v0.41 [2026-05-29] Ajustes pedidos tras la primera sesión de uso real.
   - Buscar equipos: hacer CLIC EN LA FILA abre la ficha (se quita el botón "Ficha"). Los
     botones ➕ Evento / ➕ Pend. no abren la ficha (no propagan el clic). Menos
@@ -685,6 +691,11 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 /* Buscar equipos: la fila completa abre la ficha al hacer clic */
 .eq-grid tbody tr.row-click{cursor:pointer}
 .eq-grid tbody tr.row-click:hover td{background:var(--bg)}
+/* La planilla cabe en el ancho de la pantalla (sin scroll lateral): títulos que
+   envuelven, celdas que parten palabras largas y espaciado compacto. */
+.eq-grid{width:100%}
+.eq-grid th.th-sort{white-space:normal;vertical-align:bottom}
+.eq-grid th,.eq-grid td{padding:7px 8px;font-size:12px;overflow-wrap:anywhere;word-break:break-word}
 .section h3{margin-top:0}
 
 /* Key-value */
@@ -1051,7 +1062,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.41';
+const APP_VERSION = '0.42';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2306,7 +2317,6 @@ VIEWS.equipos = function(root, params){
       const flecha = ordK===c.k ? (ordDir>0?' ▲':' ▼') : '';
       trH.appendChild(el('th',{class:'th-sort',title:'Ordenar por '+c.l, onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else { ordK=c.k; ordDir=1; } render(); }}, c.l+flecha));
     });
-    trH.appendChild(el('th',{},'Acciones'));
     thead.appendChild(trH);
     const trF = el('tr',{class:'filtros-col'});
     COLS.forEach(c=>{
@@ -2321,7 +2331,6 @@ VIEWS.equipos = function(root, params){
       }
       trF.appendChild(el('th',{}, ctrl));
     });
-    trF.appendChild(el('th',{}));
     thead.appendChild(trF);
   }
 
@@ -2351,10 +2360,6 @@ VIEWS.equipos = function(root, params){
     lista.slice(0,500).forEach(e => {
       const tr = el('tr',{class:'row-click', title:'Abrir ficha del equipo', onclick:()=>navigate('equipo',{inv:e.inv})});
       COLS.forEach(c => tr.appendChild(c.cell ? c.cell(e) : el('td',{}, c.g(e)||'—')));
-      tr.appendChild(el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
-        el('button',{class:'small',title:'Registrar evento',onclick:ev=>{ev.stopPropagation();nuevoEvento({invDefault:e.inv});}},'➕ Evento'),
-        el('button',{class:'small',title:'Registrar pendiente',onclick:ev=>{ev.stopPropagation();nuevoPendiente({invDefault:e.inv});}},'➕ Pend.')
-      ));
       tbody.appendChild(tr);
     });
     counter.textContent = `${lista.length} equipos${lista.length>500?' (mostrando primeros 500)':''}`;
@@ -2398,7 +2403,7 @@ VIEWS.equipos = function(root, params){
   );
   root.appendChild(el('div',{class:'view'},
     el('h2',{},'Buscar equipos'),
-    el('div',{class:'subtitle'},'Planilla de equipos: haz clic en una fila para abrir su ficha. Ordena por cualquier columna (clic en su título) y filtra en cada una. Los botones ➕ registran evento o pendiente sin abrir la ficha.'),
+    el('div',{class:'subtitle'},'Planilla de equipos: haz clic en una fila para abrir su ficha (ahí registras eventos y pendientes). Ordena por cualquier columna (clic en su título) y filtra en cada una.'),
     barraQA,
     el('div',{class:'toolbar'}, el('div',{class:'grow'},search)),
     chipsBar,

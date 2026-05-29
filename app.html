@@ -19,6 +19,12 @@ break;case"<bookViews":;case"<bookViews>":;case"</bookViews>":break;case"<workbo
 <script>var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});</script>
 <!--
 CHANGELOG
+v0.42 [2026-05-29] Buscar equipos cabe en pantalla (sin desplazamiento lateral).
+  - Lo que faltaba del pedido anterior: la planilla seguía siendo más ancha que la pantalla.
+  - Se quita la columna "Acciones" del extremo derecho (la fila ya abre la ficha; los ➕ están
+    dentro de la ficha). Los títulos de columna ahora ENVUELVEN (antes en una sola línea
+    forzaban el ancho), las celdas parten palabras largas y el espaciado es más compacto.
+  - Resultado: las 13 columnas (ID … Pendientes) entran en el ancho normal sin scroll lateral.
 v0.41 [2026-05-29] Ajustes pedidos tras la primera sesión de uso real.
   - Buscar equipos: hacer CLIC EN LA FILA abre la ficha (se quita el botón "Ficha"). Los
     botones ➕ Evento / ➕ Pend. no abren la ficha (no propagan el clic). Menos
@@ -153,7 +159,7 @@ v0.28 [2026-05-28] El folio del ciclo se preselecciona; aviso si no hay ciclo ab
     (antes era la misma expresión repetida 5 veces).
 v0.27 [2026-05-28] El número de versión del encabezado se sincroniza solo.
   - El encabezado mostraba "v0.23" fijo (escrito a mano), sin actualizarse al subir
-    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.41
+    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.42
     que build_app.py reemplaza con el valor real de APP_VERSION al generar: una
     sola fuente de verdad, no vuelve a quedar desfasado.
 v0.26 [2026-05-28] Cierre de ciclo por Recepción + Reparación "en servicio técnico".
@@ -687,6 +693,11 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 /* Buscar equipos: la fila completa abre la ficha al hacer clic */
 .eq-grid tbody tr.row-click{cursor:pointer}
 .eq-grid tbody tr.row-click:hover td{background:var(--bg)}
+/* La planilla cabe en el ancho de la pantalla (sin scroll lateral): títulos que
+   envuelven, celdas que parten palabras largas y espaciado compacto. */
+.eq-grid{width:100%}
+.eq-grid th.th-sort{white-space:normal;vertical-align:bottom}
+.eq-grid th,.eq-grid td{padding:7px 8px;font-size:12px;overflow-wrap:anywhere;word-break:break-word}
 .section h3{margin-top:0}
 
 /* Key-value */
@@ -1005,7 +1016,7 @@ header.top nav .nav-more-menu button.active{background:var(--accent-soft);color:
 <body>
 <div class="app">
   <aside class="sidebar">
-    <div class="s-logo">HHHA <small>Equipos Críticos · v0.41</small></div>
+    <div class="s-logo">HHHA <small>Equipos Críticos · v0.42</small></div>
     <nav id="nav"></nav>
     <div class="s-foot"><span class="user-tag">👤 Cristian</span></div>
   </aside>
@@ -1053,7 +1064,7 @@ const SEED = {"equipos":[{"id":1,"carpeta":1,"inv":"2-115361","fam":"Incubadoras
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.41';
+const APP_VERSION = '0.42';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2308,7 +2319,6 @@ VIEWS.equipos = function(root, params){
       const flecha = ordK===c.k ? (ordDir>0?' ▲':' ▼') : '';
       trH.appendChild(el('th',{class:'th-sort',title:'Ordenar por '+c.l, onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else { ordK=c.k; ordDir=1; } render(); }}, c.l+flecha));
     });
-    trH.appendChild(el('th',{},'Acciones'));
     thead.appendChild(trH);
     const trF = el('tr',{class:'filtros-col'});
     COLS.forEach(c=>{
@@ -2323,7 +2333,6 @@ VIEWS.equipos = function(root, params){
       }
       trF.appendChild(el('th',{}, ctrl));
     });
-    trF.appendChild(el('th',{}));
     thead.appendChild(trF);
   }
 
@@ -2353,10 +2362,6 @@ VIEWS.equipos = function(root, params){
     lista.slice(0,500).forEach(e => {
       const tr = el('tr',{class:'row-click', title:'Abrir ficha del equipo', onclick:()=>navigate('equipo',{inv:e.inv})});
       COLS.forEach(c => tr.appendChild(c.cell ? c.cell(e) : el('td',{}, c.g(e)||'—')));
-      tr.appendChild(el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
-        el('button',{class:'small',title:'Registrar evento',onclick:ev=>{ev.stopPropagation();nuevoEvento({invDefault:e.inv});}},'➕ Evento'),
-        el('button',{class:'small',title:'Registrar pendiente',onclick:ev=>{ev.stopPropagation();nuevoPendiente({invDefault:e.inv});}},'➕ Pend.')
-      ));
       tbody.appendChild(tr);
     });
     counter.textContent = `${lista.length} equipos${lista.length>500?' (mostrando primeros 500)':''}`;
@@ -2400,7 +2405,7 @@ VIEWS.equipos = function(root, params){
   );
   root.appendChild(el('div',{class:'view'},
     el('h2',{},'Buscar equipos'),
-    el('div',{class:'subtitle'},'Planilla de equipos: haz clic en una fila para abrir su ficha. Ordena por cualquier columna (clic en su título) y filtra en cada una. Los botones ➕ registran evento o pendiente sin abrir la ficha.'),
+    el('div',{class:'subtitle'},'Planilla de equipos: haz clic en una fila para abrir su ficha (ahí registras eventos y pendientes). Ordena por cualquier columna (clic en su título) y filtra en cada una.'),
     barraQA,
     el('div',{class:'toolbar'}, el('div',{class:'grow'},search)),
     chipsBar,

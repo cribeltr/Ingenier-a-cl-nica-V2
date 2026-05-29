@@ -586,4 +586,25 @@
   `renderMatrizMP` lee registro.P, `imprimirHistorial`, `renderBitacora` encabezado);
   tools/smoke_test.js (+3 chequeos); CHANGELOG v0.41.
 
+## [2026-05-29] El verdadero problema de "Buscar equipos" era el ancho, no el botón (v0.42)
+
+- **Disparador:** tras v0.41 el usuario mandó una captura: la planilla SEGUÍA pidiendo
+  desplazamiento lateral (Días/Pendientes/Acciones cortadas a la derecha). "No lo corregiste."
+- **Causa:** aunque el clic en la fila ya abría la ficha, la tabla era más ancha que la
+  pantalla por: (1) títulos de columna con `white-space:nowrap` (cada uno forzaba su ancho),
+  (2) la columna "Acciones" al extremo derecho, (3) padding holgado (10×12) en 14 columnas.
+- **Hecho:** se quita la columna "Acciones" (la fila abre la ficha; los ➕ viven en la ficha),
+  los títulos ENVUELVEN (`.eq-grid th.th-sort{white-space:normal}`, sobreescribe el nowrap de
+  `.th-sort`), las celdas parten palabras largas (`overflow-wrap:anywhere`) y el padding baja a
+  7×8. El contenido real es angosto (~960px), así que con `width:100%` y ancho automático las
+  13 columnas caben sin scroll lateral.
+- **Heurística:** (1) cuando el usuario dice "me incomoda desplazarme al lado", el arreglo es
+  que la tabla QUEPA, no solo facilitar el destino del scroll. (2) Los `th` con `white-space:nowrap`
+  son la causa silenciosa más común de tablas anchas: un título largo fija el mínimo de toda la
+  columna aunque los datos sean cortos. (3) jsdom no calcula layout en píxeles: el ancho real
+  hay que razonarlo (min-content por columna) o verlo en el navegador; la prueba de humo sí
+  confirma que la tabla tiene 13 columnas y la fila abre la ficha.
+- **Dónde aplica:** build_app.py (`VIEWS.equipos` buildHead sin Acciones, fila sin td de
+  acciones, CSS `.eq-grid`, subtítulo); CHANGELOG v0.42.
+
 <!-- Próximas entradas debajo de esta línea -->
