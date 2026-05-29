@@ -17,6 +17,9 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.58 [2026-05-29] "Reprogramación mantención preventiva" solo para causales C1–C8.
+  - Afina v0.57: solo las causales de reprogramación (C1–C8) se muestran como "Reprogramación
+    mantención preventiva". Si, FS, NU, Baja y No conservan "Mantención preventiva".
 v0.57 [2026-05-29] Ajustes pedidos: tipo de pendiente, etiqueta de MP reprogramada, ficha y maestro.
   - Pendientes: nuevo tipo "Firma faltante".
   - Una MP con resultado distinto de "Si" se MUESTRA como "Reprogramación mantención preventiva"
@@ -1196,7 +1199,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.57';
+const APP_VERSION = '0.58';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1550,11 +1553,12 @@ function estadoMPFinal(resultado, estadoManualSi){
   if(resultado === 'Si') return estadoManualSi === 'no operativo' ? 'no operativo' : 'operativo';
   return estadoMPDesdeResultado(resultado);
 }
-// Nombre que se MUESTRA del evento. Una Mantención Preventiva con resultado distinto de "Si"
-// (no realizada) se muestra como "Reprogramación mantención preventiva". El dato interno
-// ev.tipo NO cambia (sigue siendo 'Mantención preventiva'), para no romper cálculos/filtros.
+// Nombre que se MUESTRA del evento. Una Mantención Preventiva con causal de REPROGRAMACIÓN
+// (C1–C8) se muestra como "Reprogramación mantención preventiva". Si / FS / NU / Baja / No
+// conservan "Mantención preventiva". El dato interno ev.tipo NO cambia (sigue siendo
+// 'Mantención preventiva'), para no romper cálculos/filtros.
 function etiquetaTipoEvento(ev){
-  if(ev.tipo === 'Mantención preventiva' && ev.resultado && ev.resultado !== 'Si') return 'Reprogramación mantención preventiva';
+  if(ev.tipo === 'Mantención preventiva' && /^C[1-8]$/.test(ev.resultado||'')) return 'Reprogramación mantención preventiva';
   return ev.tipo;
 }
 // Cuando no hay eventos que declaren estado, infiere desde la carta gantt usando el
