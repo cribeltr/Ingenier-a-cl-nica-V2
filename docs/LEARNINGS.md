@@ -907,4 +907,25 @@
   `VIEWS.equipos` usa el global + columna pend Sí/No; `VIEWS.pendientes` reescrita; CSS
   `.view-full .eq-grid-wrap`); CHANGELOG v0.59.
 
+## [2026-05-29] Se elimina "MP del mes" y nace "Asignaciones" (v0.60)
+
+- **Disparador:** el usuario pidió eliminar MP del mes y crear "Asignaciones": planilla de consulta
+  con datos del equipo + Programación + Resultado + Ejecutor (quien realizó la MP) + Estado del
+  registro (Oficial/Borrador), filtros por columna estilo Excel, filtro general por mes con "Todos
+  los meses", y que el Resumen enlace aquí. (Confirmó: solo consulta, sin plantillas/asignación.)
+- **Hecho:** `VIEWS.asignaciones` (reemplaza `VIEWS.mp`): filas por equipo×mes con programación o
+  resultado; columnas Mes · Carpeta · Inventario · Serie · Equipo · Marca · Modelo · Servicio ·
+  Unidad · Ubicación · Procedencia · Programación · Resultado · Ejecutor · Estado registro ·
+  Acciones; selector Año + Mes (con "Todos los meses") + búsqueda; filtro Excel reutilizado.
+  Helper `eventoMPMes`. El Resumen (por mes/ejecutor/sin asignar) navega a `asignaciones`. Menú:
+  Asignaciones en GESTIONAR; se quita "MP del mes". Drill estadoMP/sinAsignar como chips.
+- **Verificado (build):** guardián 8 vistas (incluida asignaciones) sin error; humo 11/11; #11
+  Resumen→Asignaciones abre Febrero (mes=1) con chip "Pendientes".
+- **Quedó dead-code (aviso del guardián, por la decisión "sin plantillas"):** `descargarPlantillaMP`,
+  `subirPlantillaMP`, `mpMasiva`, `mpEstadoMes`, `mpDelMesEjecutada`. No se llaman; pendiente limpiar.
+- **Nota de entorno:** las pruebas `node` inline salieron corruptas por ruido; el subprocess de
+  build (smoke+guard) imprime fiable → confiar en ese.
+- **Dónde aplica:** build_app.py (`VIEWS.asignaciones`, `eventoMPMes`, NAV_GRUPOS, navegaciones del
+  Resumen), tools/smoke_test.js (#11); CHANGELOG v0.60.
+
 <!-- Próximas entradas debajo de esta línea -->

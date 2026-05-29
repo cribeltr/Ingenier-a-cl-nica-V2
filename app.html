@@ -1647,6 +1647,11 @@ function resultadoMPMes(equipo, year, month){
   }
   return null;
 }
+// Evento MP (no anulado) de un equipo en un mes/año dado. Sirve para ejecutor y estado del registro.
+function eventoMPMes(inv, year, month){
+  return state.eventos.find(e => e.inv === inv && e.tipo === 'Mantención preventiva' && !e.anulado &&
+    e.fecha && new Date(e.fecha + 'T00:00:00').getFullYear() === year && new Date(e.fecha + 'T00:00:00').getMonth() === month);
+}
 // Estado de la MP del mes: ejecutada (Si) / reprogramada (C1-C8) / otro (FS,NU,Baja,No) / pendiente (nada).
 function mpEstadoMes(equipo, year, month){
   const r = resultadoMPMes(equipo, year, month);
@@ -2242,7 +2247,7 @@ function renderSumMesesMP(year, returnParts){
   const pctTot = tot.programadas === 0 ? null : Math.round(tot.ejecutadas/tot.programadas*100);
   function c(val, mIdx, params){
     if(val === 0) return el('td',{class:'cell zero'}, '–');
-    return el('td',{class:'cell',onclick:()=>navigate('mp',{mes:MESES[mIdx], year, ...params})}, el('span',{class:'v'}, String(val)));
+    return el('td',{class:'cell',onclick:()=>navigate('asignaciones',{mes:MESES[mIdx], year, ...params})}, el('span',{class:'v'}, String(val)));
   }
   const table = el('table',{class:'sum-table'},
     el('thead',{}, el('tr',{},
@@ -2259,7 +2264,7 @@ function renderSumMesesMP(year, returnParts){
         el('td',{}, r.mes),
         c(r.programadas, r.monthIdx, {}),
         c(r.asignadas, r.monthIdx, {}),
-        r.sinAsignar > 0 ? el('td',{class:'cell',onclick:()=>navigate('mp',{mes:r.mes, year, sinAsignar:'1'}),style:{color:r.sinAsignar>0?'var(--st)':null}}, el('span',{class:'v'}, String(r.sinAsignar))) : el('td',{class:'cell zero'},'–'),
+        r.sinAsignar > 0 ? el('td',{class:'cell',onclick:()=>navigate('asignaciones',{mes:r.mes, year, sinAsignar:'1'}),style:{color:r.sinAsignar>0?'var(--st)':null}}, el('span',{class:'v'}, String(r.sinAsignar))) : el('td',{class:'cell zero'},'–'),
         c(r.ejecutadas, r.monthIdx, {estadoMP:'ejec'}),
         c(r.pendientes, r.monthIdx, {estadoMP:'pend'}),
         el('td',{}, r.pct == null ? '–' : el('span',{},
@@ -2311,7 +2316,7 @@ function renderSumEjecutoresMP(year, monthIdx, returnParts){
 
   function c(val, ejecutor, params){
     if(val === 0) return el('td',{class:'cell zero'}, '–');
-    return el('td',{class:'cell', onclick:()=>navigate('mp', {ejecutor, mes:NUM_MES[monthIdx], year, ...params})}, el('span',{class:'v'}, String(val)));
+    return el('td',{class:'cell', onclick:()=>navigate('asignaciones', {ejecutor, mes:NUM_MES[monthIdx], year, ...params})}, el('span',{class:'v'}, String(val)));
   }
 
   const table = el('table',{class:'sum-table'},
@@ -2339,7 +2344,7 @@ function renderSumEjecutoresMP(year, monthIdx, returnParts){
       )),
       sinAsignar > 0 ? el('tr',{style:{background:'#fef9c3'}},
         el('td',{}, el('strong',{}, 'Sin asignar')),
-        el('td',{class:'cell', onclick:()=>navigate('mp',{mes:NUM_MES[monthIdx], year, sinAsignar:'1'})}, el('span',{class:'v'}, String(sinAsignar))),
+        el('td',{class:'cell', onclick:()=>navigate('asignaciones',{mes:NUM_MES[monthIdx], year, sinAsignar:'1'})}, el('span',{class:'v'}, String(sinAsignar))),
         el('td',{}, '–'), el('td',{}, '–'), el('td',{}, '–')
       ) : null,
       el('tr',{class:'total-row'},
@@ -3092,179 +3097,130 @@ function renderPendientesEquipo(eq){
   );
 }
 
-//---------------- MP DEL MES ----------------
-VIEWS.mp = function(root, params){
+//---------------- ASIGNACIONES (consulta de MP por mes) ----------------
+VIEWS.asignaciones = function(root, params){
+  params = params || {};
   const today = new Date();
-  let year = today.getFullYear(), monthIdx = today.getMonth();
-  // Si se llega desde el Resumen (clic en una celda mes×estado), abrir ESE mes/año, no el actual.
-  if(params){
-    if(params.mes != null && MES_NUM[params.mes] != null) monthIdx = MES_NUM[params.mes];
-    if(params.year) year = +params.year;
-  }
-  const mesActual = ()=> NUM_MES[monthIdx];
-  const keyMes = ()=> `${year}-${String(monthIdx+1).padStart(2,'0')}`;
-  state.asignacionesMP[keyMes()] = state.asignacionesMP[keyMes()] || {};
+  const norm = normFiltro;
+  const filtros = {};
+  if(params.ejecutor) filtros.ejecutor = new Set([params.ejecutor]);
+  // Filtro "drill-down" que llega desde el Resumen (estado de la MP / sin ejecutar).
+  const drill = { estadoMP: params.estadoMP || '', sinAsignar: !!params.sinAsignar };
+  let ordK=null, ordDir=1, rowsAll=[];
 
-  const ANIOS = [year-1, year, year+1];
-  const selMes = el('select',{}, ...NUM_MES.map((m,i)=>el('option',{value:i}, m)));
-  selMes.value = monthIdx;
-  const selAnio = el('select',{}, ...ANIOS.map(a=>el('option',{value:a}, String(a))));
-  selAnio.value = year;
-  function irAMes(d){
-    monthIdx += d;
-    if(monthIdx > 11){ monthIdx = 0; year++; }
-    if(monthIdx < 0){ monthIdx = 11; year--; }
-    if(year < ANIOS[0]) year = ANIOS[0];
-    if(year > ANIOS[ANIOS.length-1]) year = ANIOS[ANIOS.length-1];
-    selMes.value = monthIdx; selAnio.value = year; render();
-  }
-  selMes.onchange = ()=>{ monthIdx = +selMes.value; render(); };
-  selAnio.onchange = ()=>{ year = +selAnio.value; render(); };
-  const btnPrevMes = el('button',{class:'small',title:'Mes anterior',onclick:()=>irAMes(-1)},'‹');
-  const btnNextMes = el('button',{class:'small',title:'Mes siguiente',onclick:()=>irAMes(1)},'›');
+  const ANIOS = [today.getFullYear()-1, today.getFullYear(), today.getFullYear()+1];
+  const selAnio = el('select',{}, ...ANIOS.map(a=>el('option',{value:a},String(a))));
+  selAnio.value = (params.year && ANIOS.includes(+params.year)) ? +params.year : today.getFullYear();
+  const selMes = el('select',{}, el('option',{value:'todos'},'Todos los meses'), ...MESES.map((m,i)=>el('option',{value:i}, m)));
+  selMes.value = (params.mes!=null && MES_NUM[params.mes]!=null) ? String(MES_NUM[params.mes]) : String(today.getMonth());
+  const search = el('input',{type:'search',placeholder:'Buscar por equipo, N° inventario, servicio…'});
+  const thead=el('thead',{}); const tbody=el('tbody',{});
+  const counter=el('div',{class:'muted',style:{fontSize:'12px',whiteSpace:'nowrap'}},'');
+  const chipsBar=el('div',{class:'filters'});
 
-  const selExec = el('select',{},
-    el('option',{value:''},'Todos los ejecutores'),
-    ...EJECUTORES.map(x=>el('option',{value:x,selected:x===params.ejecutor?'selected':false},x))
-  );
-  if(params.ejecutor) selExec.value = params.ejecutor;
-  const selEst = el('select',{},
-    el('option',{value:''},'Todos'),
-    el('option',{value:'ejec',selected:params.estadoMP==='ejec'?'selected':false},'Ejecutadas'),
-    el('option',{value:'pend',selected:params.estadoMP==='pend'?'selected':false},'Pendientes'),
-    el('option',{value:'reprog'},'Reprogramadas (C1–C8)'),
-    el('option',{value:'sinAsignar',selected:params.sinAsignar?'selected':false},'Sin asignar')
-  );
-  if(params.estadoMP) selEst.value = params.estadoMP;
-  if(params.sinAsignar) selEst.value = 'sinAsignar';
+  const COLS = [
+    {k:'mes',      l:'Mes',          g:r=>MESES[r.m], lista:true},
+    {k:'carpeta',  l:'N° Carpeta',   g:r=> r.eq.carpeta!=null?String(r.eq.carpeta):''},
+    {k:'inv',      l:'N° Inventario',g:r=>r.eq.inv||'', cell:r=>el('td',{}, el('strong',{}, r.eq.inv||'—'))},
+    {k:'serie',    l:'Serie',        g:r=>r.eq.serie||''},
+    {k:'equipo',   l:'Equipo',       g:r=>r.eq.equipo||'', lista:true},
+    {k:'marca',    l:'Marca',        g:r=>r.eq.marca||'', lista:true},
+    {k:'modelo',   l:'Modelo',       g:r=>r.eq.modelo||'', lista:true},
+    {k:'servicio', l:'Servicio',     g:r=>r.eq.servicio||'', lista:true},
+    {k:'unidad',   l:'Unidad',       g:r=>r.eq.unidad||'', lista:true},
+    {k:'ubic',     l:'Ubicación',    g:r=>r.eq.ubic||'', lista:true},
+    {k:'proc',     l:'Procedencia',  g:r=>r.eq.proc||'', lista:true},
+    {k:'prog',     l:'Programación', g:r=>r.P||'', lista:true},
+    {k:'resultado',l:'Resultado',    g:r=>r.R||'', lista:true},
+    {k:'ejecutor', l:'Ejecutor',     g:r=>r.ejecutor||'', lista:true},
+    {k:'estadoReg',l:'Estado registro', g:r=>r.estadoReg||'', lista:true, cell:r=>el('td',{}, r.estadoReg? el('span',{class:'badge '+(r.estadoReg==='Oficial'?'ofic-si':'ofic-no')}, r.estadoReg) : el('small',{class:'muted'},'—'))}
+  ];
 
-  const tbody = el('tbody',{});
-  const counter = el('div',{class:'muted',style:{fontSize:'12px'}},'');
-  const seleccion = new Set();
-  const bulkBar = el('div',{class:'bulk-bar',style:{display:'none'}});
-
-  function asignar(inv, ejec){
-    state.asignacionesMP[keyMes()][inv] = ejec || null;
-    save();
-  }
-
-  function renderBulkBar(){
-    bulkBar.innerHTML = '';
-    if(seleccion.size === 0){ bulkBar.style.display = 'none'; return; }
-    bulkBar.style.display = 'flex';
-    bulkBar.appendChild(el('span',{class:'bulk-count'}, `${seleccion.size} seleccionado${seleccion.size>1?'s':''}`));
-    bulkBar.appendChild(el('button',{class:'small',onclick:()=>{seleccion.clear();render();}},'Limpiar selección'));
-    bulkBar.appendChild(el('div',{style:{flex:'1'}}));
-    bulkBar.appendChild(el('button',{class:'small primary',onclick:()=>mpMasiva([...seleccion], year, monthIdx, ()=>{seleccion.clear();render();})}, '➕ Registrar MP a todos'));
-    bulkBar.appendChild(el('button',{class:'small',onclick:()=>{
-      const ej = prompt('Asignar a:\n'+EJECUTORES.map((e,i)=>(i+1)+'. '+e).join('\n')+'\n\nNúmero (1-11):');
-      const idx = parseInt(ej) - 1;
-      if(idx >= 0 && idx < EJECUTORES.length){
-        seleccion.forEach(inv => { state.asignacionesMP[keyMes()][inv] = EJECUTORES[idx]; });
-        save();
-        toast(`${seleccion.size} equipos asignados a ${EJECUTORES[idx]}`,'success');
-        seleccion.clear();
-        render();
-      }
-    }}, '👤 Asignar a ejecutor'));
-  }
-
-  function render(){
+  function buildRows(){
     state.equipos.forEach(recalcEstadoEquipo);
-    const m = mesActual();
-    let lista = state.equipos.filter(eq => {
-      if(eq.estado === 'baja') return false;
-      if(!mpProgramadaEnMes(eq, m)) return false;
-      const prevR = Object.entries(eq.registro||{}).some(([mes,obj]) => {
-        const idx = MES_NUM[mes];
-        return idx < monthIdx && ['FS','Baja','NU'].includes(obj.R);
+    const yy = +selAnio.value;
+    const meses = selMes.value==='todos' ? MESES.map((_,i)=>i) : [ +selMes.value ];
+    const rows=[];
+    state.equipos.forEach(eq=>{
+      if(eq.estado==='baja') return;
+      meses.forEach(m=>{
+        const P = ((eq.registro||{})[MESES[m]]||{}).P || (eq.prog||{})[MESES[m]] || '';
+        const R = resultadoMPMes(eq, yy, m) || '';
+        if(!P && !R) return; // solo filas con programación o resultado en ese mes
+        const ev = eventoMPMes(eq.inv, yy, m);
+        rows.push({eq, m, P, R, ejecutor: ev?(ev.ejecutor||''):'', estadoReg: ev?(ev.oficial==='Sí'?'Oficial':'Borrador'):''});
       });
-      if(prevR) return false;
-      return true;
     });
-
-    const fExec = selExec.value, fEst = selEst.value;
-    lista = lista.filter(eq => {
-      const ej = ((state.asignacionesMP[keyMes()]||{})[eq.inv])||null;
-      if(fExec && ej !== fExec) return false;
-      const est = mpEstadoMes(eq, year, monthIdx);
-      if(fEst === 'ejec' && est !== 'ejecutada') return false;
-      if(fEst === 'pend' && est !== 'pendiente') return false;
-      if(fEst === 'reprog' && est !== 'reprogramada') return false;
-      if(fEst === 'sinAsignar' && ej) return false;
-      return true;
-    });
-
-    tbody.innerHTML = '';
-    lista.forEach(eq => {
-      const est = mpEstadoMes(eq, year, monthIdx);
-      state.asignacionesMP[keyMes()] = state.asignacionesMP[keyMes()] || {};
-      const asign = state.asignacionesMP[keyMes()][eq.inv] || '';
-      const selA = el('select',{onchange:e=>asignar(eq.inv,e.target.value)},
-        el('option',{value:''},'— sin asignar —'),
-        ...EJECUTORES.map(x=>el('option',{value:x,selected:x===asign?'selected':false},x))
-      );
-      selA.value = asign;
-      const cb = el('input',{type:'checkbox',checked:seleccion.has(eq.inv)?'checked':false,onclick:e=>{e.stopPropagation();if(e.target.checked) seleccion.add(eq.inv); else seleccion.delete(eq.inv); renderBulkBar();}});
-      cb.checked = seleccion.has(eq.inv);
-      tbody.appendChild(el('tr',{},
-        el('td',{style:{width:'30px'}}, cb),
-        el('td',{}, el('strong',{},eq.inv)),
-        el('td',{}, eq.equipo),
-        el('td',{}, eq.servicio, el('br'), el('small',{class:'muted'}, eq.unidad||'')),
-        el('td',{}, eq.marca+' '+eq.modelo),
-        el('td',{}, el('span',{class:'badge mp-cause'}, (eq.prog||{})[m])),
-        el('td',{}, eq.freq||'—'),
-        el('td',{}, selA),
-        el('td',{}, est==='ejecutada' ? el('span',{class:'badge mp-si'},'Ejecutada')
-                  : est==='reprogramada' ? el('span',{class:'badge st'},'Reprogramada')
-                  : est==='otro' ? el('span',{class:'badge'}, resultadoMPMes(eq, year, monthIdx)||'—')
-                  : el('span',{class:'badge mp-no'},'Pendiente')),
-        el('td',{class:'actions'},
-          el('button',{class:'small primary',onclick:()=>mpRapida({invDefault:eq.inv, fechaDefault:fechaSugeridaMP(year, monthIdx)})}, est==='ejecutada'?'➕ MP':'➕ Registrar MP'),
-          el('button',{class:'small ghost',onclick:()=>navigate('equipo',{inv:eq.inv})},'Ficha')
-        )
-      ));
-    });
-    counter.textContent = `${lista.length} equipos`;
-    renderBulkBar();
+    return rows;
   }
-  [selExec,selEst].forEach(s => s.addEventListener('change',render));
-  // Botón seleccionar todos visibles
-  const btnSelTodos = el('button',{class:'small ghost',onclick:()=>{
-    const m = mesActual();
-    const visibles = state.equipos.filter(eq => eq.estado!=='baja' && mpProgramadaEnMes(eq, m));
-    visibles.forEach(eq => seleccion.add(eq.inv));
-    render();
-  }},'☐ Seleccionar todos los visibles');
+  const valoresUnicos = c => [...new Set(rowsAll.map(r=>{const v=c.g(r); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 
-  // Botones plantilla
-  const btnDescargarPlantilla = el('button',{onclick:()=>descargarPlantillaMP(year, monthIdx), title:'Descargar plantilla Excel del mes'}, '📥 Descargar plantilla');
-  const fileInputPlantilla = el('input',{type:'file',accept:'.xlsx',style:{display:'none'},onchange:async e=>{
-    const f = e.target.files[0]; if(!f) return;
-    await subirPlantillaMP(f, year, monthIdx);
-    e.target.value = '';
-    render();
-  }});
-  const btnSubirPlantilla = el('button',{class:'primary',onclick:()=>fileInputPlantilla.click(), title:'Subir plantilla con asignaciones llenadas'}, '📤 Subir plantilla');
+  function buildHead(){
+    cerrarColPopups();
+    thead.innerHTML='';
+    const trH=el('tr',{});
+    COLS.forEach(c=> trH.appendChild(el('th',{class:'th-sort',title:'Ordenar por '+c.l,onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else {ordK=c.k;ordDir=1;} buildHead(); aplicar(); }}, c.l+(ordK===c.k?(ordDir>0?' ▲':' ▼'):''))));
+    trH.appendChild(el('th',{},'Acciones'));
+    thead.appendChild(trH);
+    const trF=el('tr',{class:'filtros-col'});
+    COLS.forEach(c=>{
+      let ctrl;
+      if(c.lista) ctrl=filtroColumnaExcel(c.l, valoresUnicos(c), filtros, c.k, aplicar);
+      else ctrl=el('input',{type:'text',placeholder:'filtrar…',value:(typeof filtros[c.k]==='string'?filtros[c.k]:''),oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__af); window.__af=setTimeout(aplicar,200); }});
+      trF.appendChild(el('th',{}, ctrl));
+    });
+    trF.appendChild(el('th',{}));
+    thead.appendChild(trF);
+  }
+  function renderChips(){
+    chipsBar.innerHTML='';
+    const etq={ejec:'Ejecutadas',pend:'Pendientes',reprog:'Reprogramadas (C1–C8)',otro:'Otro resultado'}[drill.estadoMP];
+    const addChip=(k,v,onclr)=>chipsBar.appendChild(el('span',{class:'filter-chip'}, el('span',{class:'k'},k+':'), el('span',{},v), el('span',{class:'x',onclick:onclr},'×')));
+    if(etq) addChip('Resumen', etq, ()=>{drill.estadoMP='';renderChips();aplicar();});
+    if(drill.sinAsignar) addChip('Resumen','Sin ejecutar',()=>{drill.sinAsignar=false;renderChips();aplicar();});
+  }
+  function aplicar(){
+    const tokens=norm(search.value.trim()).split(/\s+/).filter(Boolean);
+    let list=rowsAll.filter(r=>{
+      if(drill.estadoMP==='ejec' && r.R!=='Si') return false;
+      if(drill.estadoMP==='pend' && r.R) return false;
+      if(drill.estadoMP==='reprog' && !/^C[1-8]$/.test(r.R||'')) return false;
+      if(drill.estadoMP==='otro' && (!r.R || r.R==='Si' || /^C[1-8]$/.test(r.R))) return false;
+      if(drill.sinAsignar && r.ejecutor) return false;
+      if(tokens.length){ const hay=[r.eq.inv,r.eq.serie,r.eq.equipo,r.eq.marca,r.eq.modelo,r.eq.servicio,r.eq.unidad].map(norm).join(' '); if(!tokens.every(t=>hay.includes(t))) return false; }
+      for(const c of COLS){ const fv=filtros[c.k]; if(!fv) continue; const val=c.g(r);
+        if(c.lista){ if(fv instanceof Set && fv.size>0 && !fv.has(String(val))) return false; }
+        else { if(!norm(val).includes(norm(fv))) return false; } }
+      return true;
+    });
+    if(ordK){ const c=COLS.find(x=>x.k===ordK); list.sort((a,b)=> String(c.g(a)).localeCompare(String(c.g(b)),'es',{numeric:true})*ordDir); }
+    tbody.innerHTML='';
+    list.slice(0,1000).forEach(r=>{
+      const tr=el('tr',{});
+      COLS.forEach(c=> tr.appendChild(c.cell ? c.cell(r) : el('td',{}, c.g(r)||'—')));
+      tr.appendChild(el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
+        el('button',{class:'small primary',onclick:()=>mpRapida({invDefault:r.eq.inv, fechaDefault:fechaSugeridaMP(+selAnio.value, r.m)})},'➕ MP'),
+        el('button',{class:'small ghost',onclick:()=>navigate('equipo',{inv:r.eq.inv})},'Ficha')
+      ));
+      tbody.appendChild(tr);
+    });
+    counter.textContent = `${list.length} registros${list.length>1000?' (mostrando 1000)':''}`;
+    renderChips();
+  }
+  function render(){ rowsAll = buildRows(); buildHead(); aplicar(); }
+  selAnio.onchange = render; selMes.onchange = render;
+  search.addEventListener('input', ()=>{ clearTimeout(window.__as); window.__as=setTimeout(aplicar,200); });
 
-  root.appendChild(el('div',{class:'view'},
-    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:'8px'}},
-      el('h2',{},'MP del mes'),
-      el('div',{style:{display:'flex',gap:'6px'}},
-        btnDescargarPlantilla, btnSubirPlantilla, fileInputPlantilla
-      )
+  root.appendChild(el('div',{class:'view view-full'},
+    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'8px',flexWrap:'wrap',gap:'10px'}},
+      el('h2',{},'Asignaciones'),
+      el('div',{style:{display:'flex',gap:'6px',alignItems:'center'}}, el('span',{class:'muted',style:{fontSize:'12px'}},'Año'), selAnio, el('span',{class:'muted',style:{fontSize:'12px'}},'Mes'), selMes)
     ),
-    el('div',{class:'subtitle'},'Selecciona mes, asigna ejecutor y registra el evento al recibir la documentación. Marca varios y usa "Registrar MP a todos" para batch. Se excluyen equipos con FS/Baja/NU en meses previos.'),
-    el('div',{class:'toolbar'}, btnPrevMes, selMes, selAnio, btnNextMes, selExec, selEst, btnSelTodos, counter),
-    bulkBar,
-    el('div',{style:{maxHeight:'calc(100vh - 280px)',overflow:'auto',border:'1px solid var(--border)',borderRadius:'6px'}},
-      el('table',{class:'data',style:{border:'none'}},
-        el('thead',{}, el('tr',{},
-          ['','N° Inv.','Equipo','Servicio/Unidad','Marca-Modelo','Cód. P','Freq.','Ejecutor asignado','Estado MP','Acciones'].map(h=>el('th',{},h))
-        )),
-        tbody
-      )
+    el('div',{class:'subtitle'},'Programación, resultado y ejecutor de la MP por equipo y mes. Filtra por columna o elige el mes (incluye "Todos los meses").'),
+    el('div',{class:'toolbar'}, el('div',{class:'grow'},search), counter),
+    chipsBar,
+    el('div',{class:'eq-grid-wrap',style:{overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
+      el('table',{class:'data eq-grid buscar-grid',style:{border:'none'}}, thead, tbody)
     )
   ));
   render();
