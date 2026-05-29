@@ -17,6 +17,15 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.46 [2026-05-29] Completa el fix v0.45: faltaban 2 lugares que guardaban mal el estado de la MP.
+  - Error propio: en v0.45 corregí el estado de la MP en 3 sitios + el cálculo, pero OMITÍ:
+    (1) el formulario completo de evento, donde "Estado resultante" era un menú manual (por
+    defecto "operativo") independiente del resultado — registrar un C2 dejando "operativo"
+    volvía a romper el estado; (2) la creación de MP al ACEPTAR un conflicto en Conciliación
+    (origen 'conciliacion'), que seguía con la fórmula vieja.
+  - Arreglo: el "Estado resultante" del formulario ahora es automático (solo lectura, derivado
+    del resultado con estadoMPDesdeResultado) y la conciliación usa el mismo helper. Es la misma
+    causa raíz de siempre: arreglar un patrón en N sitios y omitir M. Ahora son los 5 sitios.
 v0.45 [2026-05-29] Fix: equipos "en servicio técnico" desaparecían tras subir el maestro.
   - Causa: la MP guardaba mal su estado resultante. La fórmula solo distinguía Si→operativo y
     Baja→baja; TODO lo demás (incluido C2 = "equipo en servicio técnico" y C3/FS/NU = "no
@@ -1084,7 +1093,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.45';
+const APP_VERSION = '0.46';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -3766,7 +3775,7 @@ function resolverConflicto(c, accion, valorManual, opts){
             fecha, fechaReg: hoyLocal(),
             resultado: v,
             ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
-            estado: v === 'Si' ? 'operativo' : v === 'Baja' ? 'baja' : (eq.estado||'operativo'),
+            estado: estadoMPDesdeResultado(v),
             obs: `[Conciliación] Importado desde maestro · Importación #${c.importacionId||'-'}`,
             oficial: 'No',
             anulado: false,
@@ -4637,13 +4646,18 @@ function nuevoEvento(opts){
         const resultado = el('select',{},
           ...['Si','C1','C2','C3','C4','C5','C6','C7','C8','FS','Baja','NU','No'].map(x=>el('option',{value:x},x))
         );
-        const estado = el('select',{}, ...['operativo','no operativo','en servicio técnico'].map(s=>el('option',{value:s},s)));
-        extra = {ejec2,resultado,estado};
+        // El estado resultante de una MP NO se elige a mano: se deriva del resultado/causal
+        // (C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja, Si→operativo; C1/C4–C8 no
+        // cambian el estado). Así no se puede guardar un C2 como "operativo" por descuido.
+        const estado = el('input',{type:'text',readonly:true});
+        const syncEstadoMP = ()=>{ estado.value = estadoMPDesdeResultado(resultado.value) || '(sin cambio de estado)'; };
+        syncEstadoMP(); resultado.addEventListener('change', syncEstadoMP);
+        extra = {ejec2,resultado};
         campos.appendChild(el('div',{class:'grid-3'},
           formField('Fecha MP',fecha), formField('Ejecutor',ejecutor), formField('Ejecutor 2',ejec2)
         ));
         campos.appendChild(el('div',{class:'grid-3'},
-          formField('Resultado',resultado), formField('Estado resultante',estado), formField('Oficial',oficial)
+          formField('Resultado',resultado), formField('Estado resultante (automático)',estado), formField('Oficial',oficial)
         ));
         campos.appendChild(formField('Observación',obs));
         const noticeBox = el('div',{class:'notice info'},'Si resultado es C1–C8 se creará automáticamente un pendiente de reprogramación. Si es NU → pendiente "Localizar equipo". Si es Baja → equipo pasa a baja.');
@@ -4686,6 +4700,8 @@ function nuevoEvento(opts){
         // Persistir estado y resultado en campos top-level
         if(extra.estado) ev.estado = extra.estado.value;
         if(extra.resultado) ev.resultado = extra.resultado.value;
+        // MP: el estado resultante se deriva del resultado/causal (no de un menú manual).
+        if(tipo === 'Mantención preventiva') ev.estado = estadoMPDesdeResultado(ev.resultado);
         if(extra.folio) ev.folio = extra.folio.value || null;
         if(extra.nEnvio) ev.nEnvio = extra.nEnvio.value || null;
         if(extra.nOC) ev.nOC = extra.nOC.value || null;

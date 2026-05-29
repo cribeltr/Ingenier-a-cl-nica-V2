@@ -664,4 +664,29 @@
 - **Dónde aplica:** build_app.py (`estadoMPDesdeResultado`, `recalcEstadoEquipo`, 3 creaciones de
   MP, columna Estado del historial); tools/smoke_test.js (+1); CHANGELOG v0.45.
 
+## [2026-05-29] Mi propio error: el fix v0.45 quedó en 3 de 5 sitios (v0.46)
+
+- **Disparador:** el usuario: "revisa los cambios, identifica tu error y corrígelo".
+- **Error encontrado (autocrítica):** en v0.45 corregí el estado de la MP (derivarlo del
+  resultado con `estadoMPDesdeResultado`) en 3 lugares + el cálculo, pero OMITÍ 2:
+  1. **Formulario completo de evento** (`nuevoEvento`, MP): el "Estado resultante" era un
+     `<select>` MANUAL (operativo/no operativo/en servicio técnico) que por defecto quedaba en
+     "operativo", independiente del resultado. Registrar un C2 dejando el default → estado
+     "operativo" guardado. (El usuario registra MP justo por este formulario — sesión 1607.)
+  2. **Conciliación al aceptar un conflicto** (evento origen 'conciliacion', ~3769): seguía con
+     la fórmula vieja `Si?op:Baja?baja:(eq.estado||'operativo')`.
+- **Arreglo:** el "Estado resultante" del formulario ahora es un campo de SOLO LECTURA que se
+  deriva del resultado en vivo (`estadoMPDesdeResultado`, se actualiza al cambiar el resultado),
+  y al guardar `ev.estado = estadoMPDesdeResultado(ev.resultado)`. Conciliación usa el helper.
+  Son 5 sitios: synthetic auto, conciliación-aceptar, mpMasiva, mpRapida, formulario completo.
+- **Verificado:** por el formulario completo, MP con C2 → muestra "en servicio técnico" y deja el
+  equipo en servicio técnico (end-to-end headless). `grep` no encuentra restos de la fórmula vieja.
+  Conteo del backup del usuario sin regresión (serv. técnico 15). Humo 10/10.
+- **Heurística (la de SIEMPRE, ahora autoaplicada):** al cambiar un patrón, `grep` del patrón
+  COMPLETO en TODO el archivo y arreglar TODOS los sitios. Aquí el patrón era "estado resultante
+  de una MP": estaba en 5 lugares (3 con fórmula + 1 select manual + 1 conciliación) y arreglé 3.
+  Antídoto: buscar por `tipo: 'Mantención preventiva'` y por el campo `estado` en cada form.
+- **Dónde aplica:** build_app.py (`nuevoEvento` MP estado derivado, conciliación ~3769);
+  CHANGELOG v0.46.
+
 <!-- Próximas entradas debajo de esta línea -->
