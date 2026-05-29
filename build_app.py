@@ -17,6 +17,11 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.44 [2026-05-29] Cada evento del historial tiene botón "➕ Pend." (pendiente ligado).
+  - En la columna Acciones del historial, cada evento (no anulado) suma "➕ Pend." que abre el
+    formulario de pendiente con el equipo precargado y LIGADO a ese evento (eventoOrigen). El
+    nuevo pendiente aparece de inmediato en la columna Pendientes de esa misma fila.
+  - nuevoPendiente acepta opts.eventoOrigen, guarda el vínculo y muestra un aviso "🔗 ligado a…".
 v0.43 [2026-05-29] Historial de eventos en COLUMNAS + columna de Pendientes (cap. 4.3).
   - El historial pasa de tarjetas a una TABLA con columnas: Fecha · Descripción · Estado ·
     Ejecutor · Pendientes · Acciones. La columna "Pendientes" muestra, al lado de cada evento,
@@ -1069,7 +1074,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.43';
+const APP_VERSION = '0.44';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2763,6 +2768,7 @@ function renderBitacora(eq){
             (TIPO_PENDIENTE[p.tipo]||p.tipo)+' · '+(ESTADO_PEND_LABEL[p.estado]||p.estado))))),
       el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
         !ev.anulado ? el('div',{style:{display:'flex',gap:'4px',flexWrap:'wrap'}},
+          el('button',{class:'small',onclick:()=>nuevoPendiente({invDefault:ev.inv, eventoOrigen:ev.id}),title:'Agregar un pendiente ligado a este evento'},'➕ Pend.'),
           ev.oficial !== 'Sí' ? el('button',{class:'small primary',onclick:()=>oficializarEvento(ev),title:'Marcar como oficial'},'✓ Oficializar') : null,
           el('button',{class:'small',onclick:()=>editarEvento(ev),title:'Editar campos básicos'},'✎ Editar'),
           el('button',{class:'small danger',onclick:()=>anularEvento(ev),title:'Anular evento (revierte efectos)'},'⊘ Anular')
@@ -4932,6 +4938,7 @@ function anularEventoAplicar(ev, motivo){
 // PENDIENTES — abrir, cerrar, crear, tareas
 //==============================================================
 function nuevoPendiente(opts){
+  opts = opts || {};
   const eqList = state.equipos.slice().sort((a,b)=>a.inv.localeCompare(b.inv));
   const invInput = el('input',{type:'text',list:'eq-list-p',value:opts.invDefault||'',placeholder:'N° Inventario'});
   const dataList = el('datalist',{id:'eq-list-p'}, ...eqList.slice(0,200).map(e=>el('option',{value:e.inv}, `${e.inv} — ${e.equipo}`)));
@@ -4940,10 +4947,13 @@ function nuevoPendiente(opts){
   const ejec = el('select',{}, el('option',{value:''},'—'), ...EJECUTORES.map(x=>el('option',{value:x},x)));
   const fComp = el('input',{type:'date'});
   const fRec = el('input',{type:'date'});
+  // Si se crea desde un evento del historial, queda LIGADO a ese evento (eventoOrigen).
+  const evLigado = opts.eventoOrigen != null ? state.eventos.find(e=>e.id===opts.eventoOrigen) : null;
 
-  modal({title:'Nuevo pendiente',
+  modal({title: evLigado ? 'Nuevo pendiente (ligado a un evento)' : 'Nuevo pendiente',
     hasUnsavedData: ()=> desc.value.trim() !== '' || ejec.value !== '' || fComp.value !== '' || fRec.value !== '',
     body: el('div',{},
+    evLigado ? el('div',{class:'notice'}, '🔗 Quedará ligado al evento: '+evLigado.tipo+' · '+fmtFecha(evLigado.fecha)+(evLigado.folio?(' · Folio '+evLigado.folio):'')) : null,
     el('div',{class:'grid-2'},
       formField('N° Inventario', el('div',{},invInput,dataList)),
       formField('Tipo', tipo)
@@ -4969,6 +4979,7 @@ function nuevoPendiente(opts){
         fechaCrea: hoyLocal(),
         fechaComp: fComp.value||null, proxRecord: fRec.value||null,
         fechaCierre:null, estado:'no_iniciado', origen:'manual',
+        eventoOrigen: opts.eventoOrigen != null ? opts.eventoOrigen : null,
         seguimientos:[], tareas:[], anulado:false
       };
       state.pendientes.push(p);

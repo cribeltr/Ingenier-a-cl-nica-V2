@@ -624,4 +624,17 @@
   tarjeta mostraba (sellos, folio, observación, anulación) repartidos en celdas, no perderlos.
 - **Dónde aplica:** build_app.py (`renderBitacora`); CHANGELOG v0.43.
 
+## [2026-05-29] Botón "➕ Pend." por evento (pendiente ligado) (v0.44)
+
+- **Disparador:** el usuario quiere agregar pendientes desde cada evento del historial.
+- **Hecho:** en la columna Acciones del historial, cada evento no anulado tiene "➕ Pend." que
+  llama `nuevoPendiente({invDefault:ev.inv, eventoOrigen:ev.id})`. `nuevoPendiente` ahora acepta
+  `opts.eventoOrigen`, lo guarda en el pendiente y muestra un aviso "🔗 ligado a…" en el modal.
+  El pendiente nuevo aparece al instante en la columna Pendientes de esa misma fila (porque esa
+  columna filtra `eventoOrigen === ev.id`).
+- **Verificado headless de punta a punta:** botón presente → modal con aviso de vínculo →
+  crear → chip "Documento faltante · No iniciado" en la fila del evento. 0 errores; humo 9/9.
+- **Dónde aplica:** build_app.py (`nuevoPendiente` opts.eventoOrigen + aviso, `renderBitacora`
+  botón en Acciones); CHANGELOG v0.44.
+
 <!-- Próximas entradas debajo de esta línea -->
