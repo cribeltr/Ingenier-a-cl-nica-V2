@@ -17,6 +17,13 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.51 [2026-05-29] MP con resultado "Si": el estado del equipo se elige (Operativo / No operativo).
+  - Regla del usuario: en una Mantención Preventiva, cuando el resultado es "Si" (realizada), el
+    estado resultante lo decide quien registra: Operativo o No operativo. Con cualquier causal
+    (C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja, C1/C4–C8→sin cambio) el estado se
+    deriva solo y se muestra de solo lectura. Helper estadoMPFinal.
+  - Aplicado en los 3 formularios de MP (completo, rápida, masiva) y en el cálculo de estado.
+    La causal C2 sigue marcando "en servicio técnico" desde la carta gantt (se mantienen los 15).
 v0.50 [2026-05-29] Se quita "Por resolver" del menú; "Pendientes" pasa a ser apartado e inicio.
   - El menú GESTIONAR ahora abre con "Pendientes" (antes "Por resolver", eliminado). La app
     arranca en Pendientes. El contador del menú cuenta los pendientes abiertos.
@@ -1129,7 +1136,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.50';
+const APP_VERSION = '0.51';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1476,6 +1483,13 @@ function estadoMPDesdeResultado(resultado){
   if(resultado === 'Baja') return 'baja';
   return ''; // C1, C4–C8 (reprogramación sin falla) y otros: no declaran estado
 }
+// Estado resultante FINAL de una MP. Cuando el resultado es "Si" (MP realizada), lo decide
+// quien registra: Operativo o No operativo. Con cualquier causal (C2, C3, FS, NU, Baja…) el
+// estado se deriva solo de la causal (estadoMPDesdeResultado). C1/C4–C8: no cambia el estado.
+function estadoMPFinal(resultado, estadoManualSi){
+  if(resultado === 'Si') return estadoManualSi === 'no operativo' ? 'no operativo' : 'operativo';
+  return estadoMPDesdeResultado(resultado);
+}
 // Cuando no hay eventos que declaren estado, infiere desde la carta gantt usando el
 // resultado del último mes registrado del año vigente. Devuelve {estado,fecha} o null.
 function estadoDesdeMatriz(equipo){
@@ -1507,7 +1521,9 @@ function recalcEstadoEquipo(equipo){
     // Baja→baja, Si→operativo. C1 y C4–C8 son reprogramaciones SIN falla: no declaran estado
     // (se sigue buscando hacia atrás / la carta gantt).
     if(ev.tipo === 'Mantención preventiva' && ev.resultado){
-      if(ev.resultado === 'Si'){ equipo.estado='operativo'; equipo.estadoDesde=ev.fecha; return; }
+      // Resultado "Si": el estado lo eligió quien registró (operativo / no operativo).
+      if(ev.resultado === 'Si'){ equipo.estado = ev.estado === 'no operativo' ? 'no_operativo' : 'operativo'; equipo.estadoDesde=ev.fecha; return; }
+      // Causales: el estado se deriva de la causal (C2→serv. técnico, C3/FS/NU→no operativo, Baja→baja).
       const estMP = MP_CAUSAL_ESTADO[ev.resultado];
       if(estMP){ equipo.estado=estMP; equipo.estadoDesde=ev.fecha; return; }
       continue; // C1, C4–C8: reprogramación sin falla declarada
@@ -4285,6 +4301,15 @@ function mpMasiva(invs, year, monthIdx, refresh){
   ejecutor.value = getPref('ultimoEjecutor','');
   const obs = el('textarea',{placeholder:'Observación común a todos los registros (opcional)'});
   const omitirDup = el('input',{type:'checkbox',checked:'checked'});
+  // Estado resultante: con "Si" lo elige el usuario (aplica a todo el lote); con causal se deriva.
+  const estadoSel = el('select',{}, el('option',{value:'operativo'},'Operativo'), el('option',{value:'no operativo'},'No operativo'));
+  const estadoAuto = el('input',{type:'text',readonly:true});
+  const estadoSelWrap = el('div',{}, estadoSel, estadoAuto);
+  const syncEstadoMP = ()=>{
+    if(resultado.value === 'Si'){ estadoSel.style.display=''; estadoAuto.style.display='none'; }
+    else { estadoSel.style.display='none'; estadoAuto.style.display=''; estadoAuto.value = estadoMPDesdeResultado(resultado.value) || '(sin cambio de estado)'; }
+  };
+  syncEstadoMP(); resultado.addEventListener('change', syncEstadoMP);
   function guardar(){
     if(!fecha.value){ toast('Fecha requerida','error'); return; }
     if(!ejecutor.value){ toast('Selecciona ejecutor','error'); return; }
@@ -4308,7 +4333,7 @@ function mpMasiva(invs, year, monthIdx, refresh){
         fecha: fecha.value, fechaReg: hoyLocal(),
         resultado: resultado.value,
         ejecutor: ejecutor.value,
-        estado: estadoMPDesdeResultado(resultado.value),
+        estado: estadoMPFinal(resultado.value, estadoSel.value),
         obs: obs.value || null,
         oficial: 'No',
         anulado: false,
@@ -4337,9 +4362,10 @@ function mpMasiva(invs, year, monthIdx, refresh){
       el('div',{class:'notice info'},
         `Se registrará una Mantención Preventiva con los mismos datos a los ${invs.length} equipos seleccionados.`
       ),
-      el('div',{class:'grid-2'},
+      el('div',{class:'grid-3'},
         formField('Fecha de la MP', fecha),
-        formField('Resultado', resultado)
+        formField('Resultado', resultado),
+        formField('Estado resultante', estadoSelWrap)
       ),
       formField('Ejecutor', ejecutor),
       formField('Observación común (opcional)', obs),
@@ -4381,6 +4407,15 @@ function mpRapida(opts){
   );
   ejecutor.value = getPref('ultimoEjecutor','');
   const obs = el('textarea',{placeholder:'Observación (opcional)'});
+  // Estado resultante: con "Si" lo elige el usuario (operativo/no operativo); con causal se deriva.
+  const estadoSel = el('select',{}, el('option',{value:'operativo'},'Operativo'), el('option',{value:'no operativo'},'No operativo'));
+  const estadoAuto = el('input',{type:'text',readonly:true});
+  const estadoSelWrap = el('div',{}, estadoSel, estadoAuto);
+  const syncEstadoMP = ()=>{
+    if(resultado.value === 'Si'){ estadoSel.style.display=''; estadoAuto.style.display='none'; }
+    else { estadoSel.style.display='none'; estadoAuto.style.display=''; estadoAuto.value = estadoMPDesdeResultado(resultado.value) || '(sin cambio de estado)'; }
+  };
+  syncEstadoMP(); resultado.addEventListener('change', syncEstadoMP);
 
   function guardar(continuar){
     if(!fecha.value){ toast('Fecha requerida','error'); return; }
@@ -4405,7 +4440,7 @@ function mpRapida(opts){
       fecha: fecha.value, fechaReg: hoyLocal(),
       resultado: resultado.value,
       ejecutor: ejecutor.value,
-      estado: estadoMPDesdeResultado(resultado.value),
+      estado: estadoMPFinal(resultado.value, estadoSel.value),
       obs: obs.value || null,
       oficial: 'No',
       anulado: false,
@@ -4460,9 +4495,10 @@ function mpRapida(opts){
         eqInfoCell('Frecuencia MP', eq.freq)
       )
     ),
-    el('div',{class:'grid-2'},
+    el('div',{class:'grid-3'},
       formField('Fecha de la MP', fecha),
-      formField('Resultado', resultado)
+      formField('Resultado', resultado),
+      formField('Estado resultante', estadoSelWrap)
     ),
     formField('Ejecutor', ejecutor),
     formField('Observación', obs),
@@ -4537,6 +4573,7 @@ function nuevoEvento(opts){
       const oficial = el('select',{}, el('option',{value:'No'},'Borrador (No oficial)'), el('option',{value:'Sí'},'Oficial'));
 
       let extra = {};
+      let mpEstadoSel = null; // selector Operativo/No operativo de la MP (solo aplica si resultado='Si')
       if(tipo === 'Solicitud de trabajo'){
         const folio = el('input',{type:'text',placeholder:'2025-NNNNNN-NN-NNNNN (déjalo vacío para auto)'});
         extra = {folio};
@@ -4626,18 +4663,23 @@ function nuevoEvento(opts){
         const resultado = el('select',{},
           ...['Si','C1','C2','C3','C4','C5','C6','C7','C8','FS','Baja','NU','No'].map(x=>el('option',{value:x},x))
         );
-        // El estado resultante de una MP NO se elige a mano: se deriva del resultado/causal
-        // (C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja, Si→operativo; C1/C4–C8 no
-        // cambian el estado). Así no se puede guardar un C2 como "operativo" por descuido.
-        const estado = el('input',{type:'text',readonly:true});
-        const syncEstadoMP = ()=>{ estado.value = estadoMPDesdeResultado(resultado.value) || '(sin cambio de estado)'; };
+        // Con resultado "Si" el estado lo ELIGE el usuario (operativo / no operativo). Con una
+        // causal (C2, C3, FS, NU, Baja…) el estado se deriva solo y se muestra de solo lectura.
+        const estadoSel = el('select',{}, el('option',{value:'operativo'},'Operativo'), el('option',{value:'no operativo'},'No operativo'));
+        const estadoAuto = el('input',{type:'text',readonly:true});
+        const estadoWrap = el('div',{}, estadoSel, estadoAuto);
+        const syncEstadoMP = ()=>{
+          if(resultado.value === 'Si'){ estadoSel.style.display=''; estadoAuto.style.display='none'; }
+          else { estadoSel.style.display='none'; estadoAuto.style.display=''; estadoAuto.value = estadoMPDesdeResultado(resultado.value) || '(sin cambio de estado)'; }
+        };
         syncEstadoMP(); resultado.addEventListener('change', syncEstadoMP);
+        mpEstadoSel = estadoSel;
         extra = {ejec2,resultado};
         campos.appendChild(el('div',{class:'grid-3'},
           formField('Fecha MP',fecha), formField('Ejecutor',ejecutor), formField('Ejecutor 2',ejec2)
         ));
         campos.appendChild(el('div',{class:'grid-3'},
-          formField('Resultado',resultado), formField('Estado resultante (automático)',estado), formField('Oficial',oficial)
+          formField('Resultado',resultado), formField('Estado resultante',estadoWrap), formField('Oficial',oficial)
         ));
         campos.appendChild(formField('Observación',obs));
         const noticeBox = el('div',{class:'notice info'},'Si resultado es C1–C8 se creará automáticamente un pendiente de reprogramación. Si es NU → pendiente "Localizar equipo". Si es Baja → equipo pasa a baja.');
@@ -4680,8 +4722,8 @@ function nuevoEvento(opts){
         // Persistir estado y resultado en campos top-level
         if(extra.estado) ev.estado = extra.estado.value;
         if(extra.resultado) ev.resultado = extra.resultado.value;
-        // MP: el estado resultante se deriva del resultado/causal (no de un menú manual).
-        if(tipo === 'Mantención preventiva') ev.estado = estadoMPDesdeResultado(ev.resultado);
+        // MP: con "Si" el estado lo eligió el usuario; con causal se deriva.
+        if(tipo === 'Mantención preventiva') ev.estado = estadoMPFinal(ev.resultado, mpEstadoSel ? mpEstadoSel.value : 'operativo');
         if(extra.folio) ev.folio = extra.folio.value || null;
         if(extra.nEnvio) ev.nEnvio = extra.nEnvio.value || null;
         if(extra.nOC) ev.nOC = extra.nOC.value || null;

@@ -764,4 +764,23 @@
 - **Dónde aplica:** build_app.py (NAV_GRUPOS, navBadge, bootstrap/resetState landing, búsqueda de
   Pendientes; `VIEWS.porResolver` eliminada); CHANGELOG v0.50.
 
+## [2026-05-29] MP "Si": estado elegible Operativo/No operativo; causales automáticas (v0.51)
+
+- **Disparador:** el usuario precisó: en una MP, el estado del equipo es Operativo o No operativo
+  **cuando el resultado es "Si"**. Con causales se mantiene automático (C2 sigue desde la gantt).
+- **Hecho:** helper `estadoMPFinal(resultado, estadoManualSi)`: si resultado='Si' → usa la elección
+  del usuario (operativo/no operativo, default operativo); si es causal → `estadoMPDesdeResultado`
+  (C2→serv. técnico, C3/FS/NU→no operativo, Baja→baja, C1/C4–C8→sin cambio). En los 3 formularios
+  de MP (completo, rápida, masiva) el campo "Estado resultante" muestra un selector op/no-op cuando
+  el resultado es "Si" y un texto de solo lectura (derivado) para las causales. `recalcEstadoEquipo`
+  para MP "Si" usa `ev.estado`. Eventos automáticos del maestro siguen con `estadoMPDesdeResultado`.
+- **Verificado end-to-end (headless):** Si+No operativo→no_operativo; Si+Operativo→operativo;
+  C2→en servicio técnico; C3→no operativo. Guardián 9 vistas + humo 10/10. Guard actualizado para
+  aceptar `estadoMPFinal`.
+- **Heurística:** una regla de negocio puede ser CONDICIONAL (el estado solo es libre para un
+  resultado concreto). Modelarla con un helper único usado por todos los formularios y el cálculo,
+  no repetir la condición en cada sitio.
+- **Dónde aplica:** build_app.py (`estadoMPFinal`, `recalcEstadoEquipo`, MP en `nuevoEvento`,
+  `mpRapida`, `mpMasiva`), tools/guard.js; CHANGELOG v0.51.
+
 <!-- Próximas entradas debajo de esta línea -->

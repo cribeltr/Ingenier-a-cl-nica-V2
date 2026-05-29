@@ -41,7 +41,7 @@ function lineaDe(idx){ return SRC.slice(0,idx).split('\n').length; }
     const em = ventana.match(/estado:\s*([^,\n]+)/);
     if(em){
       const val = em[1].trim();
-      const okVal = val.startsWith('estadoMPDesdeResultado') || val === "'baja'" || val === '"baja"';
+      const okVal = val.startsWith('estadoMPDesdeResultado') || val.startsWith('estadoMPFinal') || val === "'baja'" || val === '"baja"';
       if(!okVal) malos.push(`línea ${lineaDe(m.index)}: estado = ${val}`);
     }
   }
