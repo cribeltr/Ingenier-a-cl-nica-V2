@@ -19,6 +19,12 @@ break;case"<bookViews":;case"<bookViews>":;case"</bookViews>":break;case"<workbo
 <script>var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});</script>
 <!--
 CHANGELOG
+v0.50 [2026-05-29] Se quita "Por resolver" del menú; "Pendientes" pasa a ser apartado e inicio.
+  - El menú GESTIONAR ahora abre con "Pendientes" (antes "Por resolver", eliminado). La app
+    arranca en Pendientes. El contador del menú cuenta los pendientes abiertos.
+  - La vista Pendientes ya trae filtros: búsqueda por equipo / N° inventario / descripción +
+    filtros por Tipo, Estado, Ejecutor (responsable) y Servicio, con chips para quitarlos.
+  - No se pierde nada: Ciclos/Eventos siguen accesibles desde la ficha del equipo y el Resumen.
 v0.49 [2026-05-29] Rediseño minimalista (paso 1): paleta azul, densidad compacta, sidebar contraíble.
   - Sin perder ninguna función (solo capa visual). Nueva paleta neutra fría con ACENTO AZUL
     (claro y oscuro), foco azul en campos. Densidad COMPACTA (fuentes/paddings/tablas más juntas).
@@ -212,7 +218,7 @@ v0.28 [2026-05-28] El folio del ciclo se preselecciona; aviso si no hay ciclo ab
     (antes era la misma expresión repetida 5 veces).
 v0.27 [2026-05-28] El número de versión del encabezado se sincroniza solo.
   - El encabezado mostraba "v0.23" fijo (escrito a mano), sin actualizarse al subir
-    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.49
+    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.50
     que build_app.py reemplaza con el valor real de APP_VERSION al generar: una
     sola fuente de verdad, no vuelve a quedar desfasado.
 v0.26 [2026-05-28] Cierre de ciclo por Recepción + Reparación "en servicio técnico".
@@ -1076,7 +1082,7 @@ header.top nav .nav-more-menu button.active{background:var(--accent-soft);color:
 <body>
 <div class="app">
   <aside class="sidebar">
-    <div class="s-logo">HHHA <small>Equipos Críticos · v0.49</small></div>
+    <div class="s-logo">HHHA <small>Equipos Críticos · v0.50</small></div>
     <nav id="nav"></nav>
     <div class="s-foot"><span class="user-tag">👤 Cristian</span></div>
   </aside>
@@ -1125,7 +1131,7 @@ const SEED = {"equipos":[{"id":1,"carpeta":1,"inv":"2-115361","fam":"Incubadoras
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.49';
+const APP_VERSION = '0.50';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1423,7 +1429,7 @@ function resetState(){
   localStorage.removeItem(STORAGE_KEY);
   state = init();
   save();
-  navigate('porResolver');
+  navigate('pendientes');
   toast('Datos reseteados','success');
 }
 
@@ -1904,68 +1910,6 @@ VIEWS.dashboard = function(root){
   ));
 };
 
-VIEWS.porResolver = function(root){
-  state.equipos.forEach(recalcEstadoEquipo);
-  const hoy = hoyLocal();
-  const activos = state.pendientes.filter(p=>!p.anulado && p.estado!=='cerrado');
-  const venc = activos.filter(p=>p.fechaComp && p.fechaComp < hoy);
-  const noInic = activos.filter(p=>p.estado==='no_iniciado' && !(p.fechaComp && p.fechaComp < hoy));
-  const enProc = activos.filter(p=>p.estado==='en_proceso' && !(p.fechaComp && p.fechaComp < hoy));
-  const ciclos = state.ciclos.filter(c=>c.estado==='abierto');
-  const borr = state.eventos.filter(e=>e.oficial!=='Sí' && !e.anulado);
-  const confl = (state.conflictos||[]).filter(c=>c.estado==='pendiente'||c.estado==='pospuesto');
-  const total = activos.length + ciclos.length + borr.length + confl.length;
-
-  const v = el('div',{class:'view'},
-    el('div',{class:'pr-hero'},
-      el('h2',{}, 'Por resolver'),
-      el('div',{class:'subtitle'},
-        new Date().toLocaleDateString('es-CL',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}) +
-        (total>0 ? ` · te quedan ${total} cosa${total!==1?'s':''} por resolver` : ' · todo al día'))
-    )
-  );
-
-  if(total === 0){
-    v.appendChild(el('div',{class:'pr-allclear'},
-      el('div',{style:{fontSize:'15px',fontWeight:'700',color:'var(--op)',marginBottom:'4px'}},'¡Todo al día!'),
-      el('div',{},'No tienes pendientes, ciclos abiertos, borradores ni conflictos por resolver.')));
-    root.appendChild(v); return;
-  }
-
-  const seccion = (titulo, count, urge) => el('div',{class:'pr-section'},
-    el('div',{class:'pr-section-hd'}, el('h3',{style:urge?{color:'var(--noop)'}:null}, titulo), el('span',{class:'count'}, count)));
-  const tarjetaPend = (p, color) => {
-    const acts = el('div',{class:'pr-acts'});
-    if(p.estado==='no_iniciado') acts.appendChild(el('button',{class:'small',onclick:()=>cambiarEstadoPend(p,'en_proceso')},'Empezar'));
-    acts.appendChild(el('button',{class:'small primary',onclick:()=>cerrarPendiente(p)},'Resolver'));
-    return el('div',{class:'pr-card '+color},
-      el('div',{class:'pr-body'},
-        el('div',{class:'pr-title'}, (p.inv||'')+' · '+(p.equipo||'')),
-        el('div',{class:'pr-sub'}, (TIPO_PENDIENTE[p.tipo]||p.tipo) + (p.desc? ' — '+p.desc : '')),
-        el('div',{style:{marginTop:'7px'}}, badgePend(p.estado),
-          p.fechaComp ? el('span',{class:'badge',style:{marginLeft:'6px'}}, 'Compromiso '+fmtFecha(p.fechaComp)) : null)
-      ), acts);
-  };
-  const tarjeta = (color, titulo, sub, btnLabel, onclick, btnPrimary) => el('div',{class:'pr-card '+color},
-    el('div',{class:'pr-body'}, el('div',{class:'pr-title'}, titulo), el('div',{class:'pr-sub'}, sub)),
-    el('div',{class:'pr-acts'}, el('button',{class:'small'+(btnPrimary?' primary':''),onclick}, btnLabel)));
-
-  if(venc.length){ const s=seccion('Vencidos', venc.length+' atrasado(s)', true); venc.forEach(p=>s.appendChild(tarjetaPend(p,'red'))); v.appendChild(s); }
-  if(noInic.length){ const s=seccion('No iniciados', noInic.length+' por empezar'); noInic.forEach(p=>s.appendChild(tarjetaPend(p,'gray'))); v.appendChild(s); }
-  if(enProc.length){ const s=seccion('En proceso', enProc.length+' en curso'); enProc.forEach(p=>s.appendChild(tarjetaPend(p,'amber'))); v.appendChild(s); }
-  if(ciclos.length){ const s=seccion('Ciclos correctivos abiertos', String(ciclos.length));
-    ciclos.slice(0,15).forEach(c=>{ const eq=findEquipo(c.inv);
-      s.appendChild(tarjeta('teal', c.folio||'(sin folio)', (c.inv||'')+' · '+(eq?eq.equipo:'')+' · abierto '+fmtFecha(c.fechaApertura), 'Ver equipo', ()=>navigate('equipo',{inv:c.inv}))); });
-    v.appendChild(s); }
-  if(borr.length){ const s=seccion('Borradores por archivar', borr.length+' documento(s)');
-    borr.slice(0,15).forEach(e=>
-      s.appendChild(tarjeta('gray', e.tipo+' · '+(e.equipo||''), (e.inv||'')+' · '+fmtFecha(e.fecha)+' · confirma el documento y oficialízalo', 'Ver ficha', ()=>navigate('equipo',{inv:e.inv}))));
-    v.appendChild(s); }
-  if(confl.length){ const s=seccion('Conflictos con el maestro', confl.length+' por revisar');
-    s.appendChild(tarjeta('teal','Diferencias con la carta gantt', confl.length+' celda(s) por confirmar', 'Revisar', ()=>navigate('conciliacion'), true));
-    v.appendChild(s); }
-  root.appendChild(v);
-};
 
 function kpiCell(lbl, val, onclick, cls){
   return el('div',{class:'kpi '+(cls||''),onclick},
@@ -3302,7 +3246,7 @@ VIEWS.ciclos = function(root, params){
 
 //---------------- PENDIENTES ----------------
 VIEWS.pendientes = function(root, params){
-  const search = el('input',{type:'search',placeholder:'Buscar pendiente…'});
+  const search = el('input',{type:'search',placeholder:'Buscar por equipo, N° inventario o descripción…'});
   const selTipo = el('select',{},
     el('option',{value:''},'Todos los tipos'),
     ...Object.entries(TIPO_PENDIENTE).map(([k,v])=>el('option',{value:k,selected:k===params.tipo?'selected':false},v))
@@ -5921,14 +5865,14 @@ setInterval(()=>{ if(recorder.status==='recording') recorder.updateUI(); }, 1000
 //==============================================================
 // INIT
 //==============================================================
-// Barra lateral agrupada en los dos momentos del trabajo. Pendientes/Ciclos/Eventos
-// no van en el menú: se acceden desde "Por resolver" y desde la ficha del equipo.
+// Barra lateral agrupada en los dos momentos del trabajo. Ciclos/Eventos no van en el
+// menú: se acceden desde Pendientes, el Resumen y la ficha del equipo.
 const NAV_GRUPOS = [
-  ['GESTIONAR', [['porResolver','Por resolver'],['equipos','Buscar equipos'],['registroMP','Registro MP'],['dashboard','Resumen']]],
+  ['GESTIONAR', [['pendientes','Pendientes'],['equipos','Buscar equipos'],['registroMP','Registro MP'],['dashboard','Resumen']]],
   ['REGISTRAR', [['mp','MP del mes'],['conciliacion','Conciliación']]]
 ];
 function navBadge(k, b){
-  if(k === 'porResolver'){
+  if(k === 'pendientes'){
     const n = state.pendientes.filter(p=>!p.anulado && p.estado!=='cerrado').length;
     if(n > 0) b.appendChild(el('span',{class:'nav-badge'}, String(n)));
   }
@@ -6071,7 +6015,7 @@ function bootstrap(){
     }
   });
   refreshStateIndicator();
-  navigate('porResolver');
+  navigate('pendientes');
 }
 document.addEventListener('DOMContentLoaded', bootstrap);
 </script>

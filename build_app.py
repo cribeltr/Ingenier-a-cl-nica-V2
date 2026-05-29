@@ -17,6 +17,12 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.50 [2026-05-29] Se quita "Por resolver" del menú; "Pendientes" pasa a ser apartado e inicio.
+  - El menú GESTIONAR ahora abre con "Pendientes" (antes "Por resolver", eliminado). La app
+    arranca en Pendientes. El contador del menú cuenta los pendientes abiertos.
+  - La vista Pendientes ya trae filtros: búsqueda por equipo / N° inventario / descripción +
+    filtros por Tipo, Estado, Ejecutor (responsable) y Servicio, con chips para quitarlos.
+  - No se pierde nada: Ciclos/Eventos siguen accesibles desde la ficha del equipo y el Resumen.
 v0.49 [2026-05-29] Rediseño minimalista (paso 1): paleta azul, densidad compacta, sidebar contraíble.
   - Sin perder ninguna función (solo capa visual). Nueva paleta neutra fría con ACENTO AZUL
     (claro y oscuro), foco azul en campos. Densidad COMPACTA (fuentes/paddings/tablas más juntas).
@@ -1123,7 +1129,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.49';
+const APP_VERSION = '0.50';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1421,7 +1427,7 @@ function resetState(){
   localStorage.removeItem(STORAGE_KEY);
   state = init();
   save();
-  navigate('porResolver');
+  navigate('pendientes');
   toast('Datos reseteados','success');
 }
 
@@ -1902,68 +1908,6 @@ VIEWS.dashboard = function(root){
   ));
 };
 
-VIEWS.porResolver = function(root){
-  state.equipos.forEach(recalcEstadoEquipo);
-  const hoy = hoyLocal();
-  const activos = state.pendientes.filter(p=>!p.anulado && p.estado!=='cerrado');
-  const venc = activos.filter(p=>p.fechaComp && p.fechaComp < hoy);
-  const noInic = activos.filter(p=>p.estado==='no_iniciado' && !(p.fechaComp && p.fechaComp < hoy));
-  const enProc = activos.filter(p=>p.estado==='en_proceso' && !(p.fechaComp && p.fechaComp < hoy));
-  const ciclos = state.ciclos.filter(c=>c.estado==='abierto');
-  const borr = state.eventos.filter(e=>e.oficial!=='Sí' && !e.anulado);
-  const confl = (state.conflictos||[]).filter(c=>c.estado==='pendiente'||c.estado==='pospuesto');
-  const total = activos.length + ciclos.length + borr.length + confl.length;
-
-  const v = el('div',{class:'view'},
-    el('div',{class:'pr-hero'},
-      el('h2',{}, 'Por resolver'),
-      el('div',{class:'subtitle'},
-        new Date().toLocaleDateString('es-CL',{weekday:'long',day:'2-digit',month:'long',year:'numeric'}) +
-        (total>0 ? ` · te quedan ${total} cosa${total!==1?'s':''} por resolver` : ' · todo al día'))
-    )
-  );
-
-  if(total === 0){
-    v.appendChild(el('div',{class:'pr-allclear'},
-      el('div',{style:{fontSize:'15px',fontWeight:'700',color:'var(--op)',marginBottom:'4px'}},'¡Todo al día!'),
-      el('div',{},'No tienes pendientes, ciclos abiertos, borradores ni conflictos por resolver.')));
-    root.appendChild(v); return;
-  }
-
-  const seccion = (titulo, count, urge) => el('div',{class:'pr-section'},
-    el('div',{class:'pr-section-hd'}, el('h3',{style:urge?{color:'var(--noop)'}:null}, titulo), el('span',{class:'count'}, count)));
-  const tarjetaPend = (p, color) => {
-    const acts = el('div',{class:'pr-acts'});
-    if(p.estado==='no_iniciado') acts.appendChild(el('button',{class:'small',onclick:()=>cambiarEstadoPend(p,'en_proceso')},'Empezar'));
-    acts.appendChild(el('button',{class:'small primary',onclick:()=>cerrarPendiente(p)},'Resolver'));
-    return el('div',{class:'pr-card '+color},
-      el('div',{class:'pr-body'},
-        el('div',{class:'pr-title'}, (p.inv||'')+' · '+(p.equipo||'')),
-        el('div',{class:'pr-sub'}, (TIPO_PENDIENTE[p.tipo]||p.tipo) + (p.desc? ' — '+p.desc : '')),
-        el('div',{style:{marginTop:'7px'}}, badgePend(p.estado),
-          p.fechaComp ? el('span',{class:'badge',style:{marginLeft:'6px'}}, 'Compromiso '+fmtFecha(p.fechaComp)) : null)
-      ), acts);
-  };
-  const tarjeta = (color, titulo, sub, btnLabel, onclick, btnPrimary) => el('div',{class:'pr-card '+color},
-    el('div',{class:'pr-body'}, el('div',{class:'pr-title'}, titulo), el('div',{class:'pr-sub'}, sub)),
-    el('div',{class:'pr-acts'}, el('button',{class:'small'+(btnPrimary?' primary':''),onclick}, btnLabel)));
-
-  if(venc.length){ const s=seccion('Vencidos', venc.length+' atrasado(s)', true); venc.forEach(p=>s.appendChild(tarjetaPend(p,'red'))); v.appendChild(s); }
-  if(noInic.length){ const s=seccion('No iniciados', noInic.length+' por empezar'); noInic.forEach(p=>s.appendChild(tarjetaPend(p,'gray'))); v.appendChild(s); }
-  if(enProc.length){ const s=seccion('En proceso', enProc.length+' en curso'); enProc.forEach(p=>s.appendChild(tarjetaPend(p,'amber'))); v.appendChild(s); }
-  if(ciclos.length){ const s=seccion('Ciclos correctivos abiertos', String(ciclos.length));
-    ciclos.slice(0,15).forEach(c=>{ const eq=findEquipo(c.inv);
-      s.appendChild(tarjeta('teal', c.folio||'(sin folio)', (c.inv||'')+' · '+(eq?eq.equipo:'')+' · abierto '+fmtFecha(c.fechaApertura), 'Ver equipo', ()=>navigate('equipo',{inv:c.inv}))); });
-    v.appendChild(s); }
-  if(borr.length){ const s=seccion('Borradores por archivar', borr.length+' documento(s)');
-    borr.slice(0,15).forEach(e=>
-      s.appendChild(tarjeta('gray', e.tipo+' · '+(e.equipo||''), (e.inv||'')+' · '+fmtFecha(e.fecha)+' · confirma el documento y oficialízalo', 'Ver ficha', ()=>navigate('equipo',{inv:e.inv}))));
-    v.appendChild(s); }
-  if(confl.length){ const s=seccion('Conflictos con el maestro', confl.length+' por revisar');
-    s.appendChild(tarjeta('teal','Diferencias con la carta gantt', confl.length+' celda(s) por confirmar', 'Revisar', ()=>navigate('conciliacion'), true));
-    v.appendChild(s); }
-  root.appendChild(v);
-};
 
 function kpiCell(lbl, val, onclick, cls){
   return el('div',{class:'kpi '+(cls||''),onclick},
@@ -3300,7 +3244,7 @@ VIEWS.ciclos = function(root, params){
 
 //---------------- PENDIENTES ----------------
 VIEWS.pendientes = function(root, params){
-  const search = el('input',{type:'search',placeholder:'Buscar pendiente…'});
+  const search = el('input',{type:'search',placeholder:'Buscar por equipo, N° inventario o descripción…'});
   const selTipo = el('select',{},
     el('option',{value:''},'Todos los tipos'),
     ...Object.entries(TIPO_PENDIENTE).map(([k,v])=>el('option',{value:k,selected:k===params.tipo?'selected':false},v))
@@ -5919,14 +5863,14 @@ setInterval(()=>{ if(recorder.status==='recording') recorder.updateUI(); }, 1000
 //==============================================================
 // INIT
 //==============================================================
-// Barra lateral agrupada en los dos momentos del trabajo. Pendientes/Ciclos/Eventos
-// no van en el menú: se acceden desde "Por resolver" y desde la ficha del equipo.
+// Barra lateral agrupada en los dos momentos del trabajo. Ciclos/Eventos no van en el
+// menú: se acceden desde Pendientes, el Resumen y la ficha del equipo.
 const NAV_GRUPOS = [
-  ['GESTIONAR', [['porResolver','Por resolver'],['equipos','Buscar equipos'],['registroMP','Registro MP'],['dashboard','Resumen']]],
+  ['GESTIONAR', [['pendientes','Pendientes'],['equipos','Buscar equipos'],['registroMP','Registro MP'],['dashboard','Resumen']]],
   ['REGISTRAR', [['mp','MP del mes'],['conciliacion','Conciliación']]]
 ];
 function navBadge(k, b){
-  if(k === 'porResolver'){
+  if(k === 'pendientes'){
     const n = state.pendientes.filter(p=>!p.anulado && p.estado!=='cerrado').length;
     if(n > 0) b.appendChild(el('span',{class:'nav-badge'}, String(n)));
   }
@@ -6069,7 +6013,7 @@ function bootstrap(){
     }
   });
   refreshStateIndicator();
-  navigate('porResolver');
+  navigate('pendientes');
 }
 document.addEventListener('DOMContentLoaded', bootstrap);
 </script>

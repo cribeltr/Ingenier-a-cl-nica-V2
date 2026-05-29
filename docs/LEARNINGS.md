@@ -747,4 +747,21 @@
 - **Dónde aplica:** build_app.py (tokens `:root`/dark, base, `.app`/`.sidebar` colapsable, topbar
   `.sb-toggle`, `table.data`, `.section`, `toggleSidebar`, bootstrap); CHANGELOG v0.49.
 
+## [2026-05-29] "Por resolver" fuera del menú; "Pendientes" como apartado e inicio (v0.50)
+
+- **Disparador:** el usuario pidió eliminar el apartado "Por resolver" y poner "Pendientes" con
+  filtros (equipo, responsable, etc.).
+- **Hecho:** se eliminó `VIEWS.porResolver` (la vista completa) y se quitó del menú; `Pendientes`
+  ocupa su lugar en GESTIONAR y es la pantalla de inicio (`navigate('pendientes')` en bootstrap y
+  resetState). El badge del menú cuenta pendientes abiertos. La vista Pendientes YA tenía filtros:
+  búsqueda (equipo/N° inventario/descripción) + Tipo + Estado + Ejecutor(responsable) + Servicio +
+  chips; solo se afinó el texto del buscador.
+- **Sin pérdida de función:** Ciclos/Eventos siguen accesibles desde la ficha y el Resumen; guardián
+  (9 vistas) + humo 10/10 verde. Verificado: el menú ya no muestra "Por resolver", inicia en
+  Pendientes, 4 filtros presentes.
+- **Nota:** "responsable" en el modelo de datos = `ejecutor` (no hay campo aparte); el filtro
+  "Ejecutor" cumple ese rol.
+- **Dónde aplica:** build_app.py (NAV_GRUPOS, navBadge, bootstrap/resetState landing, búsqueda de
+  Pendientes; `VIEWS.porResolver` eliminada); CHANGELOG v0.50.
+
 <!-- Próximas entradas debajo de esta línea -->
