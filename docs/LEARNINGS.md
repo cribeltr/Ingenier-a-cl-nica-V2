@@ -867,4 +867,23 @@
   params/chips; `VIEWS.pendientes` `.view-full`/`.pend-fill`; CSS `.col-filter*`/`.view-full`),
   tools/smoke_test.js (#3 reescrito); CHANGELOG v0.56.
 
+## [2026-05-29] Ajustes: tipo pendiente, etiqueta MP reprogramada, ficha, maestro oficial (v0.57)
+
+- **Disparador:** 4 pedidos del usuario.
+- **Hecho:** (1) nuevo tipo de pendiente "Firma faltante" en `TIPO_PENDIENTE`. (2) helper
+  `etiquetaTipoEvento(ev)`: una MP con resultado ≠ "Si" se MUESTRA como "Reprogramación mantención
+  preventiva" (el `ev.tipo` interno sigue siendo 'Mantención preventiva' para no romper recalc/
+  filtros/matriz); aplicado en historial, vista Eventos e impresión. (3) `VIEWS.equipo`: se quitan
+  los botones "➕ MP" y "➕ MP y siguiente" (la MP se registra desde "➕ Evento"); se conservan ◀/▶.
+  (4) los eventos sintéticos de conciliación (`conciliacion_auto` y `conciliacion`) pasan a
+  `oficial:'Sí'` (antes 'No'): lo del maestro queda oficial.
+- **Verificado:** tipos de pendiente incluyen "Firma faltante"; etiquetaTipoEvento(Si)=MP,
+  (C2)=Reprogramación…; ficha sin ➕MP/MP y siguiente, con ➕ Evento; oficial 'Sí' en fuente.
+  Guardián 8 vistas + humo 11/11.
+- **Decisión a confirmar (anotada):** la regla "≠ Si → Reprogramación" también etiqueta FS/NU/Baja
+  como "Reprogramación…", que semánticamente no son reprogramación. Se siguió literal lo pedido
+  ("cuando no sea Si"); si el usuario quiere, se excluyen Baja/FS/NU.
+- **Dónde aplica:** build_app.py (TIPO_PENDIENTE, etiquetaTipoEvento + usos, VIEWS.equipo header,
+  synthetic oficial en compararMaestro/resolverConflicto); CHANGELOG v0.57.
+
 <!-- Próximas entradas debajo de esta línea -->

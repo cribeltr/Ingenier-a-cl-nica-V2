@@ -19,6 +19,13 @@ break;case"<bookViews":;case"<bookViews>":;case"</bookViews>":break;case"<workbo
 <script>var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});</script>
 <!--
 CHANGELOG
+v0.57 [2026-05-29] Ajustes pedidos: tipo de pendiente, etiqueta de MP reprogramada, ficha y maestro.
+  - Pendientes: nuevo tipo "Firma faltante".
+  - Una MP con resultado distinto de "Si" se MUESTRA como "Reprogramación mantención preventiva"
+    (helper etiquetaTipoEvento; el dato interno sigue siendo MP para no romper cálculos/filtros).
+  - Ficha del equipo: se quitan los botones "➕ MP" y "➕ MP y siguiente" (la MP se registra desde
+    "➕ Evento"); se conservan ◀ / ▶ para recorrer equipos.
+  - Conciliación: los eventos creados al subir el maestro quedan OFICIALES (antes borradores).
 v0.56 [2026-05-29] Filtros de columna estilo Excel + Pendientes a pantalla completa.
   - Buscar equipos: los filtros de columna categórica (Equipo, Marca, Modelo, Servicio, Unidad,
     Ubicación, Procedencia, Estado) ahora son tipo Excel: un menú con BUSCADOR (escribes para
@@ -254,7 +261,7 @@ v0.28 [2026-05-28] El folio del ciclo se preselecciona; aviso si no hay ciclo ab
     (antes era la misma expresión repetida 5 veces).
 v0.27 [2026-05-28] El número de versión del encabezado se sincroniza solo.
   - El encabezado mostraba "v0.23" fijo (escrito a mano), sin actualizarse al subir
-    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.56
+    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.57
     que build_app.py reemplaza con el valor real de APP_VERSION al generar: una
     sola fuente de verdad, no vuelve a quedar desfasado.
 v0.26 [2026-05-28] Cierre de ciclo por Recepción + Reparación "en servicio técnico".
@@ -1142,7 +1149,7 @@ header.top nav .nav-more-menu button.active{background:var(--accent-soft);color:
 <body>
 <div class="app">
   <aside class="sidebar">
-    <div class="s-logo">HHHA <small>Equipos Críticos · v0.56</small></div>
+    <div class="s-logo">HHHA <small>Equipos Críticos · v0.57</small></div>
     <nav id="nav"></nav>
     <div class="s-foot"><span class="user-tag">👤 Cristian</span></div>
   </aside>
@@ -1191,7 +1198,7 @@ const SEED = {"equipos":[{"id":1,"carpeta":1,"inv":"2-115361","fam":"Incubadoras
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.56';
+const APP_VERSION = '0.57';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1233,7 +1240,7 @@ const SUBESTADOS_ST  = ['enviado','cotizacion_pendiente','OC_emitida','en_repara
 const DOCS_CORRECTIVO = ['Solicitud SIGEM con tarea cerrada','Cotización','Informe técnico trato directo','Orden de compra','Guía de despacho de repuestos','Informe visita diagnóstica','Informe visita correctiva','Hoja de envío','Informe técnico ST externo','Guía de despacho de retorno'];
 const DOCS_PREVENTIVO = ['Protocolo / hoja de MP','Pauta de monitoreo diario (DEA)','Firma jefe equipo médico','Informe técnico de empresa externa'];
 
-const TIPO_PENDIENTE = {documento_faltante:'Documento faltante',reprogramacion:'Reprogramación MP',recomendacion_tecnica:'Recomendación técnica',gestion_general:'Gestión general'};
+const TIPO_PENDIENTE = {documento_faltante:'Documento faltante',firma_faltante:'Firma faltante',reprogramacion:'Reprogramación MP',recomendacion_tecnica:'Recomendación técnica',gestion_general:'Gestión general'};
 // Estados de pendiente orientados a la acción: No iniciado -> En proceso -> Resuelto.
 // 'cerrado' se conserva como estado final (= Resuelto) para no romper los conteos existentes (!== 'cerrado').
 const ESTADO_PEND_LABEL = {no_iniciado:'No iniciado', en_proceso:'En proceso', cerrado:'Resuelto'};
@@ -1544,6 +1551,13 @@ function estadoMPDesdeResultado(resultado){
 function estadoMPFinal(resultado, estadoManualSi){
   if(resultado === 'Si') return estadoManualSi === 'no operativo' ? 'no operativo' : 'operativo';
   return estadoMPDesdeResultado(resultado);
+}
+// Nombre que se MUESTRA del evento. Una Mantención Preventiva con resultado distinto de "Si"
+// (no realizada) se muestra como "Reprogramación mantención preventiva". El dato interno
+// ev.tipo NO cambia (sigue siendo 'Mantención preventiva'), para no romper cálculos/filtros.
+function etiquetaTipoEvento(ev){
+  if(ev.tipo === 'Mantención preventiva' && ev.resultado && ev.resultado !== 'Si') return 'Reprogramación mantención preventiva';
+  return ev.tipo;
 }
 // Cuando no hay eventos que declaren estado, infiere desde la carta gantt usando el
 // resultado del último mes registrado del año vigente. Devuelve {estado,fecha} o null.
@@ -2666,9 +2680,7 @@ VIEWS.equipo = function(root, params){
         evsHoyBanner
       ),
       el('div',{style:{display:'flex',gap:'6px',flexWrap:'wrap'}},
-        el('button',{class:'primary',onclick:()=>mpRapida({invDefault:eq.inv}),title:'Registrar Mantención Preventiva rápida'},'➕ MP'),
-        nextInv ? el('button',{onclick:()=>mpRapida({invDefault:eq.inv, despuesIr:nextInv}),title:'Registrar MP y pasar al siguiente equipo de la lista'},'➕ MP y siguiente ▶') : null,
-        el('button',{onclick:()=>nuevoEvento({invDefault:eq.inv}),title:'Crear evento completo (7 tipos)'},'➕ Evento'),
+        el('button',{class:'primary',onclick:()=>nuevoEvento({invDefault:eq.inv}),title:'Crear evento completo (7 tipos)'},'➕ Evento'),
         el('button',{onclick:()=>nuevoPendiente({invDefault:eq.inv}),title:'Crear pendiente / tarea'},'➕ Pendiente'),
         eq.estado !== 'baja' ? el('button',{class:'danger',onclick:()=>darDeBaja(eq),title:'Marcar equipo como baja'},'⊘ Dar de baja') : null
       )
@@ -2763,7 +2775,7 @@ function imprimirHistorial(eq){
   const evs = eventosDeTodos(eq.inv).slice().reverse();
   const filas = evs.map(ev => {
     const pendAsoc = state.pendientes.filter(p => p.eventoOrigen === ev.id && !p.anulado).length;
-    const desc = esc(ev.tipo)
+    const desc = esc(etiquetaTipoEvento(ev))
       + (ev.folio ? ' · Folio '+esc(ev.folio) : '')
       + (ev.resultado ? ' · R: '+esc(ev.resultado) : '')
       + (ev.oficial==='Sí' ? ' · OFICIAL' : '')
@@ -2804,7 +2816,7 @@ function renderBitacora(eq){
     // Descripción: tipo + sellos (oficial/borrador/auto/lote) + folio + resultado + observación.
     const desc = el('td',{},
       el('div',{},
-        el('strong',{}, ev.tipo), ' ',
+        el('strong',{}, etiquetaTipoEvento(ev)), ' ',
         ev.anulado ? el('span',{class:'badge anulado-badge'},'Anulado') :
           (ev.oficial==='Sí' ? el('span',{class:'badge ofic-si'},'Oficial') : el('span',{class:'badge ofic-no'},'Borrador')),
         ev.origen === 'conciliacion_auto' ? el('span',{class:'badge auto-badge',title:'Creado automáticamente al subir el maestro. Fecha = día 15 del mes.'},'🔗 Auto-maestro') : null,
@@ -3440,7 +3452,7 @@ VIEWS.eventos = function(root, params){
         el('thead',{}, el('tr',{}, ['Fecha','Tipo','Equipo','Servicio','Ejecutor','Folio','Resultado','Estado','Ofic.','Acciones'].map(h=>el('th',{},h)))),
         el('tbody',{}, ...list.map(ev => el('tr',{class:'clickable',onclick:()=>navigate('equipo',{inv:ev.inv})},
           el('td',{}, fmtFecha(ev.fecha)),
-          el('td',{}, el('strong',{}, ev.tipo)),
+          el('td',{}, el('strong',{}, etiquetaTipoEvento(ev))),
           el('td',{}, ev.equipo||'—', el('br'), el('small',{class:'muted'}, ev.inv||'')),
           el('td',{}, ev.servicio||'—'),
           el('td',{}, ev.ejecutor||'—'),
@@ -3716,7 +3728,7 @@ function compararMaestro(parsed, importacionId){
                 ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
                 estado: estadoMPDesdeResultado(vm),
                 obs: `[Conciliación auto] Importado desde maestro · Importación #${importacionId}`,
-                oficial: 'No', anulado: false,
+                oficial: 'Sí', anulado: false,
                 origen: 'conciliacion_auto',
                 creadoPor: 'Cristian',
                 ts: new Date().toISOString()
@@ -3805,7 +3817,7 @@ function resolverConflicto(c, accion, valorManual, opts){
             ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
             estado: estadoMPDesdeResultado(v),
             obs: `[Conciliación] Importado desde maestro · Importación #${c.importacionId||'-'}`,
-            oficial: 'No',
+            oficial: 'Sí',
             anulado: false,
             origen: 'conciliacion',
             creadoPor: 'Cristian',

@@ -17,6 +17,13 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.57 [2026-05-29] Ajustes pedidos: tipo de pendiente, etiqueta de MP reprogramada, ficha y maestro.
+  - Pendientes: nuevo tipo "Firma faltante".
+  - Una MP con resultado distinto de "Si" se MUESTRA como "Reprogramación mantención preventiva"
+    (helper etiquetaTipoEvento; el dato interno sigue siendo MP para no romper cálculos/filtros).
+  - Ficha del equipo: se quitan los botones "➕ MP" y "➕ MP y siguiente" (la MP se registra desde
+    "➕ Evento"); se conservan ◀ / ▶ para recorrer equipos.
+  - Conciliación: los eventos creados al subir el maestro quedan OFICIALES (antes borradores).
 v0.56 [2026-05-29] Filtros de columna estilo Excel + Pendientes a pantalla completa.
   - Buscar equipos: los filtros de columna categórica (Equipo, Marca, Modelo, Servicio, Unidad,
     Ubicación, Procedencia, Estado) ahora son tipo Excel: un menú con BUSCADOR (escribes para
@@ -1189,7 +1196,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.56';
+const APP_VERSION = '0.57';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1231,7 +1238,7 @@ const SUBESTADOS_ST  = ['enviado','cotizacion_pendiente','OC_emitida','en_repara
 const DOCS_CORRECTIVO = ['Solicitud SIGEM con tarea cerrada','Cotización','Informe técnico trato directo','Orden de compra','Guía de despacho de repuestos','Informe visita diagnóstica','Informe visita correctiva','Hoja de envío','Informe técnico ST externo','Guía de despacho de retorno'];
 const DOCS_PREVENTIVO = ['Protocolo / hoja de MP','Pauta de monitoreo diario (DEA)','Firma jefe equipo médico','Informe técnico de empresa externa'];
 
-const TIPO_PENDIENTE = {documento_faltante:'Documento faltante',reprogramacion:'Reprogramación MP',recomendacion_tecnica:'Recomendación técnica',gestion_general:'Gestión general'};
+const TIPO_PENDIENTE = {documento_faltante:'Documento faltante',firma_faltante:'Firma faltante',reprogramacion:'Reprogramación MP',recomendacion_tecnica:'Recomendación técnica',gestion_general:'Gestión general'};
 // Estados de pendiente orientados a la acción: No iniciado -> En proceso -> Resuelto.
 // 'cerrado' se conserva como estado final (= Resuelto) para no romper los conteos existentes (!== 'cerrado').
 const ESTADO_PEND_LABEL = {no_iniciado:'No iniciado', en_proceso:'En proceso', cerrado:'Resuelto'};
@@ -1542,6 +1549,13 @@ function estadoMPDesdeResultado(resultado){
 function estadoMPFinal(resultado, estadoManualSi){
   if(resultado === 'Si') return estadoManualSi === 'no operativo' ? 'no operativo' : 'operativo';
   return estadoMPDesdeResultado(resultado);
+}
+// Nombre que se MUESTRA del evento. Una Mantención Preventiva con resultado distinto de "Si"
+// (no realizada) se muestra como "Reprogramación mantención preventiva". El dato interno
+// ev.tipo NO cambia (sigue siendo 'Mantención preventiva'), para no romper cálculos/filtros.
+function etiquetaTipoEvento(ev){
+  if(ev.tipo === 'Mantención preventiva' && ev.resultado && ev.resultado !== 'Si') return 'Reprogramación mantención preventiva';
+  return ev.tipo;
 }
 // Cuando no hay eventos que declaren estado, infiere desde la carta gantt usando el
 // resultado del último mes registrado del año vigente. Devuelve {estado,fecha} o null.
@@ -2664,9 +2678,7 @@ VIEWS.equipo = function(root, params){
         evsHoyBanner
       ),
       el('div',{style:{display:'flex',gap:'6px',flexWrap:'wrap'}},
-        el('button',{class:'primary',onclick:()=>mpRapida({invDefault:eq.inv}),title:'Registrar Mantención Preventiva rápida'},'➕ MP'),
-        nextInv ? el('button',{onclick:()=>mpRapida({invDefault:eq.inv, despuesIr:nextInv}),title:'Registrar MP y pasar al siguiente equipo de la lista'},'➕ MP y siguiente ▶') : null,
-        el('button',{onclick:()=>nuevoEvento({invDefault:eq.inv}),title:'Crear evento completo (7 tipos)'},'➕ Evento'),
+        el('button',{class:'primary',onclick:()=>nuevoEvento({invDefault:eq.inv}),title:'Crear evento completo (7 tipos)'},'➕ Evento'),
         el('button',{onclick:()=>nuevoPendiente({invDefault:eq.inv}),title:'Crear pendiente / tarea'},'➕ Pendiente'),
         eq.estado !== 'baja' ? el('button',{class:'danger',onclick:()=>darDeBaja(eq),title:'Marcar equipo como baja'},'⊘ Dar de baja') : null
       )
@@ -2761,7 +2773,7 @@ function imprimirHistorial(eq){
   const evs = eventosDeTodos(eq.inv).slice().reverse();
   const filas = evs.map(ev => {
     const pendAsoc = state.pendientes.filter(p => p.eventoOrigen === ev.id && !p.anulado).length;
-    const desc = esc(ev.tipo)
+    const desc = esc(etiquetaTipoEvento(ev))
       + (ev.folio ? ' · Folio '+esc(ev.folio) : '')
       + (ev.resultado ? ' · R: '+esc(ev.resultado) : '')
       + (ev.oficial==='Sí' ? ' · OFICIAL' : '')
@@ -2802,7 +2814,7 @@ function renderBitacora(eq){
     // Descripción: tipo + sellos (oficial/borrador/auto/lote) + folio + resultado + observación.
     const desc = el('td',{},
       el('div',{},
-        el('strong',{}, ev.tipo), ' ',
+        el('strong',{}, etiquetaTipoEvento(ev)), ' ',
         ev.anulado ? el('span',{class:'badge anulado-badge'},'Anulado') :
           (ev.oficial==='Sí' ? el('span',{class:'badge ofic-si'},'Oficial') : el('span',{class:'badge ofic-no'},'Borrador')),
         ev.origen === 'conciliacion_auto' ? el('span',{class:'badge auto-badge',title:'Creado automáticamente al subir el maestro. Fecha = día 15 del mes.'},'🔗 Auto-maestro') : null,
@@ -3438,7 +3450,7 @@ VIEWS.eventos = function(root, params){
         el('thead',{}, el('tr',{}, ['Fecha','Tipo','Equipo','Servicio','Ejecutor','Folio','Resultado','Estado','Ofic.','Acciones'].map(h=>el('th',{},h)))),
         el('tbody',{}, ...list.map(ev => el('tr',{class:'clickable',onclick:()=>navigate('equipo',{inv:ev.inv})},
           el('td',{}, fmtFecha(ev.fecha)),
-          el('td',{}, el('strong',{}, ev.tipo)),
+          el('td',{}, el('strong',{}, etiquetaTipoEvento(ev))),
           el('td',{}, ev.equipo||'—', el('br'), el('small',{class:'muted'}, ev.inv||'')),
           el('td',{}, ev.servicio||'—'),
           el('td',{}, ev.ejecutor||'—'),
@@ -3714,7 +3726,7 @@ function compararMaestro(parsed, importacionId){
                 ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
                 estado: estadoMPDesdeResultado(vm),
                 obs: `[Conciliación auto] Importado desde maestro · Importación #${importacionId}`,
-                oficial: 'No', anulado: false,
+                oficial: 'Sí', anulado: false,
                 origen: 'conciliacion_auto',
                 creadoPor: 'Cristian',
                 ts: new Date().toISOString()
@@ -3803,7 +3815,7 @@ function resolverConflicto(c, accion, valorManual, opts){
             ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
             estado: estadoMPDesdeResultado(v),
             obs: `[Conciliación] Importado desde maestro · Importación #${c.importacionId||'-'}`,
-            oficial: 'No',
+            oficial: 'Sí',
             anulado: false,
             origen: 'conciliacion',
             creadoPor: 'Cristian',
