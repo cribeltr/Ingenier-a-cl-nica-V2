@@ -525,4 +525,35 @@
 - **Dónde aplica:** tools/smoke_test.js (nuevo), build_app.py (paso final), CLAUDE.md
   (ciclo de trabajo paso 4), este LEARNINGS.
 
+## [2026-05-29] Alineación de las vistas con la especificación funcional (v0.40)
+
+- **Disparador:** el usuario subió la especificación funcional (docx, basada en v0.38) y
+  pidió "ajustar la app a la especificación". Se confirmó esa opción antes de actuar.
+- **Hecho (vista por vista):**
+  · Cap. 3: "Equipos" → "Buscar equipos" (menú + título). Columnas reordenadas al orden del
+    documento y se agregó **Serie**: ID, N° Inventario, Serie, Equipo, Marca, Modelo,
+    Servicio, Unidad, Ubicación, Procedencia, Estado, Días, Pendientes. Las celdas del cuerpo
+    ahora se generan desde la definición de columnas (`COLS` con `cell` opcional), no a mano,
+    así reordenar no descuadra la tabla.
+  · Cap. 4: la ficha pasa de PESTAÑAS a **secciones contraíbles** apiladas (helper
+    `seccionColapsable` con `<details>/<summary>`): Datos · Programación PMP · Historial ·
+    Pendientes · Ciclos · Conflictos (si hay). Reutiliza los render existentes.
+  · Cap. 4.2: la Programación PMP de la ficha suma la fila **Ejecutor** (Mes / P / R / Ejecutor).
+- **Ya cumplían la especificación (verificado, sin tocar):** aviso al abrir un 2º ciclo con
+  uno ya abierto (línea ~1441); folio preseleccionado del ciclo y aviso si no hay (v0.28);
+  Ctrl+K con coincidencia parcial; filtros por columna tipo Excel.
+- **No tocado a propósito (anotado para confirmar con el usuario):** la tabla de la vista
+  Pendientes no agrega columnas "Responsable" ni "Recordatorio" del documento porque el
+  modelo de datos no tiene un campo "responsable" separado del ejecutor; añadir columnas
+  vacías confundiría. Queda como decisión a ratificar.
+- **Verificado headless:** prueba de humo 6/6 OK; además chequeo dirigido confirma el título
+  "Buscar equipos", la columna Serie en orden, 5–6 secciones contraíbles en la ficha y la
+  fila Ejecutor en la PMP. 0 errores.
+- **Heurística:** cuando una tabla declara columnas en un array, el CUERPO debe generarse
+  desde ese mismo array (no filas a mano), o reordenar columnas descuadra los datos. Para
+  "secciones contraíbles" nativas, `<details>/<summary>` evita JS de estado y no se rompe.
+- **Dónde aplica:** build_app.py (`VIEWS.equipos` COLS+cuerpo, `NAV_GRUPOS`, `VIEWS.equipo`
+  reescrita, `seccionColapsable`, `renderMatrizMP` fila Ejecutor, CSS `.ficha-sec`);
+  CHANGELOG v0.40; app.html regenerado.
+
 <!-- Próximas entradas debajo de esta línea -->

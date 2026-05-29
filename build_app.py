@@ -17,6 +17,17 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.40 [2026-05-29] Alineación con la especificación funcional (vistas).
+  - "Equipos" pasa a llamarse "Buscar equipos" (menú y título), como en el documento.
+  - Columnas de la planilla en el orden de la especificación + se agrega la columna SERIE:
+    ID · N° Inventario · Serie · Equipo · Marca · Modelo · Servicio · Unidad · Ubicación ·
+    Procedencia · Estado · Días en estado · Pendientes. Las celdas se generan desde la
+    definición de columnas (reordenar es seguro). Filtro/orden por columna intactos.
+  - Ficha del equipo: las pestañas se reemplazan por SECCIONES CONTRAÍBLES, una bajo otra
+    (Datos del equipo · Programación PMP · Historial de eventos · Pendientes · Ciclos
+    correctivos · Conflictos), todas pliegan/despliegan. Cap. 4 de la especificación.
+  - Programación PMP de la ficha: se agrega la fila EJECUTOR (Mes / P / R / Ejecutor),
+    como pide el documento (4.2).
 v0.39 [2026-05-29] Fix: la lista de Equipos (y Registro MP) quedaba VACÍA.
   - Causa: 18 equipos tienen "modelo" y 3 "ubicación" guardados como número (no texto).
     Las planillas de Equipos (v0.37) y Registro MP (v0.38) ordenan/filtran por texto con
@@ -651,6 +662,15 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 
 /* Section card */
 .section{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px;margin-bottom:18px}
+/* Ficha: secciones contraíbles (cap. 4 de la especificación) */
+.ficha-sec{background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden}
+.ficha-sec>summary{cursor:pointer;list-style:none;padding:13px 16px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;user-select:none}
+.ficha-sec>summary::-webkit-details-marker{display:none}
+.ficha-sec>summary::before{content:'▸';color:var(--muted);transition:transform .15s;font-size:12px}
+.ficha-sec[open]>summary::before{transform:rotate(90deg)}
+.ficha-sec>summary:hover{background:var(--bg)}
+.ficha-sec-body{padding:4px 16px 16px}
+.ficha-sec-body>.section{border:none;padding:0;margin:0;background:transparent}
 .section h3{margin-top:0}
 
 /* Key-value */
@@ -1017,7 +1037,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.39';
+const APP_VERSION = '0.40';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1567,6 +1587,13 @@ function el(tag, attrs={}, ...children){
   return n;
 }
 function fmt(v){ return v==null||v==='' ? '—' : v; }
+// Sección contraíble para la ficha del equipo (se pliega/despliega; cap. 4 de la especificación).
+function seccionColapsable(titulo, contenido, abierto){
+  return el('details',{class:'ficha-sec', open: abierto!==false},
+    el('summary',{}, titulo),
+    el('div',{class:'ficha-sec-body'}, contenido)
+  );
+}
 // FIX zona horaria: si el string es YYYY-MM-DD lo tratamos como fecha LOCAL,
 // no UTC, así no aparece corrida un día (Chile UTC-3/-4).
 function fmtFecha(v){
@@ -2196,20 +2223,22 @@ function renderSumAlertas(alertaDias){
 
 //---------------- EQUIPOS ----------------
 VIEWS.equipos = function(root, params){
+  // Columnas según la especificación funcional (cap. 3): ID, N° Inventario, Serie, Equipo,
+  // Marca, Modelo, Servicio, Unidad, Ubicación, Procedencia y, al final, Estado, Días y Pendientes.
   const COLS = [
-    {k:'id',l:'ID',g:e=>e.id!=null?String(e.id):'',num:true},
-    {k:'carpeta',l:'N° Carpeta',g:e=>e.carpeta!=null?String(e.carpeta):'',num:true},
-    {k:'inv',l:'N° Inventario',g:e=>e.inv||''},
+    {k:'id',l:'ID',g:e=>e.id!=null?String(e.id):'',num:true, cell:e=>el('td',{class:'num'}, e.id!=null?String(e.id):'—')},
+    {k:'inv',l:'N° Inventario',g:e=>e.inv||'', cell:e=>el('td',{}, el('strong',{}, e.inv||'—'))},
+    {k:'serie',l:'Serie',g:e=>e.serie||''},
     {k:'equipo',l:'Equipo',g:e=>e.equipo||'',lista:true},
+    {k:'marca',l:'Marca',g:e=>e.marca||'',lista:true},
+    {k:'modelo',l:'Modelo',g:e=>e.modelo||'',lista:true},
     {k:'servicio',l:'Servicio',g:e=>e.servicio||'',lista:true},
     {k:'unidad',l:'Unidad',g:e=>e.unidad||'',lista:true},
     {k:'ubic',l:'Ubicación',g:e=>e.ubic||'',lista:true},
     {k:'proc',l:'Procedencia',g:e=>e.proc||'',lista:true},
-    {k:'marca',l:'Marca',g:e=>e.marca||'',lista:true},
-    {k:'modelo',l:'Modelo',g:e=>e.modelo||'',lista:true},
-    {k:'estado',l:'Estado',g:e=>ESTADO_LABEL[e.estado]||e.estado||'',lista:true},
-    {k:'pend',l:'Pendientes',g:e=>String(pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length),num:true},
-    {k:'dias',l:'Días en estado',g:e=>e.estadoDesde?String(diasEnEstado(e)):'0',num:true}
+    {k:'estado',l:'Estado',g:e=>ESTADO_LABEL[e.estado]||e.estado||'',lista:true, cell:e=>el('td',{}, badgeEstado(e.estado), (e.estado==='en_servicio_tecnico'||e.estado==='no_operativo') ? el('div',{style:{marginTop:'3px'}}, el('small',{class:'muted'}, 'Enc: '+(encargadoDe(e)||'—'))) : null)},
+    {k:'dias',l:'Días en estado',g:e=>e.estadoDesde?String(diasEnEstado(e)):'0',num:true, cell:e=>el('td',{class:'num'}, e.estadoDesde ? diasEnEstado(e)+' d' : el('small',{class:'muted'},'—'))},
+    {k:'pend',l:'Pendientes',g:e=>String(pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length),num:true, cell:e=>{const n=pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length; return el('td',{class:'num'}, n>0?el('span',{class:'badge abierto'},n):el('small',{class:'muted'},'—'));}}
   ];
   const filtros = {};
   if(params.estado) filtros.estado = ESTADO_LABEL[params.estado] || params.estado;
@@ -2298,27 +2327,14 @@ VIEWS.equipos = function(root, params){
     buildHead();
     tbody.innerHTML = '';
     lista.slice(0,500).forEach(e => {
-      const pend = pendientesDe(e.inv).filter(p => p.estado !== 'cerrado').length;
-      tbody.appendChild(el('tr',{},
-        el('td',{class:'num'}, e.id != null ? String(e.id) : '—'),
-        el('td',{}, e.carpeta != null ? String(e.carpeta) : '—'),
-        el('td',{}, el('strong',{}, e.inv||'—')),
-        el('td',{}, e.equipo||'—'),
-        el('td',{}, e.servicio||'—'),
-        el('td',{}, e.unidad||'—'),
-        el('td',{}, e.ubic||'—'),
-        el('td',{}, e.proc||'—'),
-        el('td',{}, e.marca||'—'),
-        el('td',{}, e.modelo||'—'),
-        el('td',{}, badgeEstado(e.estado), (e.estado==='en_servicio_tecnico'||e.estado==='no_operativo') ? el('div',{style:{marginTop:'3px'}}, el('small',{class:'muted'}, 'Enc: '+(encargadoDe(e)||'—'))) : null),
-        el('td',{class:'num'}, pend > 0 ? el('span',{class:'badge abierto'},pend) : el('small',{class:'muted'},'—')),
-        el('td',{class:'num'}, e.estadoDesde ? diasEnEstado(e)+' d' : el('small',{class:'muted'},'—')),
-        el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
-          el('button',{class:'small',title:'Registrar evento',onclick:()=>nuevoEvento({invDefault:e.inv})},'➕ Evento'),
-          el('button',{class:'small',title:'Registrar pendiente',onclick:()=>nuevoPendiente({invDefault:e.inv})},'➕ Pend.'),
-          el('button',{class:'small ghost',title:'Abrir ficha',onclick:()=>navigate('equipo',{inv:e.inv})},'Ficha')
-        )
+      const tr = el('tr',{});
+      COLS.forEach(c => tr.appendChild(c.cell ? c.cell(e) : el('td',{}, c.g(e)||'—')));
+      tr.appendChild(el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
+        el('button',{class:'small',title:'Registrar evento',onclick:()=>nuevoEvento({invDefault:e.inv})},'➕ Evento'),
+        el('button',{class:'small',title:'Registrar pendiente',onclick:()=>nuevoPendiente({invDefault:e.inv})},'➕ Pend.'),
+        el('button',{class:'small ghost',title:'Abrir ficha',onclick:()=>navigate('equipo',{inv:e.inv})},'Ficha')
       ));
+      tbody.appendChild(tr);
     });
     counter.textContent = `${lista.length} equipos${lista.length>500?' (mostrando primeros 500)':''}`;
     renderChips();
@@ -2360,7 +2376,7 @@ VIEWS.equipos = function(root, params){
     _qa('Con pendientes', state.equipos.filter(e=>pendientesDe(e.inv).some(p=>p.estado!=='cerrado')).length, ()=>{limpiarFiltros();filtros.__conPend=true;render();})
   );
   root.appendChild(el('div',{class:'view'},
-    el('h2',{},'Equipos'),
+    el('h2',{},'Buscar equipos'),
     el('div',{class:'subtitle'},'Planilla de equipos: ordena por cualquier columna (clic en su título), filtra en cada una y registra evento o pendiente desde la fila.'),
     barraQA,
     el('div',{class:'toolbar'}, el('div',{class:'grow'},search)),
@@ -2485,76 +2501,59 @@ VIEWS.equipo = function(root, params){
   const pends = pendientesDe(eq.inv);
   const conflicts = conflictosDe(eq.inv);
 
-  let tab = params.openTab === 'conflictos' && conflicts.length > 0 ? 'conflictos' : (params.openTab || 'resumen');
-  const tabsContent = el('div',{});
-  const tabs = el('div',{class:'tabs'});
-  function renderTabs(){
-    tabs.innerHTML = '';
-    const lblBit = evsAnulados.length > 0
-      ? `Bitácora (${evs.length} + ${evsAnulados.length} anulado${evsAnulados.length>1?'s':''})`
-      : `Bitácora (${evs.length})`;
-    const lblConf = conflicts.length > 0 ? `Conflictos (${conflicts.length})` : null;
-    const cfg = [['resumen','Resumen'],['datos','Datos generales'],['mp','Programación MP'],['bitacora', lblBit],['ciclos',`Ciclos correctivos (${ciclos.length})`],['pendientes',`Pendientes (${pends.filter(p=>p.estado!=='cerrado').length}/${pends.length})`]];
-    if(lblConf) cfg.push(['conflictos', lblConf]);
-    cfg.forEach(([k,l])=>{
-      const b = el('button',{class:tab===k?'active':'',onclick:()=>{tab=k;renderTabs();renderTabBody();}},l);
-      if(k === 'conflictos') b.classList.add('tab-conflict');
-      tabs.appendChild(b);
-    });
-  }
-  function renderTabBody(){
-    tabsContent.innerHTML = '';
-    if(tab==='resumen'){
-      tabsContent.appendChild(renderResumenEquipo(eq, ()=>{ tab=tab; renderTabBody(); }, (k)=>{ tab=k; renderTabs(); renderTabBody(); }));
-    } else if(tab==='datos'){
-      tabsContent.appendChild(el('div',{class:'grid-2'},
-        el('div',{class:'section'},
-          el('h3',{},'Identificación'),
-          el('dl',{class:'kv'},
-            el('dt',{},'N° Inventario'), el('dd',{}, eq.inv||'—'),
-            el('dt',{},'N° Carpeta'), el('dd',{}, fmt(eq.carpeta)),
-            el('dt',{},'Serie'), el('dd',{}, fmt(eq.serie)),
-            el('dt',{},'Familia'), el('dd',{}, fmt(eq.fam)),
-            el('dt',{},'Equipo'), el('dd',{}, fmt(eq.equipo)),
-            el('dt',{},'Marca / Modelo'), el('dd',{}, `${fmt(eq.marca)} ${fmt(eq.modelo)}`),
-            el('dt',{},'Año instalación'), el('dd',{}, fmt(eq.ano)),
-            el('dt',{},'Procedencia'), el('dd',{}, fmt(eq.proc))
-          )
-        ),
-        el('div',{class:'section'},
-          el('h3',{},'Ubicación y estado'),
-          el('dl',{class:'kv'},
-            el('dt',{},'Servicio'), el('dd',{}, fmt(eq.servicio)),
-            el('dt',{},'Unidad'), el('dd',{}, fmt(eq.unidad)),
-            el('dt',{},'Ubicación'), el('dd',{}, fmt(eq.ubic)),
-            el('dt',{},'Clasificación'), el('dd',{}, fmt(eq.clasif)),
-            el('dt',{},'Vida útil residual'), el('dd',{}, fmt(eq.vur)),
-            el('dt',{},'Frecuencia MP'), el('dd',{}, fmt(eq.freq)),
-            el('dt',{},'Estado actual'), el('dd',{}, badgeEstado(eq.estado), ' ', el('small',{class:'muted'}, diasEnEstado(eq)+' días')),
-            el('dt',{},'Sub-estado'), el('dd',{}, fmt(eq.subestado))
-          )
-        )
-      ));
-    } else if(tab==='mp'){
-      tabsContent.appendChild(renderMatrizMP(eq));
-    } else if(tab==='bitacora'){
-      tabsContent.appendChild(renderBitacora(eq));
-    } else if(tab==='ciclos'){
-      tabsContent.appendChild(renderCiclos(eq));
-    } else if(tab==='pendientes'){
-      tabsContent.appendChild(renderPendientesEquipo(eq));
-    } else if(tab==='conflictos'){
-      tabsContent.appendChild(renderConflictosEquipo(eq, ()=>{ navigate('equipo',{inv:eq.inv, openTab:'conflictos'}); }));
-    }
-  }
+  const year = new Date().getFullYear();
+
+  // --- 4.1 Datos del equipo ---
+  const datosBlock = el('div',{class:'grid-2'},
+    el('div',{class:'section'},
+      el('h3',{},'Identificación'),
+      el('dl',{class:'kv'},
+        el('dt',{},'N° Inventario'), el('dd',{}, eq.inv||'—'),
+        el('dt',{},'N° Carpeta'), el('dd',{}, fmt(eq.carpeta)),
+        el('dt',{},'Serie'), el('dd',{}, fmt(eq.serie)),
+        el('dt',{},'Familia'), el('dd',{}, fmt(eq.fam)),
+        el('dt',{},'Equipo'), el('dd',{}, fmt(eq.equipo)),
+        el('dt',{},'Marca / Modelo'), el('dd',{}, `${fmt(eq.marca)} ${fmt(eq.modelo)}`),
+        el('dt',{},'Año instalación'), el('dd',{}, fmt(eq.ano)),
+        el('dt',{},'Procedencia'), el('dd',{}, fmt(eq.proc))
+      )
+    ),
+    el('div',{class:'section'},
+      el('h3',{},'Ubicación y estado'),
+      el('dl',{class:'kv'},
+        el('dt',{},'Servicio'), el('dd',{}, fmt(eq.servicio)),
+        el('dt',{},'Unidad'), el('dd',{}, fmt(eq.unidad)),
+        el('dt',{},'Ubicación'), el('dd',{}, fmt(eq.ubic)),
+        el('dt',{},'Clasificación'), el('dd',{}, fmt(eq.clasif)),
+        el('dt',{},'Vida útil residual'), el('dd',{}, fmt(eq.vur)),
+        el('dt',{},'Frecuencia MP'), el('dd',{}, fmt(eq.freq)),
+        el('dt',{},'Estado actual'), el('dd',{}, badgeEstado(eq.estado), ' ', el('small',{class:'muted'}, diasEnEstado(eq)+' días')),
+        el('dt',{},'Sub-estado'), el('dd',{}, fmt(eq.subestado))
+      )
+    )
+  );
+
+  // --- Secciones contraíbles, una bajo otra (cap. 4 de la especificación) ---
+  const pendAbiertos = pends.filter(p=>p.estado!=='cerrado').length;
+  const lblHist = evsAnulados.length > 0
+    ? `Historial de eventos (${evs.length} activos · ${evsAnulados.length} anulado${evsAnulados.length>1?'s':''})`
+    : `Historial de eventos (${evs.length})`;
+  const secHistorial = seccionColapsable(lblHist, renderBitacora(eq), true);
+  const secciones = el('div',{},
+    seccionColapsable('Datos del equipo', datosBlock, true),
+    seccionColapsable(`Programación PMP ${year}`, renderMatrizMP(eq), true),
+    secHistorial,
+    seccionColapsable(`Pendientes (${pendAbiertos} abierto${pendAbiertos!==1?'s':''} · ${pends.length} total)`, renderPendientesEquipo(eq), pendAbiertos>0),
+    seccionColapsable(`Ciclos correctivos (${ciclos.length})`, renderCiclos(eq), ciclos.some(c=>c.estado==='abierto')),
+    conflicts.length > 0 ? seccionColapsable(`⚠ Conflictos con el maestro (${conflicts.length})`, renderConflictosEquipo(eq, ()=>navigate('equipo',{inv:eq.inv})), true) : null
+  );
 
   // Eventos creados hoy en este equipo (sin contar anulados)
-  const hoy = hoyLocal();
   const evsHoy = state.eventos.filter(e => e.inv === eq.inv && !e.anulado &&
     e.ts && new Date(e.ts).toISOString().slice(0,10) === new Date().toISOString().slice(0,10));
   const evsHoyBanner = evsHoy.length > 0
-    ? el('div',{class:'today-chip', title:'Eventos registrados hoy en este equipo. Click para ir a Bitácora.',
-        onclick:()=>{tab='bitacora'; renderTabs(); renderTabBody();}},
+    ? el('div',{class:'today-chip', title:'Eventos registrados hoy en este equipo. Click para ir al Historial.',
+        onclick:()=>{ secHistorial.open=true; secHistorial.scrollIntoView({behavior:'smooth',block:'start'}); }},
         `${evsHoy.length} evento${evsHoy.length>1?'s':''} hoy`,
         el('span',{style:{marginLeft:'5px',opacity:.7}}, '→'))
     : null;
@@ -2573,10 +2572,8 @@ VIEWS.equipo = function(root, params){
         eq.estado !== 'baja' ? el('button',{class:'danger',onclick:()=>darDeBaja(eq),title:'Marcar equipo como baja'},'⊘ Dar de baja') : null
       )
     ),
-    tabs, tabsContent
+    secciones
   ));
-  renderTabs();
-  renderTabBody();
 };
 
 function renderMatrizMP(eq){
@@ -2595,6 +2592,7 @@ function renderMatrizMP(eq){
   };
   const trP = el('tr',{}, el('td',{class:'lbl-row'},'P (Programación)'));
   const trR = el('tr',{}, el('td',{class:'lbl-row'},'R (Resultado)'));
+  const trE = el('tr',{}, el('td',{class:'lbl-row'},'Ejecutor'));
   const year = new Date().getFullYear();
   // Mapa de eventos MP por mes de este equipo (para tooltip)
   const evsMPPorMes = {};
@@ -2637,15 +2635,17 @@ function renderMatrizMP(eq){
     }
     if(conflR) tdR.onclick = ()=>navigate('conciliacion');
     if(conflR) tdR.style.cursor = 'pointer';
+    const ejec = (evsMPPorMes[m] && evsMPPorMes[m].ejecutor) || '';
     trP.appendChild(tdP);
     trR.appendChild(tdR);
+    trE.appendChild(el('td',{class:'mp-ejec', title: ejec || ''}, ejec ? (ejec.length>10?ejec.slice(0,9)+'…':ejec) : ''));
   });
   return el('div',{class:'section'},
-    el('h3',{},'Matriz MP 2026'),
+    el('h3',{},`Programación PMP ${year}`),
     el('div',{style:{overflowX:'auto'}},
       el('table',{class:'mp-matrix'},
-        el('thead',{}, el('tr',{}, el('th',{},''), ...MESES.map(m=>el('th',{},m)))),
-        el('tbody',{}, trP, trR)
+        el('thead',{}, el('tr',{}, el('th',{},'Mes'), ...MESES.map(m=>el('th',{},m)))),
+        el('tbody',{}, trP, trR, trE)
       )
     ),
     el('div',{style:{marginTop:'10px',fontSize:'12px'},class:'muted'},
@@ -5739,7 +5739,7 @@ setInterval(()=>{ if(recorder.status==='recording') recorder.updateUI(); }, 1000
 // Barra lateral agrupada en los dos momentos del trabajo. Pendientes/Ciclos/Eventos
 // no van en el menú: se acceden desde "Por resolver" y desde la ficha del equipo.
 const NAV_GRUPOS = [
-  ['GESTIONAR', [['porResolver','Por resolver'],['equipos','Equipos'],['registroMP','Registro MP'],['dashboard','Resumen']]],
+  ['GESTIONAR', [['porResolver','Por resolver'],['equipos','Buscar equipos'],['registroMP','Registro MP'],['dashboard','Resumen']]],
   ['REGISTRAR', [['mp','MP del mes'],['conciliacion','Conciliación']]]
 ];
 function navBadge(k, b){
