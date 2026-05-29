@@ -637,4 +637,31 @@
 - **Dónde aplica:** build_app.py (`nuevoPendiente` opts.eventoOrigen + aviso, `renderBitacora`
   botón en Acciones); CHANGELOG v0.44.
 
+## [2026-05-29] Los equipos "en servicio técnico" desaparecían tras subir el maestro (v0.45)
+
+- **Disparador:** el usuario: "hasta ayer tenía equipos en servicio técnico que no veo ahora".
+- **Diagnóstico (con su backup `12_hhhadata20260529_2.json`):** 16 equipos tienen como último
+  resultado de la gantt C2 ("equipo en servicio técnico") pero figuraban 15 operativo / 1 no_op.
+  Conteo "En servicio técnico" = 0 (antes >0).
+- **Causa raíz:** el estado resultante de una MP se calculaba con `resultado==='Si'?'operativo'
+  : resultado==='Baja'?'baja' : (eq.estado||'operativo')`. Es decir, **C2, C3, FS, NU caían en el
+  "else" y quedaban 'operativo'**. Al subir el maestro se crean MP automáticas (una por R de la
+  gantt) con ese estado; como `recalcEstadoEquipo` toma el estado del último evento, esos eventos
+  "operativos" TAPABAN el "en servicio técnico" que `estadoDesdeMatriz` (C2) daba cuando NO había
+  eventos. Ayer no había esos eventos → se veía bien; tras subir el maestro → se perdió.
+- **Arreglo (un solo criterio, espejado):** `estadoMPDesdeResultado(resultado)` mapea como la
+  matriz `MP_CAUSAL_ESTADO` (C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja, Si→operativo;
+  **C1 y C4–C8 NO declaran estado**, '' ). Se usa en los 3 puntos que crean MP (ficha, MP rápida,
+  automáticas del maestro) y `recalcEstadoEquipo` deriva el estado de una MP de su RESULTADO (no del
+  campo ev.estado, que en datos viejos venía mal). El historial muestra el estado derivado del
+  resultado. Resultado en su backup: En servicio técnico 0→**15**, sin re-subir nada.
+- **Invariante respetada:** recalc (cálculo) y aplicarEfectosEvento (vivo) coinciden: C1/C4–C8
+  dejan estado vacío en ambos (transparentes), evitando "operativizar" un equipo en correctivo.
+- **Heurística:** un `? : else` que mete TODOS los casos no contemplados en un valor por defecto
+  ('operativo') es una bomba: cualquier código nuevo (C2…) cae en el else silenciosamente. Mapear
+  con una tabla explícita (MP_CAUSAL_ESTADO) y un helper único evita el "else que se traga casos".
+- **Prueba de humo:** +1 chequeo (C2→en servicio técnico). 10/10.
+- **Dónde aplica:** build_app.py (`estadoMPDesdeResultado`, `recalcEstadoEquipo`, 3 creaciones de
+  MP, columna Estado del historial); tools/smoke_test.js (+1); CHANGELOG v0.45.
+
 <!-- Próximas entradas debajo de esta línea -->

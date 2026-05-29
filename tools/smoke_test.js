@@ -183,6 +183,17 @@ setTimeout(() => {
   }catch(e){ causalErr = e.message; }
   check('Causal C1–C8 marca "R" en el mes siguiente', causalOk, causalErr || detCausal);
 
+  // 10) Una MP con causal C2 deja el equipo "en servicio técnico" (no "operativo")
+  let c2Ok = false, c2Err = null, c2Det = '';
+  try{
+    if(typeof window.estadoMPDesdeResultado === 'function'){
+      const map = {Si:'operativo', C2:'en servicio técnico', C3:'no operativo', FS:'no operativo', NU:'no operativo', Baja:'baja', C1:''};
+      c2Ok = Object.entries(map).every(([r,e]) => window.estadoMPDesdeResultado(r) === e);
+      c2Det = 'C2→'+window.estadoMPDesdeResultado('C2');
+    }
+  }catch(e){ c2Err = e.message; }
+  check('MP con causal C2 → "en servicio técnico"', c2Ok, c2Err || c2Det);
+
   // --- Reporte ---
   const fall = results.filter(r=>!r.ok);
   console.log('\nPRUEBA DE HUMO HHHA  ·  respaldo: ' + path.basename(BACKUP));

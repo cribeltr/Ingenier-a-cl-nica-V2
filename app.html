@@ -19,6 +19,16 @@ break;case"<bookViews":;case"<bookViews>":;case"</bookViews>":break;case"<workbo
 <script>var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});</script>
 <!--
 CHANGELOG
+v0.45 [2026-05-29] Fix: equipos "en servicio técnico" desaparecían tras subir el maestro.
+  - Causa: la MP guardaba mal su estado resultante. La fórmula solo distinguía Si→operativo y
+    Baja→baja; TODO lo demás (incluido C2 = "equipo en servicio técnico" y C3/FS/NU = "no
+    operativo") quedaba como "operativo". Al subir el maestro se crean MP automáticas, y esos
+    eventos "operativos" tapaban el "en servicio técnico" que antes se deducía de la carta gantt.
+  - Arreglo: el estado de una MP se deriva de su RESULTADO/causal (helper estadoMPDesdeResultado,
+    espejo de MP_CAUSAL_ESTADO): C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja,
+    Si→operativo; C1 y C4–C8 (reprogramación) NO declaran estado. Aplicado en el cálculo
+    (recalcEstadoEquipo), en los 3 puntos que crean MP (ficha, MP rápida, automáticas del maestro)
+    y en la columna Estado del historial. Corrige los datos existentes sin re-subir nada.
 v0.44 [2026-05-29] Cada evento del historial tiene botón "➕ Pend." (pendiente ligado).
   - En la columna Acciones del historial, cada evento (no anulado) suma "➕ Pend." que abre el
     formulario de pendiente con el equipo precargado y LIGADO a ese evento (eventoOrigen). El
@@ -171,7 +181,7 @@ v0.28 [2026-05-28] El folio del ciclo se preselecciona; aviso si no hay ciclo ab
     (antes era la misma expresión repetida 5 veces).
 v0.27 [2026-05-28] El número de versión del encabezado se sincroniza solo.
   - El encabezado mostraba "v0.23" fijo (escrito a mano), sin actualizarse al subir
-    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.44
+    APP_VERSION en versiones siguientes. Ahora usa el placeholder 0.45
     que build_app.py reemplaza con el valor real de APP_VERSION al generar: una
     sola fuente de verdad, no vuelve a quedar desfasado.
 v0.26 [2026-05-28] Cierre de ciclo por Recepción + Reparación "en servicio técnico".
@@ -1028,7 +1038,7 @@ header.top nav .nav-more-menu button.active{background:var(--accent-soft);color:
 <body>
 <div class="app">
   <aside class="sidebar">
-    <div class="s-logo">HHHA <small>Equipos Críticos · v0.44</small></div>
+    <div class="s-logo">HHHA <small>Equipos Críticos · v0.45</small></div>
     <nav id="nav"></nav>
     <div class="s-foot"><span class="user-tag">👤 Cristian</span></div>
   </aside>
@@ -1076,7 +1086,7 @@ const SEED = {"equipos":[{"id":1,"carpeta":1,"inv":"2-115361","fam":"Incubadoras
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.44';
+const APP_VERSION = '0.45';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1413,6 +1423,16 @@ function encargadoDe(equipo){
 // C2 = en servicio técnico, C3 = no operativo (espera repuestos), FS/NU = no operativo, Baja = baja.
 // C1, C4-C8 y 'Si' NO indican falla del equipo -> se asume operativo.
 const MP_CAUSAL_ESTADO = {C2:'en_servicio_tecnico', C3:'no_operativo', FS:'no_operativo', NU:'no_operativo', Baja:'baja'};
+// Estado resultante (texto del formulario) de una MP según su resultado/causal. Espeja
+// MP_CAUSAL_ESTADO para que el evento guarde el estado correcto (C2 = en servicio técnico, no
+// "operativo"). C1 y C4–C8 son reprogramaciones sin falla: el equipo queda operativo.
+function estadoMPDesdeResultado(resultado){
+  if(resultado === 'Si') return 'operativo';
+  if(resultado === 'C2') return 'en servicio técnico';
+  if(resultado === 'C3' || resultado === 'FS' || resultado === 'NU') return 'no operativo';
+  if(resultado === 'Baja') return 'baja';
+  return ''; // C1, C4–C8 (reprogramación sin falla) y otros: no declaran estado
+}
 // Cuando no hay eventos que declaren estado, infiere desde la carta gantt usando el
 // resultado del último mes registrado del año vigente. Devuelve {estado,fecha} o null.
 function estadoDesdeMatriz(equipo){
@@ -1438,6 +1458,17 @@ function recalcEstadoEquipo(equipo){
   // Último evento con estado declarado
   for(let i=evs.length-1; i>=0; i--){
     const ev = evs[i];
+    // Para una MP, el estado lo manda el RESULTADO/causal (misma matriz que la carta gantt),
+    // NO el campo ev.estado (que en los eventos automáticos del maestro venía como "operativo"
+    // y tapaba el "en servicio técnico" de un C2). C2→serv. técnico, C3/FS/NU→no operativo,
+    // Baja→baja, Si→operativo. C1 y C4–C8 son reprogramaciones SIN falla: no declaran estado
+    // (se sigue buscando hacia atrás / la carta gantt).
+    if(ev.tipo === 'Mantención preventiva' && ev.resultado){
+      if(ev.resultado === 'Si'){ equipo.estado='operativo'; equipo.estadoDesde=ev.fecha; return; }
+      const estMP = MP_CAUSAL_ESTADO[ev.resultado];
+      if(estMP){ equipo.estado=estMP; equipo.estadoDesde=ev.fecha; return; }
+      continue; // C1, C4–C8: reprogramación sin falla declarada
+    }
     if(ev.estado){
       const estado = ev.estado === 'operativo' ? 'operativo' :
                      ev.estado === 'en servicio técnico' ? 'en_servicio_tecnico' :
@@ -2762,7 +2793,7 @@ function renderBitacora(eq){
       el('td',{style:{whiteSpace:'nowrap'}}, fmtFecha(ev.fecha),
         ev.ts ? el('small',{class:'muted',style:{display:'block',fontSize:'10px',marginTop:'2px'}}, 'creado '+new Date(ev.ts).toLocaleString('es-CL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})) : null),
       desc,
-      el('td',{}, ev.estado ? ev.estado : el('small',{class:'muted'},'—')),
+      el('td',{}, (ev.tipo==='Mantención preventiva' && ev.resultado ? estadoMPDesdeResultado(ev.resultado) : ev.estado) || el('small',{class:'muted'},'—')),
       el('td',{}, ev.ejecutor || el('small',{class:'muted'},'—')),
       el('td',{}, pendsEv.length === 0
         ? el('small',{class:'muted'},'—')
@@ -3648,7 +3679,7 @@ function compararMaestro(parsed, importacionId){
                 fecha, fechaReg: hoyLocal(),
                 resultado: vm,
                 ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
-                estado: vm === 'Si' ? 'operativo' : vm === 'Baja' ? 'baja' : (eq.estado||'operativo'),
+                estado: estadoMPDesdeResultado(vm),
                 obs: `[Conciliación auto] Importado desde maestro · Importación #${importacionId}`,
                 oficial: 'No', anulado: false,
                 origen: 'conciliacion_auto',
@@ -4290,7 +4321,7 @@ function mpMasiva(invs, year, monthIdx, refresh){
         fecha: fecha.value, fechaReg: hoyLocal(),
         resultado: resultado.value,
         ejecutor: ejecutor.value,
-        estado: resultado.value === 'Si' ? 'operativo' : resultado.value === 'Baja' ? 'baja' : (eq.estado||'operativo'),
+        estado: estadoMPDesdeResultado(resultado.value),
         obs: obs.value || null,
         oficial: 'No',
         anulado: false,
@@ -4387,7 +4418,7 @@ function mpRapida(opts){
       fecha: fecha.value, fechaReg: hoyLocal(),
       resultado: resultado.value,
       ejecutor: ejecutor.value,
-      estado: resultado.value === 'Si' ? 'operativo' : resultado.value === 'Baja' ? 'baja' : (eq.estado || 'operativo'),
+      estado: estadoMPDesdeResultado(resultado.value),
       obs: obs.value || null,
       oficial: 'No',
       anulado: false,

@@ -17,6 +17,16 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.45 [2026-05-29] Fix: equipos "en servicio técnico" desaparecían tras subir el maestro.
+  - Causa: la MP guardaba mal su estado resultante. La fórmula solo distinguía Si→operativo y
+    Baja→baja; TODO lo demás (incluido C2 = "equipo en servicio técnico" y C3/FS/NU = "no
+    operativo") quedaba como "operativo". Al subir el maestro se crean MP automáticas, y esos
+    eventos "operativos" tapaban el "en servicio técnico" que antes se deducía de la carta gantt.
+  - Arreglo: el estado de una MP se deriva de su RESULTADO/causal (helper estadoMPDesdeResultado,
+    espejo de MP_CAUSAL_ESTADO): C2→en servicio técnico, C3/FS/NU→no operativo, Baja→baja,
+    Si→operativo; C1 y C4–C8 (reprogramación) NO declaran estado. Aplicado en el cálculo
+    (recalcEstadoEquipo), en los 3 puntos que crean MP (ficha, MP rápida, automáticas del maestro)
+    y en la columna Estado del historial. Corrige los datos existentes sin re-subir nada.
 v0.44 [2026-05-29] Cada evento del historial tiene botón "➕ Pend." (pendiente ligado).
   - En la columna Acciones del historial, cada evento (no anulado) suma "➕ Pend." que abre el
     formulario de pendiente con el equipo precargado y LIGADO a ese evento (eventoOrigen). El
@@ -1074,7 +1084,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.44';
+const APP_VERSION = '0.45';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1411,6 +1421,16 @@ function encargadoDe(equipo){
 // C2 = en servicio técnico, C3 = no operativo (espera repuestos), FS/NU = no operativo, Baja = baja.
 // C1, C4-C8 y 'Si' NO indican falla del equipo -> se asume operativo.
 const MP_CAUSAL_ESTADO = {C2:'en_servicio_tecnico', C3:'no_operativo', FS:'no_operativo', NU:'no_operativo', Baja:'baja'};
+// Estado resultante (texto del formulario) de una MP según su resultado/causal. Espeja
+// MP_CAUSAL_ESTADO para que el evento guarde el estado correcto (C2 = en servicio técnico, no
+// "operativo"). C1 y C4–C8 son reprogramaciones sin falla: el equipo queda operativo.
+function estadoMPDesdeResultado(resultado){
+  if(resultado === 'Si') return 'operativo';
+  if(resultado === 'C2') return 'en servicio técnico';
+  if(resultado === 'C3' || resultado === 'FS' || resultado === 'NU') return 'no operativo';
+  if(resultado === 'Baja') return 'baja';
+  return ''; // C1, C4–C8 (reprogramación sin falla) y otros: no declaran estado
+}
 // Cuando no hay eventos que declaren estado, infiere desde la carta gantt usando el
 // resultado del último mes registrado del año vigente. Devuelve {estado,fecha} o null.
 function estadoDesdeMatriz(equipo){
@@ -1436,6 +1456,17 @@ function recalcEstadoEquipo(equipo){
   // Último evento con estado declarado
   for(let i=evs.length-1; i>=0; i--){
     const ev = evs[i];
+    // Para una MP, el estado lo manda el RESULTADO/causal (misma matriz que la carta gantt),
+    // NO el campo ev.estado (que en los eventos automáticos del maestro venía como "operativo"
+    // y tapaba el "en servicio técnico" de un C2). C2→serv. técnico, C3/FS/NU→no operativo,
+    // Baja→baja, Si→operativo. C1 y C4–C8 son reprogramaciones SIN falla: no declaran estado
+    // (se sigue buscando hacia atrás / la carta gantt).
+    if(ev.tipo === 'Mantención preventiva' && ev.resultado){
+      if(ev.resultado === 'Si'){ equipo.estado='operativo'; equipo.estadoDesde=ev.fecha; return; }
+      const estMP = MP_CAUSAL_ESTADO[ev.resultado];
+      if(estMP){ equipo.estado=estMP; equipo.estadoDesde=ev.fecha; return; }
+      continue; // C1, C4–C8: reprogramación sin falla declarada
+    }
     if(ev.estado){
       const estado = ev.estado === 'operativo' ? 'operativo' :
                      ev.estado === 'en servicio técnico' ? 'en_servicio_tecnico' :
@@ -2760,7 +2791,7 @@ function renderBitacora(eq){
       el('td',{style:{whiteSpace:'nowrap'}}, fmtFecha(ev.fecha),
         ev.ts ? el('small',{class:'muted',style:{display:'block',fontSize:'10px',marginTop:'2px'}}, 'creado '+new Date(ev.ts).toLocaleString('es-CL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})) : null),
       desc,
-      el('td',{}, ev.estado ? ev.estado : el('small',{class:'muted'},'—')),
+      el('td',{}, (ev.tipo==='Mantención preventiva' && ev.resultado ? estadoMPDesdeResultado(ev.resultado) : ev.estado) || el('small',{class:'muted'},'—')),
       el('td',{}, ev.ejecutor || el('small',{class:'muted'},'—')),
       el('td',{}, pendsEv.length === 0
         ? el('small',{class:'muted'},'—')
@@ -3646,7 +3677,7 @@ function compararMaestro(parsed, importacionId){
                 fecha, fechaReg: hoyLocal(),
                 resultado: vm,
                 ejecutor: getPref('ultimoEjecutor', null) || 'Personal externo',
-                estado: vm === 'Si' ? 'operativo' : vm === 'Baja' ? 'baja' : (eq.estado||'operativo'),
+                estado: estadoMPDesdeResultado(vm),
                 obs: `[Conciliación auto] Importado desde maestro · Importación #${importacionId}`,
                 oficial: 'No', anulado: false,
                 origen: 'conciliacion_auto',
@@ -4288,7 +4319,7 @@ function mpMasiva(invs, year, monthIdx, refresh){
         fecha: fecha.value, fechaReg: hoyLocal(),
         resultado: resultado.value,
         ejecutor: ejecutor.value,
-        estado: resultado.value === 'Si' ? 'operativo' : resultado.value === 'Baja' ? 'baja' : (eq.estado||'operativo'),
+        estado: estadoMPDesdeResultado(resultado.value),
         obs: obs.value || null,
         oficial: 'No',
         anulado: false,
@@ -4385,7 +4416,7 @@ function mpRapida(opts){
       fecha: fecha.value, fechaReg: hoyLocal(),
       resultado: resultado.value,
       ejecutor: ejecutor.value,
-      estado: resultado.value === 'Si' ? 'operativo' : resultado.value === 'Baja' ? 'baja' : (eq.estado || 'operativo'),
+      estado: estadoMPDesdeResultado(resultado.value),
       obs: obs.value || null,
       oficial: 'No',
       anulado: false,
