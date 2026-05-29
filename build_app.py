@@ -17,6 +17,13 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.43 [2026-05-29] Historial de eventos en COLUMNAS + columna de Pendientes (cap. 4.3).
+  - El historial pasa de tarjetas a una TABLA con columnas: Fecha · Descripción · Estado ·
+    Ejecutor · Pendientes · Acciones. La columna "Pendientes" muestra, al lado de cada evento,
+    los pendientes asociados (clic para abrirlos); "—" si no tiene.
+  - Descripción agrupa tipo, sellos (Oficial/Borrador/🔗 Auto-maestro/⚡ Lote), folio, resultado,
+    empresa, observación y, si está anulado, el motivo. Acciones (Oficializar/Editar/Anular) en
+    su columna. Se conserva el botón 🖨 Imprimir.
 v0.42 [2026-05-29] Buscar equipos cabe en pantalla (sin desplazamiento lateral).
   - Lo que faltaba del pedido anterior: la planilla seguía siendo más ancha que la pantalla.
   - Se quita la columna "Acciones" del extremo derecho (la fila ya abre la ficha; los ➕ están
@@ -1062,7 +1069,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.42';
+const APP_VERSION = '0.43';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2723,10 +2730,50 @@ function renderBitacora(eq){
   const todos = eventosDeTodos(eq.inv).slice().reverse();
   const activos = todos.filter(e => !e.anulado);
   const anulados = todos.filter(e => e.anulado);
+  // Una fila por evento, en columnas: Fecha · Descripción · Estado · Ejecutor · Pendientes · Acciones.
+  const fila = (ev) => {
+    const pendsEv = state.pendientes.filter(p => p.eventoOrigen === ev.id && !p.anulado);
+    // Descripción: tipo + sellos (oficial/borrador/auto/lote) + folio + resultado + observación.
+    const desc = el('td',{},
+      el('div',{},
+        el('strong',{}, ev.tipo), ' ',
+        ev.anulado ? el('span',{class:'badge anulado-badge'},'Anulado') :
+          (ev.oficial==='Sí' ? el('span',{class:'badge ofic-si'},'Oficial') : el('span',{class:'badge ofic-no'},'Borrador')),
+        ev.origen === 'conciliacion_auto' ? el('span',{class:'badge auto-badge',title:'Creado automáticamente al subir el maestro. Fecha = día 15 del mes.'},'🔗 Auto-maestro') : null,
+        ev.origen === 'conciliacion' ? el('span',{class:'badge auto-badge',title:'Creado al aceptar un conflicto del maestro en Conciliación.'},'🔗 Conciliación') : null,
+        ev.origen === 'masivo' ? el('span',{class:'badge ofic-no',title:'Registrado en lote desde MP del mes'},'⚡ Lote') : null,
+        ev.folio ? el('span',{class:'pill'}, 'Folio: '+ev.folio) : null,
+        ev.resultado ? el('span',{class:'pill'}, 'R: '+ev.resultado) : null
+      ),
+      ev.empresa ? el('div',{class:'muted',style:{fontSize:'12px',marginTop:'3px'}}, 'Empresa: '+ev.empresa) : null,
+      ev.obs ? el('div',{class:'muted',style:{fontSize:'12px',marginTop:'4px',whiteSpace:'pre-wrap'}}, ev.obs) : null,
+      ev.anulado ? el('div',{class:'muted',style:{fontSize:'12px',marginTop:'4px',color:'var(--noop)'}},
+        '⊘ Anulado'+(ev.fechaAnulacion ? ' · '+new Date(ev.fechaAnulacion).toLocaleString('es-CL') : '')+(ev.motivoAnulacion ? ' · Motivo: '+ev.motivoAnulacion : '')
+      ) : null
+    );
+    return el('tr',{class: ev.anulado?'ev-anulado':''},
+      el('td',{style:{whiteSpace:'nowrap'}}, fmtFecha(ev.fecha),
+        ev.ts ? el('small',{class:'muted',style:{display:'block',fontSize:'10px',marginTop:'2px'}}, 'creado '+new Date(ev.ts).toLocaleString('es-CL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})) : null),
+      desc,
+      el('td',{}, ev.estado ? ev.estado : el('small',{class:'muted'},'—')),
+      el('td',{}, ev.ejecutor || el('small',{class:'muted'},'—')),
+      el('td',{}, pendsEv.length === 0
+        ? el('small',{class:'muted'},'—')
+        : el('div',{}, ...pendsEv.map(p => el('span',{class:'tag',title:'Abrir pendiente',style:{cursor:'pointer',display:'inline-block',margin:'2px 3px 0 0'},onclick:()=>abrirPendiente(p)},
+            (TIPO_PENDIENTE[p.tipo]||p.tipo)+' · '+(ESTADO_PEND_LABEL[p.estado]||p.estado))))),
+      el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
+        !ev.anulado ? el('div',{style:{display:'flex',gap:'4px',flexWrap:'wrap'}},
+          ev.oficial !== 'Sí' ? el('button',{class:'small primary',onclick:()=>oficializarEvento(ev),title:'Marcar como oficial'},'✓ Oficializar') : null,
+          el('button',{class:'small',onclick:()=>editarEvento(ev),title:'Editar campos básicos'},'✎ Editar'),
+          el('button',{class:'small danger',onclick:()=>anularEvento(ev),title:'Anular evento (revierte efectos)'},'⊘ Anular')
+        ) : el('small',{class:'muted'},'—')
+      )
+    );
+  };
   return el('div',{class:'section'},
     el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'8px',flexWrap:'wrap'}},
       el('h3',{style:{margin:'0'}},
-        'Bitácora — hoja de vida',
+        'Historial de eventos',
         anulados.length > 0
           ? el('small',{style:{fontWeight:'400',color:'var(--muted)',marginLeft:'8px',textTransform:'none',letterSpacing:'0'}},
               `${activos.length} activo${activos.length!==1?'s':''} · ${anulados.length} anulado${anulados.length!==1?'s':''}`)
@@ -2734,38 +2781,14 @@ function renderBitacora(eq){
       ),
       el('button',{class:'small',title:'Imprimir el registro de eventos (o guardarlo como PDF)',onclick:()=>imprimirHistorial(eq)},'🖨 Imprimir')
     ),
-    el('div',{class:'bitacora'}, todos.length===0 ? el('div',{class:'empty small'},'Sin eventos registrados.') : null, ...todos.map(ev => el('div',{class:'ev'+(ev.anulado?' anulado':'')+(ev.origen==='conciliacion_auto'||ev.origen==='conciliacion'?' auto':'')},
-      el('div',{class:'hd'},
-        el('div',{}, el('strong',{}, ev.tipo), ' ',
-          ev.anulado ? el('span',{class:'badge anulado-badge'},'Anulado') :
-            (ev.oficial==='Sí' ? el('span',{class:'badge ofic-si'},'Oficial') : el('span',{class:'badge ofic-no'},'Borrador')),
-          ev.origen === 'conciliacion_auto' ? el('span',{class:'badge auto-badge',title:'Evento creado automáticamente al subir el maestro (v0.21). Fecha = día 15 del mes. No fue registrado manualmente.'},'🔗 Auto-maestro') : null,
-          ev.origen === 'conciliacion' ? el('span',{class:'badge auto-badge',title:'Evento creado al aceptar un conflicto del maestro en Conciliación.'},'🔗 Conciliación') : null,
-          ev.origen === 'masivo' ? el('span',{class:'badge ofic-no',title:'Registrado en lote desde MP del mes'},'⚡ Lote') : null,
-          ev.folio ? el('span',{class:'pill'}, 'Folio: '+ev.folio) : null,
-          ev.resultado ? el('span',{class:'pill'}, 'R: '+ev.resultado) : null
-        ),
-        el('span',{class:'fecha'}, fmtFecha(ev.fecha),
-          ev.ts ? el('small',{class:'muted',style:{display:'block',fontSize:'10px',marginTop:'2px'}}, 'creado '+new Date(ev.ts).toLocaleString('es-CL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})) : null
-        )
-      ),
-      el('div',{class:'meta'},
-        ev.ejecutor ? 'Ejecutor: '+ev.ejecutor+' · ' : '',
-        ev.empresa ? 'Empresa: '+ev.empresa+' · ' : '',
-        ev.estado ? 'Estado resultante: '+ev.estado : ''
-      ),
-      ev.obs ? el('div',{class:'obs'}, ev.obs) : null,
-      ev.anulado ? el('div',{class:'anulacion-info'},
-        '⊘ Anulado',
-        ev.fechaAnulacion ? ' · ' + new Date(ev.fechaAnulacion).toLocaleString('es-CL') : '',
-        ev.motivoAnulacion ? ' · Motivo: '+ev.motivoAnulacion : ''
-      ) : null,
-      !ev.anulado ? el('div',{style:{marginTop:'6px',display:'flex',gap:'5px'}},
-        ev.oficial !== 'Sí' ? el('button',{class:'small primary',onclick:()=>oficializarEvento(ev),title:'Marcar como oficial'},'✓ Oficializar') : null,
-        el('button',{class:'small',onclick:()=>editarEvento(ev),title:'Editar campos básicos'},'✎ Editar'),
-        el('button',{class:'small danger',onclick:()=>anularEvento(ev),title:'Anular evento (revierte efectos)'},'⊘ Anular')
-      ) : null
-    )))
+    el('div',{style:{overflow:'auto'}},
+      el('table',{class:'data bitacora-grid'},
+        el('thead',{}, el('tr',{}, ['Fecha','Descripción','Estado','Ejecutor','Pendientes','Acciones'].map(h=>el('th',{},h)))),
+        el('tbody',{}, todos.length===0
+          ? el('tr',{}, el('td',{colspan:'6',class:'empty small'},'Sin eventos registrados.'))
+          : null, ...todos.map(fila))
+      )
+    )
   );
 }
 

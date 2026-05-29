@@ -607,4 +607,21 @@
 - **Dónde aplica:** build_app.py (`VIEWS.equipos` buildHead sin Acciones, fila sin td de
   acciones, CSS `.eq-grid`, subtítulo); CHANGELOG v0.42.
 
+## [2026-05-29] Historial de eventos en columnas + columna de Pendientes (v0.43)
+
+- **Disparador:** el usuario, dentro de la ficha, no veía el historial "con columnas y al lado
+  los pendientes" (cap. 4.3 de la especificación). Seguía como tarjetas.
+- **Hecho:** `renderBitacora` pasa de lista de tarjetas a TABLA `.bitacora-grid` con columnas
+  Fecha · Descripción · Estado · Ejecutor · **Pendientes** · Acciones. La columna Pendientes
+  lista los `state.pendientes` con `eventoOrigen === ev.id` (no anulados) como chips clicables
+  (abren el pendiente); "—" si el evento no tiene. Descripción agrupa tipo, sellos, folio,
+  resultado, empresa, observación y motivo de anulación. Acciones en su columna.
+- **Verificado:** la tabla tiene las 6 columnas; con un pendiente ligado a un evento
+  (`crearPendienteAuto(..., evId, ...)`) el chip "Reprogramación MP · No iniciado" aparece en la
+  fila de ese evento. Ningún backup real traía pendientes con `eventoOrigen`, por eso se probó
+  inyectando uno (los pendientes auto nacen de causales C1–C8 / NU al registrar MP).
+- **Heurística:** al pasar una lista de tarjetas a tabla, conservar TODOS los datos que la
+  tarjeta mostraba (sellos, folio, observación, anulación) repartidos en celdas, no perderlos.
+- **Dónde aplica:** build_app.py (`renderBitacora`); CHANGELOG v0.43.
+
 <!-- Próximas entradas debajo de esta línea -->
