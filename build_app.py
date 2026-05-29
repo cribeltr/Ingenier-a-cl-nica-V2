@@ -17,6 +17,17 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.62 [2026-05-29] Se elimina "MP del mes"; nace "Asignaciones"; menú corregido; guardián valida menú↔vistas.
+  - Nueva vista "Asignaciones" (reemplaza MP del mes): planilla a pantalla completa con datos del
+    equipo + Programación + Resultado + Ejecutor ASIGNADO (selector editable que guarda la
+    asignación) + Estado del registro (Oficial/Borrador). Conserva descargar/subir plantilla (por
+    mes; deshabilitadas con "Todos los meses"). Filtros por columna estilo Excel + filtro general de
+    mes con "Todos los meses" + año + búsqueda. El Resumen (por mes/ejecutor/sin asignar) enlaza
+    aquí con el mes/año/estado correctos. Recordatorio: al subir el maestro los eventos quedan
+    Oficiales y se ven en "Estado del registro".
+  - Fix: el menú había quedado con "MP del mes" (vista ya inexistente) por colisiones de edición;
+    ahora: Pendientes · Buscar equipos · Asignaciones · Resumen · Conciliación.
+  - Guardián: nuevo chequeo que BLOQUEA si un ítem de NAV_GRUPOS no tiene su VIEWS (atrapó este bug).
 v0.59 [2026-05-29] Buscar equipos: Pendientes Sí/No filtrable. Pendientes: planilla a pantalla completa.
   - Buscar equipos: la columna "Pendientes" ahora muestra Sí/No (tiene pendientes abiertos o no) y
     es filtrable por esos dos estados (filtro estilo Excel como las demás columnas).
@@ -1208,7 +1219,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.59';
+const APP_VERSION = '0.62';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -5956,8 +5967,8 @@ setInterval(()=>{ if(recorder.status==='recording') recorder.updateUI(); }, 1000
 // Barra lateral agrupada en los dos momentos del trabajo. Ciclos/Eventos no van en el
 // menú: se acceden desde Pendientes, el Resumen y la ficha del equipo.
 const NAV_GRUPOS = [
-  ['GESTIONAR', [['pendientes','Pendientes'],['equipos','Buscar equipos'],['dashboard','Resumen']]],
-  ['REGISTRAR', [['mp','MP del mes'],['conciliacion','Conciliación']]]
+  ['GESTIONAR', [['pendientes','Pendientes'],['equipos','Buscar equipos'],['asignaciones','Asignaciones'],['dashboard','Resumen']]],
+  ['REGISTRAR', [['conciliacion','Conciliación']]]
 ];
 function navBadge(k, b){
   if(k === 'pendientes'){
