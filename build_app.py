@@ -17,6 +17,14 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.59 [2026-05-29] Buscar equipos: Pendientes Sí/No filtrable. Pendientes: planilla a pantalla completa.
+  - Buscar equipos: la columna "Pendientes" ahora muestra Sí/No (tiene pendientes abiertos o no) y
+    es filtrable por esos dos estados (filtro estilo Excel como las demás columnas).
+  - Vista Pendientes rehecha como planilla a pantalla completa: columnas N° Carpeta · Servicio ·
+    Equipo · N° Inventario · Tipo · Descripción · Ejecutor · Compromiso · Estado · Acciones. Todas
+    (menos Acciones) son filtrables por columna (estilo Excel) y ordenables. Se quitaron los
+    selectores de arriba: queda solo la barra de búsqueda. El filtro Excel es ahora un componente
+    reutilizable (filtroColumnaExcel) compartido por ambas planillas.
 v0.58 [2026-05-29] "Reprogramación mantención preventiva" solo para causales C1–C8.
   - Afina v0.57: solo las causales de reprogramación (C1–C8) se muestran como "Reprogramación
     mantención preventiva". Si, FS, NU, Baja y No conservan "Mantención preventiva".
@@ -703,6 +711,7 @@ main{overflow:auto;padding:28px 32px 60px}
 .view-equipos .eq-grid-wrap{flex:1;min-height:0}
 /* Vistas con tabla a pantalla completa (ancho total + tabla que llena el alto) */
 .view-full{max-width:none;display:flex;flex-direction:column;height:100%}
+.view-full .eq-grid-wrap{flex:1;min-height:0}
 .pend-fill{flex:1;min-height:0;display:flex;flex-direction:column}
 .pend-fill>div:last-child{flex:1;min-height:0}
 .view h2{margin:0 0 6px;font-size:22px;font-weight:600;letter-spacing:-.015em}
@@ -1199,7 +1208,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.58';
+const APP_VERSION = '0.59';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2376,6 +2385,58 @@ function renderSumAlertas(alertaDias){
   );
 }
 
+// Componente reutilizable: filtro de columna ESTILO EXCEL (marca uno o varios valores + escribe
+// para buscar en la lista). Lo usan Buscar equipos y Pendientes. El popup se ancla al body con
+// position:fixed para no cortarse dentro de un contenedor con scroll.
+const normFiltro = s => (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+function cerrarColPopups(){ document.querySelectorAll('.col-filter-pop').forEach(p=>p.remove()); }
+if(typeof window!=='undefined' && !window.__cfBound){ document.addEventListener('click', ()=>{ document.querySelectorAll('.col-filter-pop').forEach(p=>p.remove()); }); window.__cfBound = true; }
+function filtroColumnaExcel(label, valores, filtros, key, onChange){
+  const cur = (filtros[key] instanceof Set) ? filtros[key] : new Set();
+  const etiqueta = ()=> cur.size===0 ? '(todos)' : (cur.size===1 ? [...cur][0] : cur.size+' seleccionados');
+  const btnTxt = el('span',{class:'cf-txt'}, etiqueta());
+  const btn = el('button',{class:'col-filter-btn'+(cur.size?' activo':''),title:'Filtrar '+label}, btnTxt, el('span',{class:'cf-caret'},'▾'));
+  const buscar = el('input',{type:'search',placeholder:'Escribe para buscar…',class:'cf-search'});
+  const listaBox = el('div',{class:'cf-list'});
+  const pop = el('div',{class:'col-filter-pop',onclick:e=>e.stopPropagation()});
+  function pintar(){
+    listaBox.innerHTML='';
+    const q = normFiltro(buscar.value.trim());
+    const vis = valores.filter(v=>!q || normFiltro(v).includes(q));
+    if(vis.length===0){ listaBox.appendChild(el('div',{class:'muted',style:{padding:'6px 4px',fontSize:'12px'}},'Sin coincidencias')); return; }
+    vis.forEach(v=>{
+      const cb = el('input',{type:'checkbox'}); cb.checked = cur.has(v);
+      cb.onchange = ()=>{ if(cb.checked) cur.add(v); else cur.delete(v); aplicarSel(); };
+      listaBox.appendChild(el('label',{class:'cf-item'}, cb, el('span',{}, v)));
+    });
+  }
+  function aplicarSel(){
+    if(cur.size===0) delete filtros[key]; else filtros[key]=cur;
+    btnTxt.textContent = etiqueta();
+    btn.classList.toggle('activo', cur.size>0);
+    onChange();
+  }
+  buscar.addEventListener('input', pintar);
+  pop.appendChild(buscar);
+  pop.appendChild(el('div',{class:'cf-actions'},
+    el('button',{class:'small ghost',onclick:()=>{ valores.forEach(v=>cur.add(v)); pintar(); aplicarSel(); }},'Marcar todos'),
+    el('button',{class:'small ghost',onclick:()=>{ cur.clear(); pintar(); aplicarSel(); }},'Ninguno')
+  ));
+  pop.appendChild(listaBox);
+  btn.onclick = e=>{ e.stopPropagation();
+    const abierto = document.body.contains(pop);
+    cerrarColPopups();
+    if(!abierto){
+      document.body.appendChild(pop);
+      const r = btn.getBoundingClientRect();
+      let left = r.left; if(left + 240 > window.innerWidth) left = Math.max(8, window.innerWidth - 248);
+      pop.style.left = left+'px'; pop.style.top = (r.bottom+3)+'px';
+      pintar(); setTimeout(()=>buscar.focus(),0);
+    }
+  };
+  return el('div',{class:'col-filter'}, btn);
+}
+
 //---------------- EQUIPOS ----------------
 VIEWS.equipos = function(root, params){
   // Columnas según la especificación funcional (cap. 3): ID, N° Inventario, Serie, Equipo,
@@ -2393,7 +2454,7 @@ VIEWS.equipos = function(root, params){
     {k:'proc',l:'Procedencia',g:e=>e.proc||'',lista:true},
     {k:'estado',l:'Estado',g:e=>ESTADO_LABEL[e.estado]||e.estado||'',lista:true, cell:e=>el('td',{}, badgeEstado(e.estado), (e.estado==='en_servicio_tecnico'||e.estado==='no_operativo') ? el('div',{style:{marginTop:'3px'}}, el('small',{class:'muted'}, 'Enc: '+(encargadoDe(e)||'—'))) : null)},
     {k:'dias',l:'Días en estado',g:e=>e.estadoDesde?String(diasEnEstado(e)):'0',num:true, cell:e=>el('td',{class:'num'}, e.estadoDesde ? diasEnEstado(e)+' d' : el('small',{class:'muted'},'—'))},
-    {k:'pend',l:'Pendientes',g:e=>String(pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length),num:true, cell:e=>{const n=pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length; return el('td',{class:'num'}, n>0?el('span',{class:'badge abierto'},n):el('small',{class:'muted'},'—'));}}
+    {k:'pend',l:'Pendientes',g:e=> pendientesDe(e.inv).some(p=>p.estado!=='cerrado') ? 'Sí' : 'No', lista:true, cell:e=>{const n=pendientesDe(e.inv).filter(p=>p.estado!=='cerrado').length; return el('td',{}, n>0?el('span',{class:'badge abierto',title:n+' pendiente(s)'},'Sí'):el('small',{class:'muted'},'No'));}}
   ];
   const filtros = {};
   if(params.estado) filtros.estado = new Set([ESTADO_LABEL[params.estado] || params.estado]);
@@ -2432,59 +2493,8 @@ VIEWS.equipos = function(root, params){
   const norm = s => (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
   const valoresUnicos = c => [...new Set(state.equipos.map(e=>{const v=c.g(e); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
 
-  function cerrarPopups(){ document.querySelectorAll('.col-filter-pop').forEach(p=>p.remove()); }
-  if(!window.__cfBound){ document.addEventListener('click', ()=>{ document.querySelectorAll('.col-filter-pop').forEach(p=>p.remove()); }); window.__cfBound = true; }
-
-  // Filtro de columna ESTILO EXCEL: marca uno o varios valores y escribe para buscar en la lista.
-  function filtroExcel(c){
-    const cur = (filtros[c.k] instanceof Set) ? filtros[c.k] : new Set();
-    const etiqueta = ()=> cur.size===0 ? '(todos)' : (cur.size===1 ? [...cur][0] : cur.size+' seleccionados');
-    const btnTxt = el('span',{class:'cf-txt'}, etiqueta());
-    const btn = el('button',{class:'col-filter-btn'+(cur.size?' activo':''),title:'Filtrar '+c.l}, btnTxt, el('span',{class:'cf-caret'},'▾'));
-    const buscar = el('input',{type:'search',placeholder:'Escribe para buscar…',class:'cf-search'});
-    const listaBox = el('div',{class:'cf-list'});
-    const valores = valoresUnicos(c);
-    const pop = el('div',{class:'col-filter-pop',onclick:e=>e.stopPropagation()});
-    function pintar(){
-      listaBox.innerHTML='';
-      const q = norm(buscar.value.trim());
-      const vis = valores.filter(v=>!q || norm(v).includes(q));
-      if(vis.length===0){ listaBox.appendChild(el('div',{class:'muted',style:{padding:'6px 4px',fontSize:'12px'}},'Sin coincidencias')); return; }
-      vis.forEach(v=>{
-        const cb = el('input',{type:'checkbox'}); cb.checked = cur.has(v);
-        cb.onchange = ()=>{ if(cb.checked) cur.add(v); else cur.delete(v); aplicarSel(); };
-        listaBox.appendChild(el('label',{class:'cf-item'}, cb, el('span',{}, v)));
-      });
-    }
-    function aplicarSel(){
-      if(cur.size===0) delete filtros[c.k]; else filtros[c.k]=cur;
-      btnTxt.textContent = etiqueta();
-      btn.classList.toggle('activo', cur.size>0);
-      aplicar();
-    }
-    buscar.addEventListener('input', pintar);
-    pop.appendChild(buscar);
-    pop.appendChild(el('div',{class:'cf-actions'},
-      el('button',{class:'small ghost',onclick:()=>{ valores.forEach(v=>cur.add(v)); pintar(); aplicarSel(); }},'Marcar todos'),
-      el('button',{class:'small ghost',onclick:()=>{ cur.clear(); pintar(); aplicarSel(); }},'Ninguno')
-    ));
-    pop.appendChild(listaBox);
-    btn.onclick = e=>{ e.stopPropagation();
-      const abierto = document.body.contains(pop);
-      cerrarPopups();
-      if(!abierto){
-        document.body.appendChild(pop);
-        const r = btn.getBoundingClientRect();
-        let left = r.left; if(left + 240 > window.innerWidth) left = Math.max(8, window.innerWidth - 248);
-        pop.style.left = left+'px'; pop.style.top = (r.bottom+3)+'px';
-        pintar(); setTimeout(()=>buscar.focus(),0);
-      }
-    };
-    return el('div',{class:'col-filter'}, btn);
-  }
-
   function buildHead(){
-    cerrarPopups();
+    cerrarColPopups();
     thead.innerHTML = '';
     const trH = el('tr',{});
     COLS.forEach(c=>{
@@ -2496,7 +2506,7 @@ VIEWS.equipos = function(root, params){
     COLS.forEach(c=>{
       let ctrl;
       if(c.lista){
-        ctrl = filtroExcel(c);
+        ctrl = filtroColumnaExcel(c.l, valoresUnicos(c), filtros, c.k, aplicar);
       } else {
         ctrl = el('input',{type:'text',placeholder:'filtrar…',value:(typeof filtros[c.k]==='string'?filtros[c.k]:''),oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__eqf); window.__eqf=setTimeout(aplicar,200); }});
       }
@@ -2519,7 +2529,6 @@ VIEWS.equipos = function(root, params){
         if(c.lista){ if(fv instanceof Set && fv.size>0 && !fv.has(String(val))) return false; }
         else { if(!norm(val).includes(norm(fv))) return false; }
       }
-      if(filtros.__conPend && !pendientesDe(e.inv).some(p=>p.estado!=='cerrado')) return false;
       return true;
     });
     lista = applyParamsFilter(lista);
@@ -2571,7 +2580,7 @@ VIEWS.equipos = function(root, params){
     el('button',{class:'qa-btn',onclick:()=>{limpiarFiltros();render();}},'Todos'),
     _qa('En servicio técnico', state.equipos.filter(e=>e.estado==='en_servicio_tecnico').length, ()=>{limpiarFiltros();filtros.estado=new Set(['En servicio técnico']);render();}, 'st'),
     _qa('No operativos', state.equipos.filter(e=>e.estado==='no_operativo').length, ()=>{limpiarFiltros();filtros.estado=new Set(['No operativo']);render();}, 'noop'),
-    _qa('Con pendientes', state.equipos.filter(e=>pendientesDe(e.inv).some(p=>p.estado!=='cerrado')).length, ()=>{limpiarFiltros();filtros.__conPend=true;render();})
+    _qa('Con pendientes', state.equipos.filter(e=>pendientesDe(e.inv).some(p=>p.estado!=='cerrado')).length, ()=>{limpiarFiltros();filtros.pend=new Set(['Sí']);render();})
   );
   root.appendChild(el('div',{class:'view view-equipos'},
     el('h2',{},'Buscar equipos'),
@@ -3306,72 +3315,84 @@ VIEWS.ciclos = function(root, params){
 
 //---------------- PENDIENTES ----------------
 VIEWS.pendientes = function(root, params){
+  // Planilla a pantalla completa con filtros por columna (estilo Excel) y barra de búsqueda.
+  const COLS = [
+    {k:'carpeta',  l:'N° Carpeta', g:p=>{const eq=findEquipo(p.inv); return eq&&eq.carpeta!=null?String(eq.carpeta):'';}},
+    {k:'servicio', l:'Servicio',   g:p=>p.servicio||((findEquipo(p.inv)||{}).servicio)||'', lista:true},
+    {k:'equipo',   l:'Equipo',     g:p=>p.equipo||((findEquipo(p.inv)||{}).equipo)||'', lista:true},
+    {k:'inv',      l:'N° Inventario', g:p=>p.inv||'', cell:p=>el('td',{}, el('strong',{}, p.inv||'—'))},
+    {k:'tipo',     l:'Tipo',       g:p=>TIPO_PENDIENTE[p.tipo]||p.tipo||'', lista:true, cell:p=>el('td',{}, el('span',{class:'tag'}, TIPO_PENDIENTE[p.tipo]||p.tipo))},
+    {k:'desc',     l:'Descripción',g:p=>p.desc||'', cell:p=>el('td',{style:{maxWidth:'380px'}}, p.desc||'—')},
+    {k:'ejecutor', l:'Ejecutor',   g:p=>p.ejecutor||'', lista:true},
+    {k:'fechaComp',l:'Compromiso', g:p=>p.fechaComp||'', cell:p=>{const venc=p.fechaComp&&p.fechaComp<hoyLocal()&&p.estado!=='cerrado'; return el('td',{style:venc?{color:'var(--noop)',fontWeight:'600',whiteSpace:'nowrap'}:{whiteSpace:'nowrap'}}, fmtFecha(p.fechaComp));}},
+    {k:'estado',   l:'Estado',     g:p=>ESTADO_PEND_LABEL[p.estado]||p.estado||'', lista:true, cell:p=>el('td',{}, badgePend(p.estado))}
+  ];
+  const filtros = {};
+  if(params.tipo)     filtros.tipo     = new Set([TIPO_PENDIENTE[params.tipo]||params.tipo]);
+  if(params.estado)   filtros.estado   = new Set([ESTADO_PEND_LABEL[params.estado]||params.estado]);
+  if(params.ejecutor) filtros.ejecutor = new Set([params.ejecutor]);
+  if(params.servicio) filtros.servicio = new Set([params.servicio]);
+  let ordK=null, ordDir=1;
+  const norm = normFiltro;
   const search = el('input',{type:'search',placeholder:'Buscar por equipo, N° inventario o descripción…'});
-  const selTipo = el('select',{},
-    el('option',{value:''},'Todos los tipos'),
-    ...Object.entries(TIPO_PENDIENTE).map(([k,v])=>el('option',{value:k,selected:k===params.tipo?'selected':false},v))
-  );
-  if(params.tipo) selTipo.value = params.tipo;
-  const selEst = el('select',{},
-    el('option',{value:''},'Todos los estados'),
-    el('option',{value:'no_iniciado',selected:params.estado==='no_iniciado'?'selected':false},'No iniciado'),
-    el('option',{value:'en_proceso',selected:params.estado==='en_proceso'?'selected':false},'En proceso'),
-    el('option',{value:'cerrado',selected:params.estado==='cerrado'?'selected':false},'Resuelto')
-  );
-  if(params.estado) selEst.value = params.estado;
-  const selExec = el('select',{},
-    el('option',{value:''},'Todos los ejecutores'),
-    ...EJECUTORES.map(x=>el('option',{value:x,selected:x===params.ejecutor?'selected':false},x))
-  );
-  if(params.ejecutor) selExec.value = params.ejecutor;
-  const selServ = el('select',{},
-    el('option',{value:''},'Todos los servicios'),
-    ...[...new Set(state.pendientes.map(p=>p.servicio).filter(Boolean))].sort().map(s=>el('option',{value:s,selected:s===params.servicio?'selected':false},s))
-  );
-  if(params.servicio) selServ.value = params.servicio;
-  const container = el('div',{class:'pend-fill'});
-  const chipsBar = el('div',{class:'filters'});
-  function render(){
-    const q = search.value.trim().toLowerCase();
-    const t = selTipo.value, e = selEst.value, ex = selExec.value, srv = selServ.value;
-    const list = state.pendientes.filter(p => !p.anulado)
-      .filter(p => !t || p.tipo === t)
-      .filter(p => !e || p.estado === e)
-      .filter(p => !ex || p.ejecutor === ex)
-      .filter(p => !srv || p.servicio === srv)
-      .filter(p => !q || ((p.desc||'')+(p.inv||'')+(p.equipo||'')+(p.servicio||'')).toLowerCase().includes(q))
-      .sort((a,b)=>(a.fechaComp||'9999').localeCompare(b.fechaComp||'9999'));
-    container.innerHTML = '';
-    container.appendChild(el('div',{class:'muted',style:{fontSize:'12px',padding:'8px 0'}}, `${list.length} pendientes`));
-    container.appendChild(renderPendientesTabla(list));
-    renderChips();
+  const thead = el('thead',{}); const tbody = el('tbody',{});
+  const counter = el('div',{class:'muted',style:{fontSize:'12px',whiteSpace:'nowrap'}},'');
+  const valoresUnicos = c => [...new Set(state.pendientes.filter(p=>!p.anulado).map(p=>{const v=c.g(p); return v==null?'':String(v);}))].filter(v=>v!=='').sort((a,b)=>a.localeCompare(b,'es',{numeric:true}));
+
+  function buildHead(){
+    cerrarColPopups();
+    thead.innerHTML='';
+    const trH = el('tr',{});
+    COLS.forEach(c=> trH.appendChild(el('th',{class:'th-sort',title:'Ordenar por '+c.l,onclick:()=>{ if(ordK===c.k) ordDir=-ordDir; else {ordK=c.k;ordDir=1;} render(); }}, c.l+(ordK===c.k?(ordDir>0?' ▲':' ▼'):''))));
+    trH.appendChild(el('th',{},'Acciones'));
+    thead.appendChild(trH);
+    const trF = el('tr',{class:'filtros-col'});
+    COLS.forEach(c=>{
+      let ctrl;
+      if(c.lista) ctrl = filtroColumnaExcel(c.l, valoresUnicos(c), filtros, c.k, aplicar);
+      else ctrl = el('input',{type:'text',placeholder:'filtrar…',value:(typeof filtros[c.k]==='string'?filtros[c.k]:''),oninput:e=>{ filtros[c.k]=e.target.value; clearTimeout(window.__pf); window.__pf=setTimeout(aplicar,200); }});
+      trF.appendChild(el('th',{}, ctrl));
+    });
+    trF.appendChild(el('th',{}));
+    thead.appendChild(trF);
   }
-  function renderChips(){
-    chipsBar.innerHTML = '';
-    const chips = [];
-    if(params.tipo) chips.push(['Tipo', TIPO_PENDIENTE[params.tipo], ()=>{delete params.tipo; selTipo.value=''; render();}]);
-    if(params.estado) chips.push(['Estado', params.estado, ()=>{delete params.estado; selEst.value=''; render();}]);
-    if(params.ejecutor) chips.push(['Ejecutor', params.ejecutor, ()=>{delete params.ejecutor; selExec.value=''; render();}]);
-    if(params.servicio) chips.push(['Servicio', params.servicio, ()=>{delete params.servicio; selServ.value=''; render();}]);
-    chips.forEach(([k,v,onclr]) => chipsBar.appendChild(el('span',{class:'filter-chip'},
-      el('span',{class:'k'}, k+':'), el('span',{}, v), el('span',{class:'x',onclick:onclr}, '×')
-    )));
-    if(chips.length>0) chipsBar.appendChild(el('button',{class:'filter-clear',onclick:()=>{
-      Object.keys(params).forEach(k=>delete params[k]);
-      selTipo.value=''; selEst.value=''; selExec.value=''; selServ.value=''; search.value='';
-      render();
-    }},'Limpiar todo'));
+  function aplicar(){
+    const tokens = norm(search.value.trim()).split(/\s+/).filter(Boolean);
+    let list = state.pendientes.filter(p=>{
+      if(p.anulado) return false;
+      if(tokens.length){ const hay=[p.inv,p.equipo,p.servicio,p.desc,p.ejecutor,TIPO_PENDIENTE[p.tipo]].map(norm).join(' '); if(!tokens.every(t=>hay.includes(t))) return false; }
+      for(const c of COLS){ const fv=filtros[c.k]; if(!fv) continue; const val=c.g(p);
+        if(c.lista){ if(fv instanceof Set && fv.size>0 && !fv.has(String(val))) return false; }
+        else { if(!norm(val).includes(norm(fv))) return false; } }
+      return true;
+    });
+    if(ordK){ const c=COLS.find(x=>x.k===ordK); list.sort((a,b)=> String(c.g(a)).localeCompare(String(c.g(b)),'es',{numeric:true})*ordDir); }
+    else list.sort((a,b)=>(a.fechaComp||'9999').localeCompare(b.fechaComp||'9999'));
+    tbody.innerHTML='';
+    list.forEach(p=>{
+      const tr = el('tr',{});
+      COLS.forEach(c=> tr.appendChild(c.cell ? c.cell(p) : el('td',{}, c.g(p)||'—')));
+      tr.appendChild(el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
+        el('button',{class:'small',onclick:()=>abrirPendiente(p)},'Ver'),
+        p.estado==='no_iniciado' ? el('button',{class:'small',onclick:()=>cambiarEstadoPend(p,'en_proceso')},'Empezar') : null,
+        p.estado!=='cerrado' ? el('button',{class:'small primary',onclick:()=>cerrarPendiente(p)},'Resolver') : null,
+        el('button',{class:'small ghost',onclick:()=>navigate('equipo',{inv:p.inv})},'Ficha')
+      ));
+      tbody.appendChild(tr);
+    });
+    counter.textContent = `${list.length} pendientes`;
   }
-  [search,selTipo,selEst,selExec,selServ].forEach(i => i.addEventListener('input',render));
+  function render(){ buildHead(); aplicar(); }
+  search.addEventListener('input', ()=>{ clearTimeout(window.__ps); window.__ps=setTimeout(aplicar,200); });
   root.appendChild(el('div',{class:'view view-full'},
-    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'6px',flexWrap:'wrap',gap:'10px'}},
+    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'8px',flexWrap:'wrap',gap:'10px'}},
       el('h2',{},'Pendientes'),
       el('button',{class:'primary',onclick:()=>nuevoPendiente({})},'➕ Nuevo pendiente')
     ),
-    el('div',{class:'subtitle'},'Gestiones, reprogramaciones de MP, documentos faltantes y recomendaciones.'),
-    el('div',{class:'toolbar'}, el('div',{class:'grow'},search), selTipo, selEst, selExec, selServ),
-    chipsBar,
-    container
+    el('div',{class:'toolbar'}, el('div',{class:'grow'},search), counter),
+    el('div',{class:'eq-grid-wrap',style:{overflow:'auto',border:'1px solid var(--border)',borderRadius:'10px'}},
+      el('table',{class:'data eq-grid buscar-grid',style:{border:'none'}}, thead, tbody)
+    )
   ));
   render();
 };

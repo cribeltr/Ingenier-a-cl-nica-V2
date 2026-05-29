@@ -886,4 +886,25 @@
 - **Dónde aplica:** build_app.py (TIPO_PENDIENTE, etiquetaTipoEvento + usos, VIEWS.equipo header,
   synthetic oficial en compararMaestro/resolverConflicto); CHANGELOG v0.57.
 
+## [2026-05-29] Pendientes Sí/No filtrable + Pendientes como planilla a pantalla completa (v0.59)
+
+- **Disparador:** el usuario pidió: en Buscar equipos, la columna Pendientes con Sí/No filtrable;
+  y rehacer la vista Pendientes como planilla (columnas Carpeta · Servicio · Equipo · Inventario ·
+  Tipo · Descripción · Ejecutor · Compromiso · Estado · Acciones), todas filtrables menos Acciones,
+  quitando los selectores de arriba (solo búsqueda) y a pantalla completa.
+- **Hecho:** (1) columna Pendientes de equipos: getter devuelve 'Sí'/'No' (`lista:true`) → filtro
+  Excel con esos dos valores; la celda muestra Sí/No. La QA "Con pendientes" setea `filtros.pend=
+  Set(['Sí'])`. (2) **`filtroColumnaExcel` extraído a helper GLOBAL** (antes inline en equipos) +
+  `cerrarColPopups`/`normFiltro`; reutilizado por ambas planillas (sin duplicar). (3) `VIEWS.pendientes`
+  reescrita como planilla `view-full` con COLS, buildHead (sort + filtroColumnaExcel/text), aplicar/
+  render; solo barra de búsqueda arriba; tabla `eq-grid buscar-grid` que llena el alto.
+- **Verificado:** equipos Pendientes celda 'No', filtro ['No','Sí']; pendientes columnas correctas,
+  0 selects arriba, 10 celdas de filtro, 42 filas, 0 errores. Guardián 8 vistas + humo 11/11.
+- **Heurística:** al necesitar el mismo componente (filtro Excel) en una 2ª vista, EXTRAERLO a un
+  helper global parametrizado en vez de duplicar (evita el "arreglar en N, omitir M"). Se refactorizó
+  equipos para usarlo y se verificó que su filtro sigue OK (smoke #3).
+- **Dónde aplica:** build_app.py (`filtroColumnaExcel`/`cerrarColPopups`/`normFiltro` globales;
+  `VIEWS.equipos` usa el global + columna pend Sí/No; `VIEWS.pendientes` reescrita; CSS
+  `.view-full .eq-grid-wrap`); CHANGELOG v0.59.
+
 <!-- Próximas entradas debajo de esta línea -->
