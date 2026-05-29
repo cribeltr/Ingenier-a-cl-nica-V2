@@ -783,4 +783,24 @@
 - **Dónde aplica:** build_app.py (`estadoMPFinal`, `recalcEstadoEquipo`, MP en `nuevoEvento`,
   `mpRapida`, `mpMasiva`), tools/guard.js; CHANGELOG v0.51.
 
+## [2026-05-29] Más intuitivo: recorrer equipos desde la ficha (v0.52)
+
+- **Disparador:** el usuario pidió rediseñar para que sea más intuitivo. La grabación 1850
+  mostró que el desgaste real era ir-y-volver lista↔ficha (12 idas / 9 vueltas), procesando
+  equipos uno por uno. Se diseñó CONTRA esa evidencia, no a ciegas.
+- **Hecho:** (1) la ficha del equipo trae **◀ / "N de total" / ▶** que recorre la lista
+  exactamente con el filtro y orden actuales de Buscar equipos (variable `navEquipos` que se
+  llena en el render de la planilla). (2) Botón **"➕ MP y siguiente ▶"**: `mpRapida` acepta
+  `opts.despuesIr` y, al guardar, salta directo a la ficha del próximo equipo. (3) `navigate()`
+  CONSERVA el scroll cuando re-dibuja el MISMO lugar (mismo view+params), así oficializar/editar/
+  anular ya no saltan al inicio.
+- **Verificado:** ◀/▶ navega (1/893 → 2/893), botón "MP y siguiente" presente, 0 errores;
+  guardián 9 vistas + humo 10/10.
+- **Heurística:** "más intuitivo" = atacar la fricción MEDIDA en las sesiones (think_times,
+  ir-y-volver), no rediseñar por gusto. El recorrido prev/next respeta el filtro del usuario
+  (no inventa un orden propio).
+- **Dónde aplica:** build_app.py (`navEquipos`, `navigate` conserva scroll, `VIEWS.equipos`
+  guarda lista, `VIEWS.equipo` ◀/▶ + MP y siguiente, `mpRapida` opts.despuesIr, CSS `.ficha-nav`);
+  CHANGELOG v0.52.
+
 <!-- Próximas entradas debajo de esta línea -->

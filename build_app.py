@@ -17,6 +17,13 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.52 [2026-05-29] Más intuitivo (según la grabación): recorrer equipos sin volver a la lista.
+  - La grabexión real mostró que el mayor desgaste era ir-y-volver lista↔ficha (12 idas / 9
+    vueltas). En la ficha del equipo se agregan: ◀ / N de total / ▶ para pasar al equipo
+    anterior/siguiente SIGUIENDO el filtro y orden de Buscar equipos, y "➕ MP y siguiente ▶"
+    (registra la MP rápida y salta directo al próximo equipo).
+  - Las acciones que redibujan la misma ficha (oficializar, editar, anular) YA NO saltan al
+    inicio: navigate() conserva el scroll al re-dibujar el mismo lugar.
 v0.51 [2026-05-29] MP con resultado "Si": el estado del equipo se elige (Operativo / No operativo).
   - Regla del usuario: en una Mantención Preventiva, cuando el resultado es "Si" (realizada), el
     estado resultante lo decide quien registra: Operativo o No operativo. Con cualquier causal
@@ -758,6 +765,9 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 .ficha-sec>summary:hover{background:var(--bg)}
 .ficha-sec-body{padding:4px 16px 16px}
 .ficha-sec-body>.section{border:none;padding:0;margin:0;background:transparent}
+/* Recorrer equipos desde la ficha (◀ N/total ▶) */
+.ficha-nav{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:8px;padding:2px 6px;background:var(--surface)}
+.ficha-nav button{padding:2px 8px}
 /* Buscar equipos: la fila completa abre la ficha al hacer clic */
 .eq-grid tbody tr.row-click{cursor:pointer}
 .eq-grid tbody tr.row-click:hover td{background:var(--bg)}
@@ -1136,7 +1146,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.51';
+const APP_VERSION = '0.52';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1847,22 +1857,25 @@ const VIEWS = {};
 let currentView = 'dashboard';
 let viewParams = {};
 const navStack = []; // pila de {view, params} para "volver"
+let navEquipos = []; // invs en el orden/filtro actual de Buscar equipos (para ◀/▶ en la ficha)
 
 function navigate(view, params, opts){
   const replace = opts && opts.replace;
+  const main = $('#main');
+  const mismoLugar = currentView === view && JSON.stringify(viewParams) === JSON.stringify(params||{});
+  const prevScroll = main ? main.scrollTop : 0;
   if(!replace && currentView){
     // No empujar si vamos al mismo lugar
-    const sameView = currentView === view && JSON.stringify(viewParams) === JSON.stringify(params||{});
-    if(!sameView) navStack.push({view: currentView, params: {...viewParams}});
+    if(!mismoLugar) navStack.push({view: currentView, params: {...viewParams}});
     // Limitar stack a 30
     if(navStack.length > 30) navStack.shift();
   }
   currentView = view; viewParams = params || {};
   $$('#nav button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  const main = $('#main');
   main.innerHTML = '';
   if(VIEWS[view]) VIEWS[view](main, viewParams);
-  main.scrollTop = 0;
+  // Re-dibujado del MISMO lugar (p. ej. tras oficializar): conserva el scroll; si no, sube.
+  main.scrollTop = mismoLugar ? prevScroll : 0;
   recorder.event('nav',{view,params:viewParams});
 }
 
@@ -2403,6 +2416,7 @@ VIEWS.equipos = function(root, params){
     if(ordK){ const c = COLS.find(x=>x.k===ordK);
       lista.sort((a,b)=> c.num ? ((+c.g(a)||0)-(+c.g(b)||0))*ordDir : String(c.g(a)).localeCompare(String(c.g(b)),'es')*ordDir);
     }
+    navEquipos = lista.map(e=>e.inv); // recorrido ◀/▶ desde la ficha sigue el filtro/orden actual
     buildHead();
     tbody.innerHTML = '';
     lista.slice(0,500).forEach(e => {
@@ -2632,15 +2646,27 @@ VIEWS.equipo = function(root, params){
         el('span',{style:{marginLeft:'5px',opacity:.7}}, '→'))
     : null;
 
+  // Recorrer la lista (filtro/orden de Buscar equipos) sin volver atrás: ◀ / ▶ + "MP y siguiente".
+  const idxNav = navEquipos.indexOf(eq.inv);
+  const prevInv = idxNav > 0 ? navEquipos[idxNav-1] : null;
+  const nextInv = (idxNav >= 0 && idxNav < navEquipos.length-1) ? navEquipos[idxNav+1] : null;
+  const navFicha = idxNav >= 0 ? el('div',{class:'ficha-nav'},
+    el('button',{class:'small ghost',disabled:!prevInv,onclick:()=>prevInv&&navigate('equipo',{inv:prevInv}),title:'Equipo anterior de la lista'},'◀'),
+    el('span',{class:'muted',style:{fontSize:'12px',whiteSpace:'nowrap'}}, `${idxNav+1} / ${navEquipos.length}`),
+    el('button',{class:'small ghost',disabled:!nextInv,onclick:()=>nextInv&&navigate('equipo',{inv:nextInv}),title:'Equipo siguiente de la lista'},'▶')
+  ) : null;
+
   root.appendChild(el('div',{class:'view'},
     el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'10px',flexWrap:'wrap',gap:'8px'}},
       el('div',{style:{display:'flex',alignItems:'center',gap:'8px',flexWrap:'wrap'}},
         el('button',{class:'ghost',onclick:()=>navBack('equipos')},'← Volver'),
+        navFicha,
         el('h2',{style:{display:'inline-block',marginLeft:'4px'}},`${eq.equipo} · ${eq.inv}`),
         evsHoyBanner
       ),
-      el('div',{style:{display:'flex',gap:'6px'}},
+      el('div',{style:{display:'flex',gap:'6px',flexWrap:'wrap'}},
         el('button',{class:'primary',onclick:()=>mpRapida({invDefault:eq.inv}),title:'Registrar Mantención Preventiva rápida'},'➕ MP'),
+        nextInv ? el('button',{onclick:()=>mpRapida({invDefault:eq.inv, despuesIr:nextInv}),title:'Registrar MP y pasar al siguiente equipo de la lista'},'➕ MP y siguiente ▶') : null,
         el('button',{onclick:()=>nuevoEvento({invDefault:eq.inv}),title:'Crear evento completo (7 tipos)'},'➕ Evento'),
         el('button',{onclick:()=>nuevoPendiente({invDefault:eq.inv}),title:'Crear pendiente / tarea'},'➕ Pendiente'),
         eq.estado !== 'baja' ? el('button',{class:'danger',onclick:()=>darDeBaja(eq),title:'Marcar equipo como baja'},'⊘ Dar de baja') : null
@@ -4459,6 +4485,9 @@ function mpRapida(opts){
     if(continuar){
       // Mantiene el flujo: vuelve a Equipos para registrar la siguiente
       navigate('equipos');
+    } else if(opts && opts.despuesIr){
+      // "MP y siguiente": pasa directo a la ficha del siguiente equipo de la lista
+      navigate('equipo',{inv:opts.despuesIr});
     } else if(currentView === 'equipo'){
       navigate('equipo',{inv:eq.inv});
     } else {
