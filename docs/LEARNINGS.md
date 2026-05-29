@@ -556,4 +556,34 @@
   reescrita, `seccionColapsable`, `renderMatrizMP` fila Ejecutor, CSS `.ficha-sec`);
   CHANGELOG v0.40; app.html regenerado.
 
+## [2026-05-29] Ajustes desde la primera sesión real de uso (v0.41)
+
+- **Disparador:** el usuario usó v0.40, grabó una sesión (`sesiones/…1529.json`) y pidió 4
+  cosas. La sesión confirma la fricción: 84 s de `hover_long` sobre los filtros y tener que
+  estirarse al botón "Ficha" en el extremo derecho (x≈1651) de la planilla.
+- **Hecho:**
+  1. **Clic en la fila abre la ficha** (se quitó el botón "Ficha"). Los botones ➕ de la fila
+     llaman `e.stopPropagation()` para no abrir la ficha al registrar. CSS `tr.row-click`.
+  2. **MP con causal C1–C8** → además del pendiente de reprogramación, marca `registro[mesSig].P='R'`
+     (reprogramado) en el mes siguiente, sin pisar una programación ya puesta. La ficha ahora
+     lee P como `registro.P || prog` (igual que la planilla Registro MP), así la "R" se ve al
+     instante en ambas. Solo dispara en registro real del usuario (los eventos sintéticos de
+     conciliación escriben la matriz directo, no pasan por `aplicarEfectosEvento`).
+  3. **Imprimir historial:** `imprimirHistorial(eq)` abre una ventana limpia (tabla fecha /
+     descripción / estado / ejecutor / observación / pendientes) y lanza `window.print()`
+     (o guardar como PDF). Botón "🖨 Imprimir" en el encabezado del historial.
+  4. **Gantt → historial:** verificado que YA ocurre (desde v0.21): al subir el maestro, cada
+     R de la carta gantt sin evento se crea como MP sintética `origen:'conciliacion_auto'`
+     ("🔗 Auto-maestro"), visible en el historial. No requería cambio.
+- **Trampa encontrada:** el botón Imprimir no aparecía si el equipo no tenía eventos, porque
+  `renderBitacora` hacía un `return` temprano ("Sin eventos") ANTES del encabezado. Se quitó el
+  return temprano; el encabezado (con Imprimir) va siempre y el "Sin eventos" queda dentro.
+  Heurística: un `return` temprano por "lista vacía" se come los controles del encabezado;
+  poner el encabezado primero y el vacío como contenido.
+- **Prueba de humo:** se añadieron 3 chequeos nuevos (fila→ficha, botón Imprimir, causal→R mes
+  siguiente). 9/9 OK. La prueba atrapó justo el bug del botón ausente con datos sin eventos.
+- **Dónde aplica:** build_app.py (`VIEWS.equipos` fila clic, `aplicarEfectosEvento` causal,
+  `renderMatrizMP` lee registro.P, `imprimirHistorial`, `renderBitacora` encabezado);
+  tools/smoke_test.js (+3 chequeos); CHANGELOG v0.41.
+
 <!-- Próximas entradas debajo de esta línea -->

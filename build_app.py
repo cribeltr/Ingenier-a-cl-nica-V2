@@ -17,6 +17,17 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.41 [2026-05-29] Ajustes pedidos tras la primera sesión de uso real.
+  - Buscar equipos: hacer CLIC EN LA FILA abre la ficha (se quita el botón "Ficha"). Los
+    botones ➕ Evento / ➕ Pend. no abren la ficha (no propagan el clic). Menos
+    desplazamiento lateral (en la sesión el usuario se trababa al estirarse al botón).
+  - MP con causal C1–C8: además del pendiente de reprogramación, marca de inmediato una "R"
+    (reprogramado) en la PROGRAMACIÓN del MES SIGUIENTE de la carta gantt (registro[mesSig].P).
+    No pisa una programación ya puesta. La ficha lee P desde registro.P (como la planilla).
+  - Historial de eventos: nuevo botón "🖨 Imprimir" que abre una hoja limpia con la hoja de
+    vida del equipo y lanza el diálogo de impresión (o guardar como PDF), 100% offline.
+  - Verificado que al subir el maestro los resultados R de la gantt aparecen en el historial
+    como eventos "🔗 Auto-maestro" (ya ocurría desde v0.21; confirmado con prueba).
 v0.40 [2026-05-29] Alineación con la especificación funcional (vistas).
   - "Equipos" pasa a llamarse "Buscar equipos" (menú y título), como en el documento.
   - Columnas de la planilla en el orden de la especificación + se agrega la columna SERIE:
@@ -671,6 +682,9 @@ table.data .num{font-variant-numeric:tabular-nums;text-align:right}
 .ficha-sec>summary:hover{background:var(--bg)}
 .ficha-sec-body{padding:4px 16px 16px}
 .ficha-sec-body>.section{border:none;padding:0;margin:0;background:transparent}
+/* Buscar equipos: la fila completa abre la ficha al hacer clic */
+.eq-grid tbody tr.row-click{cursor:pointer}
+.eq-grid tbody tr.row-click:hover td{background:var(--bg)}
 .section h3{margin-top:0}
 
 /* Key-value */
@@ -1037,7 +1051,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.40';
+const APP_VERSION = '0.41';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -1553,6 +1567,14 @@ function aplicarEfectosEvento(ev){
       crearPendienteAuto(ev.inv, 'reprogramacion',
         `Reprogramar MP por causal ${r} — ${c.desc}. ${c.reprog30?'Reprogramar dentro de 30 días.':'Esperar reintegro del equipo.'}`,
         ev.ejecutor, ev.id, fechaComp);
+      // Una causal reprograma la MP: marca "R" (reprogramado) en la programación del MES
+      // SIGUIENTE para que se vea de inmediato en la carta gantt. No pisa una programación
+      // ya existente de ese mes (solo escribe si está vacía).
+      if(mesIdx < 11){
+        const mesSig = NUM_MES[mesIdx+1];
+        eq.registro[mesSig] = eq.registro[mesSig] || {};
+        if(!eq.registro[mesSig].P) eq.registro[mesSig].P = 'R';
+      }
     }
     if(r === 'NU'){
       crearPendienteAuto(ev.inv,'gestion_general','Localizar equipo (resultado MP = NU)',ev.ejecutor,ev.id,null);
@@ -2327,12 +2349,11 @@ VIEWS.equipos = function(root, params){
     buildHead();
     tbody.innerHTML = '';
     lista.slice(0,500).forEach(e => {
-      const tr = el('tr',{});
+      const tr = el('tr',{class:'row-click', title:'Abrir ficha del equipo', onclick:()=>navigate('equipo',{inv:e.inv})});
       COLS.forEach(c => tr.appendChild(c.cell ? c.cell(e) : el('td',{}, c.g(e)||'—')));
       tr.appendChild(el('td',{class:'actions',style:{whiteSpace:'nowrap'}},
-        el('button',{class:'small',title:'Registrar evento',onclick:()=>nuevoEvento({invDefault:e.inv})},'➕ Evento'),
-        el('button',{class:'small',title:'Registrar pendiente',onclick:()=>nuevoPendiente({invDefault:e.inv})},'➕ Pend.'),
-        el('button',{class:'small ghost',title:'Abrir ficha',onclick:()=>navigate('equipo',{inv:e.inv})},'Ficha')
+        el('button',{class:'small',title:'Registrar evento',onclick:ev=>{ev.stopPropagation();nuevoEvento({invDefault:e.inv});}},'➕ Evento'),
+        el('button',{class:'small',title:'Registrar pendiente',onclick:ev=>{ev.stopPropagation();nuevoPendiente({invDefault:e.inv});}},'➕ Pend.')
       ));
       tbody.appendChild(tr);
     });
@@ -2377,7 +2398,7 @@ VIEWS.equipos = function(root, params){
   );
   root.appendChild(el('div',{class:'view'},
     el('h2',{},'Buscar equipos'),
-    el('div',{class:'subtitle'},'Planilla de equipos: ordena por cualquier columna (clic en su título), filtra en cada una y registra evento o pendiente desde la fila.'),
+    el('div',{class:'subtitle'},'Planilla de equipos: haz clic en una fila para abrir su ficha. Ordena por cualquier columna (clic en su título) y filtra en cada una. Los botones ➕ registran evento o pendiente sin abrir la ficha.'),
     barraQA,
     el('div',{class:'toolbar'}, el('div',{class:'grow'},search)),
     chipsBar,
@@ -2603,7 +2624,7 @@ function renderMatrizMP(eq){
     if(!evsMPPorMes[mes] || ev.fecha > evsMPPorMes[mes].fecha) evsMPPorMes[mes] = ev;
   });
   MESES.forEach((m, idx) => {
-    const p = (eq.prog||{})[m] || '';
+    const p = ((eq.registro||{})[m]||{}).P || (eq.prog||{})[m] || '';
     const r = ((eq.registro||{})[m]||{}).R || '';
     const conflP = celdaTieneConflicto(eq.inv, m, 'P');
     const conflR = celdaTieneConflicto(eq.inv, m, 'R');
@@ -2655,20 +2676,60 @@ function renderMatrizMP(eq){
   );
 }
 
+// Imprime el historial de eventos del equipo: abre una ventana limpia y lanza el diálogo
+// de impresión del navegador (también permite "Guardar como PDF"). 100% offline.
+function imprimirHistorial(eq){
+  const esc = s => (s==null?'':String(s)).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const evs = eventosDeTodos(eq.inv).slice().reverse();
+  const filas = evs.map(ev => {
+    const pendAsoc = state.pendientes.filter(p => p.eventoOrigen === ev.id && !p.anulado).length;
+    const desc = esc(ev.tipo)
+      + (ev.folio ? ' · Folio '+esc(ev.folio) : '')
+      + (ev.resultado ? ' · R: '+esc(ev.resultado) : '')
+      + (ev.oficial==='Sí' ? ' · OFICIAL' : '')
+      + (ev.anulado ? ' · ANULADO' : '');
+    return `<tr class="${ev.anulado?'anu':''}"><td>${esc(fmtFecha(ev.fecha))}</td><td>${desc}</td>`
+      + `<td>${esc(ev.estado||'')}</td><td>${esc(ev.ejecutor||'')}</td>`
+      + `<td>${esc(ev.obs||'')}</td><td>${pendAsoc>0?pendAsoc:''}</td></tr>`;
+  }).join('');
+  const html = '<!doctype html><html lang="es"><head><meta charset="utf-8">'
+    + '<title>Historial '+esc(eq.inv)+'</title><style>'
+    + 'body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#111;padding:24px}'
+    + 'h1{font-size:16px;margin:0 0 4px} h2{font-size:12px;font-weight:400;color:#555;margin:0 0 14px}'
+    + 'table{border-collapse:collapse;width:100%} th,td{border:1px solid #999;padding:5px 7px;text-align:left;vertical-align:top}'
+    + 'th{background:#eee} tr.anu td{color:#999;text-decoration:line-through}'
+    + '.tb{margin:10px 0 16px} @media print{.noprint{display:none}}'
+    + '</style></head><body>'
+    + '<h1>Historial de eventos — '+esc(eq.equipo||'')+' · '+esc(eq.inv)+'</h1>'
+    + '<h2>'+esc(fmt(eq.marca))+' '+esc(fmt(eq.modelo))+' · Serie '+esc(fmt(eq.serie))
+    +   ' · '+esc(fmt(eq.servicio))+' · Estado: '+esc(ESTADO_LABEL[eq.estado]||eq.estado||'—')
+    +   ' · Impreso '+esc(new Date().toLocaleString('es-CL'))+'</h2>'
+    + '<div class="tb noprint"><button onclick="window.print()">🖨 Imprimir</button></div>'
+    + '<table><thead><tr><th>Fecha</th><th>Descripción</th><th>Estado</th><th>Ejecutor</th><th>Observación</th><th>Pend.</th></tr></thead>'
+    + '<tbody>'+(filas||'<tr><td colspan="6">Sin eventos registrados.</td></tr>')+'</tbody></table>'
+    + '</body></html>';
+  const w = window.open('', '_blank');
+  if(!w){ toast('Permite las ventanas emergentes del navegador para imprimir.', 'error'); return; }
+  w.document.open(); w.document.write(html); w.document.close(); w.focus();
+  setTimeout(()=>{ try{ w.print(); }catch(e){} }, 350);
+}
+
 function renderBitacora(eq){
   const todos = eventosDeTodos(eq.inv).slice().reverse();
   const activos = todos.filter(e => !e.anulado);
   const anulados = todos.filter(e => e.anulado);
-  if(todos.length === 0) return el('div',{class:'empty'},'Sin eventos registrados.');
   return el('div',{class:'section'},
-    el('h3',{},
-      'Bitácora — hoja de vida',
-      anulados.length > 0
-        ? el('small',{style:{fontWeight:'400',color:'var(--muted)',marginLeft:'8px',textTransform:'none',letterSpacing:'0'}},
-            `${activos.length} activo${activos.length!==1?'s':''} · ${anulados.length} anulado${anulados.length!==1?'s':''}`)
-        : null
+    el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'center',gap:'8px',flexWrap:'wrap'}},
+      el('h3',{style:{margin:'0'}},
+        'Bitácora — hoja de vida',
+        anulados.length > 0
+          ? el('small',{style:{fontWeight:'400',color:'var(--muted)',marginLeft:'8px',textTransform:'none',letterSpacing:'0'}},
+              `${activos.length} activo${activos.length!==1?'s':''} · ${anulados.length} anulado${anulados.length!==1?'s':''}`)
+          : null
+      ),
+      el('button',{class:'small',title:'Imprimir el registro de eventos (o guardarlo como PDF)',onclick:()=>imprimirHistorial(eq)},'🖨 Imprimir')
     ),
-    el('div',{class:'bitacora'}, ...todos.map(ev => el('div',{class:'ev'+(ev.anulado?' anulado':'')+(ev.origen==='conciliacion_auto'||ev.origen==='conciliacion'?' auto':'')},
+    el('div',{class:'bitacora'}, todos.length===0 ? el('div',{class:'empty small'},'Sin eventos registrados.') : null, ...todos.map(ev => el('div',{class:'ev'+(ev.anulado?' anulado':'')+(ev.origen==='conciliacion_auto'||ev.origen==='conciliacion'?' auto':'')},
       el('div',{class:'hd'},
         el('div',{}, el('strong',{}, ev.tipo), ' ',
           ev.anulado ? el('span',{class:'badge anulado-badge'},'Anulado') :

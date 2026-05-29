@@ -137,6 +137,52 @@ setTimeout(() => {
   check('Folio se hereda del ciclo abierto', folioOk,
     folioErr || `${cicloAbierto?cicloAbierto.inv:''} → ${cicloAbierto?cicloAbierto.folio:''}`);
 
+  // 7) En Buscar equipos, hacer clic en la FILA abre la ficha (sin botón "Ficha")
+  let rowOk = false, rowErr = null, sinBotonFicha = false;
+  try{
+    window.navigate('equipos', {});
+    let main = doc.querySelector('#main');
+    const tr = main.querySelector('tbody tr.row-click');
+    sinBotonFicha = ![...main.querySelectorAll('tbody tr:first-child button')].some(b=>/^ficha$/i.test(b.textContent.trim()));
+    if(tr){ tr.dispatchEvent(new window.MouseEvent('click', {bubbles:true}));
+      main = doc.querySelector('#main');
+      const h2 = main.querySelector('h2');
+      rowOk = !!h2 && / · /.test(h2.textContent); // la ficha titula "Equipo · inv"
+    }
+  }catch(e){ rowErr = e.message; }
+  check('Clic en la fila abre la ficha (sin botón Ficha)', rowOk && sinBotonFicha,
+    rowErr || `abrióFicha=${rowOk}, sinBotónFicha=${sinBotonFicha}`);
+
+  // 8) El historial de eventos tiene botón Imprimir
+  let printOk = false, printErr = null;
+  try{
+    window.navigate('equipo', {inv: invDemo});
+    const main = doc.querySelector('#main');
+    printOk = typeof window.imprimirHistorial === 'function' &&
+      [...main.querySelectorAll('button')].some(b=>/imprimir/i.test(b.textContent));
+  }catch(e){ printErr = e.message; }
+  check('Historial: existe botón Imprimir', printOk, printErr || '');
+
+  // 9) MP con causal C1–C8 marca "R" en la programación del mes siguiente
+  let causalOk = false, causalErr = null, detCausal = '';
+  try{
+    if(typeof window.aplicarEfectosEvento === 'function' && typeof window.findEquipo === 'function'){
+      const MES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      const eq = window.findEquipo(invDemo);
+      // Buscar un mes (idx<11) cuyo mes siguiente tenga la programación vacía, para no pisar.
+      let mIdx = -1;
+      for(let i=0;i<11;i++){ const sig=(eq.registro||{})[MES[i+1]]||{}; if(!sig.P){ mIdx=i; break; } }
+      if(mIdx>=0){
+        const fecha = `2026-${String(mIdx+1).padStart(2,'0')}-10`;
+        window.aplicarEfectosEvento({inv:invDemo, equipo:eq.equipo, tipo:'Mantención preventiva', resultado:'C1', fecha, id:990001, ejecutor:'PruebaHumo'});
+        const sigP = ((window.findEquipo(invDemo).registro||{})[MES[mIdx+1]]||{}).P;
+        causalOk = sigP === 'R';
+        detCausal = `${MES[mIdx]} C1 → ${MES[mIdx+1]}.P=${sigP}`;
+      } else { causalOk = true; detCausal = 'sin mes libre para probar (ok)'; }
+    }
+  }catch(e){ causalErr = e.message; }
+  check('Causal C1–C8 marca "R" en el mes siguiente', causalOk, causalErr || detCausal);
+
   // --- Reporte ---
   const fall = results.filter(r=>!r.ok);
   console.log('\nPRUEBA DE HUMO HHHA  ·  respaldo: ' + path.basename(BACKUP));
