@@ -1,0 +1,1467 @@
+{
+  "meta": {
+    "appVersion": "0.20",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+    "duracionMs": 144909,
+    "nEventos": 70,
+    "inicio": "2026-05-28T17:06:32.575Z",
+    "fin": "2026-05-28T17:08:57.484Z",
+    "metrics": {
+      "vistasVisitadas": [
+        "dashboard",
+        "equipos",
+        "mp",
+        "ciclos",
+        "pendientes",
+        "eventos",
+        "conciliacion"
+      ],
+      "totalClicks": 15,
+      "clicksRepetidos": 1,
+      "thinkTimes": 8,
+      "idleMs": 120663,
+      "activeMs": 24246,
+      "eventosCreadosEnSesion": 0,
+      "errores": 0,
+      "formErrors": 0,
+      "modalAborts": 0,
+      "hoverLong": 15
+    }
+  },
+  "eventos": [
+    {
+      "t": 0,
+      "tipo": "rec.start",
+      "autoStart": true,
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 2347,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 303,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 2426,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 303,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 337,
+        "y": 37
+      }
+    },
+    {
+      "t": 2509,
+      "tipo": "nav",
+      "view": "equipos",
+      "params": {},
+      "vista": "equipos",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 2522,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 3722,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "MP del mes",
+      "valor": "",
+      "coords": {
+        "x": 378,
+        "y": 0,
+        "w": 96,
+        "h": 51
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 3986,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "MP del mes",
+      "valor": "",
+      "coords": {
+        "x": 378,
+        "y": 0,
+        "w": 96,
+        "h": 51
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 445,
+        "y": 24
+      }
+    },
+    {
+      "t": 4046,
+      "tipo": "nav",
+      "view": "mp",
+      "params": {},
+      "vista": "mp",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 3986,
+      "tipo": "think_time",
+      "durMs": 3832,
+      "vista": "mp"
+    },
+    {
+      "t": 7818,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Ciclos correctivos",
+      "valor": "",
+      "coords": {
+        "x": 474,
+        "y": 0,
+        "w": 129,
+        "h": 51
+      },
+      "vista": "mp",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 7938,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Ciclos correctivos",
+      "valor": "",
+      "coords": {
+        "x": 474,
+        "y": 0,
+        "w": 129,
+        "h": 51
+      },
+      "vista": "mp",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 533,
+        "y": 24
+      }
+    },
+    {
+      "t": 7943,
+      "tipo": "nav",
+      "view": "ciclos",
+      "params": {},
+      "vista": "ciclos",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8732,
+      "tipo": "hover_long",
+      "selector": "nav#nav > button.active",
+      "tag": "button",
+      "id": "",
+      "cls": "active",
+      "textoVisible": "Ciclos correctivos",
+      "valor": "",
+      "coords": {
+        "x": 474,
+        "y": 0,
+        "w": 129,
+        "h": 51
+      },
+      "durMs": 4083,
+      "vista": "ciclos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 10138,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pendientes",
+      "valor": "",
+      "coords": {
+        "x": 603,
+        "y": 0,
+        "w": 92,
+        "h": 51
+      },
+      "vista": "ciclos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 10346,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pendientes",
+      "valor": "",
+      "coords": {
+        "x": 603,
+        "y": 0,
+        "w": 92,
+        "h": 51
+      },
+      "vista": "ciclos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 629,
+        "y": 35
+      }
+    },
+    {
+      "t": 10351,
+      "tipo": "nav",
+      "view": "pendientes",
+      "params": {},
+      "vista": "pendientes",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 11365,
+      "tipo": "hover_long",
+      "selector": "nav#nav > button.active",
+      "tag": "button",
+      "id": "",
+      "cls": "active",
+      "textoVisible": "Pendientes",
+      "valor": "",
+      "coords": {
+        "x": 603,
+        "y": 0,
+        "w": 92,
+        "h": 51
+      },
+      "durMs": 2633,
+      "vista": "pendientes",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 12154,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Eventos",
+      "valor": "",
+      "coords": {
+        "x": 695,
+        "y": 0,
+        "w": 73,
+        "h": 51
+      },
+      "vista": "pendientes",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 12283,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Eventos",
+      "valor": "",
+      "coords": {
+        "x": 695,
+        "y": 0,
+        "w": 73,
+        "h": 51
+      },
+      "vista": "pendientes",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 721,
+        "y": 27
+      }
+    },
+    {
+      "t": 12300,
+      "tipo": "nav",
+      "view": "eventos",
+      "params": {},
+      "vista": "eventos",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 14422,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Conciliación959",
+      "valor": "",
+      "coords": {
+        "x": 768,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "vista": "eventos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 14534,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Conciliación959",
+      "valor": "",
+      "coords": {
+        "x": 768,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "vista": "eventos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 850,
+        "y": 27
+      }
+    },
+    {
+      "t": 14696,
+      "tipo": "nav",
+      "view": "conciliacion",
+      "params": {},
+      "vista": "conciliacion",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 16116,
+      "tipo": "hover_long",
+      "selector": "nav#nav > button.active",
+      "tag": "button",
+      "id": "",
+      "cls": "active",
+      "textoVisible": "Conciliación959",
+      "valor": "",
+      "coords": {
+        "x": 768,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "durMs": 2033,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 14534,
+      "tipo": "think_time",
+      "durMs": 3210,
+      "vista": "conciliacion"
+    },
+    {
+      "t": 17744,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Dashboard",
+      "valor": "",
+      "coords": {
+        "x": 212,
+        "y": 0,
+        "w": 91,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 17861,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Dashboard",
+      "valor": "",
+      "coords": {
+        "x": 212,
+        "y": 0,
+        "w": 91,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 288,
+        "y": 33
+      }
+    },
+    {
+      "t": 17884,
+      "tipo": "nav",
+      "view": "dashboard",
+      "params": {},
+      "vista": "dashboard",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 17861,
+      "tipo": "think_time",
+      "durMs": 3357,
+      "vista": "dashboard"
+    },
+    {
+      "t": 21218,
+      "tipo": "focus",
+      "selector": "button#btn-theme",
+      "tag": "button",
+      "id": "btn-theme",
+      "cls": "theme-btn",
+      "textoVisible": "🌞",
+      "valor": "",
+      "coords": {
+        "x": 1570,
+        "y": 12,
+        "w": 30,
+        "h": 28
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 21398,
+      "tipo": "click",
+      "selector": "button#btn-theme",
+      "tag": "button",
+      "id": "btn-theme",
+      "cls": "theme-btn",
+      "textoVisible": "🌞",
+      "valor": "",
+      "coords": {
+        "x": 1570,
+        "y": 12,
+        "w": 30,
+        "h": 28
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1592,
+        "y": 28
+      }
+    },
+    {
+      "t": 23239,
+      "tipo": "scroll_depth",
+      "pct": 25,
+      "view": "dashboard",
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 21398,
+      "tipo": "think_time",
+      "durMs": 5814,
+      "vista": "dashboard"
+    },
+    {
+      "t": 27212,
+      "tipo": "focus",
+      "selector": "div.sum-section > div.sum-section-hd > div > div.toggle-group > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Por mes",
+      "valor": "",
+      "coords": {
+        "x": 1528,
+        "y": 381,
+        "w": 64,
+        "h": 24
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 27308,
+      "tipo": "click",
+      "selector": "div.sum-section > div.sum-section-hd > div > div.toggle-group > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Por mes",
+      "valor": "",
+      "coords": {
+        "x": 1528,
+        "y": 381,
+        "w": 64,
+        "h": 24
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1549,
+        "y": 395
+      }
+    },
+    {
+      "t": 31205,
+      "tipo": "scroll_depth",
+      "pct": 50,
+      "view": "dashboard",
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 31770,
+      "tipo": "hover_long",
+      "selector": "table.sum-table > tbody > tr > td.cell > span.v",
+      "tag": "span",
+      "id": "",
+      "cls": "v",
+      "textoVisible": "184",
+      "coords": {
+        "x": 994,
+        "y": 63,
+        "w": 22,
+        "h": 17
+      },
+      "durMs": 3069,
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 36356,
+      "tipo": "scroll_depth",
+      "pct": 75,
+      "view": "dashboard",
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 37022,
+      "tipo": "scroll_depth",
+      "pct": 100,
+      "view": "dashboard",
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 44283,
+      "tipo": "hover_long",
+      "selector": "div.sum-section > table.sum-table > tbody > tr > td.cell.zero",
+      "tag": "td",
+      "id": "",
+      "cls": "cell zero",
+      "textoVisible": "–",
+      "coords": {
+        "x": 1166,
+        "y": 486,
+        "w": 90,
+        "h": 37
+      },
+      "durMs": 2516,
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 46800,
+      "tipo": "hover_long",
+      "selector": "div.sum-section > table.sum-table > tbody > tr > td.cell",
+      "tag": "td",
+      "id": "",
+      "cls": "cell",
+      "textoVisible": "182",
+      "coords": {
+        "x": 1370,
+        "y": -63,
+        "w": 222,
+        "h": 37
+      },
+      "durMs": 2317,
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 52734,
+      "tipo": "hover_long",
+      "selector": "div > table.sum-table > tbody > tr > td.cell",
+      "tag": "td",
+      "id": "",
+      "cls": "cell",
+      "textoVisible": "6",
+      "coords": {
+        "x": 1429,
+        "y": 859,
+        "w": 147,
+        "h": 37
+      },
+      "durMs": 4500,
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 59434,
+      "tipo": "hover_long",
+      "selector": "div.sum-section > table.sum-table > tbody > tr > td.cell",
+      "tag": "td",
+      "id": "",
+      "cls": "cell",
+      "textoVisible": "140",
+      "coords": {
+        "x": 1370,
+        "y": -447,
+        "w": 222,
+        "h": 37
+      },
+      "durMs": 6699,
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 69516,
+      "tipo": "hover_long",
+      "selector": "div.sum-section > table.sum-table > tbody > tr > td.cell",
+      "tag": "td",
+      "id": "",
+      "cls": "cell",
+      "textoVisible": "182",
+      "coords": {
+        "x": 1205,
+        "y": 186,
+        "w": 176,
+        "h": 37
+      },
+      "durMs": 2367,
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 73234,
+      "tipo": "hover_long",
+      "selector": "div.sum-section > table.sum-table > tbody > tr > td.cell.zero",
+      "tag": "td",
+      "id": "",
+      "cls": "cell zero",
+      "textoVisible": "–",
+      "coords": {
+        "x": 1027,
+        "y": 1679,
+        "w": 177,
+        "h": 37
+      },
+      "durMs": 2463,
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 27308,
+      "tipo": "think_time",
+      "durMs": 57621,
+      "vista": "dashboard"
+    },
+    {
+      "t": 84929,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Conciliación959",
+      "valor": "",
+      "coords": {
+        "x": 768,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 85013,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Conciliación959",
+      "valor": "",
+      "coords": {
+        "x": 768,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 790,
+        "y": 33
+      }
+    },
+    {
+      "t": 85147,
+      "tipo": "nav",
+      "view": "conciliacion",
+      "params": {},
+      "vista": "conciliacion",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 86511,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.drop-zone",
+      "tag": "div",
+      "id": "",
+      "cls": "drop-zone",
+      "textoVisible": "Subir archivo maestro (.xlsm / .xlsx)\nClick o arrastra el archivo aquí · No sobr",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 111
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 86604,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.drop-zone > strong",
+      "tag": "strong",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Subir archivo maestro (.xlsm / .xlsx)",
+      "coords": {
+        "x": 347,
+        "y": 193,
+        "w": 1212,
+        "h": 20
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 858,
+        "y": 202
+      }
+    },
+    {
+      "t": 86604,
+      "tipo": "click",
+      "selector": "main#main > div.view > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "t": 88434,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.drop-zone",
+      "tag": "div",
+      "id": "",
+      "cls": "drop-zone",
+      "textoVisible": "Subir archivo maestro (.xlsm / .xlsx)\nClick o arrastra el archivo aquí · No sobr",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 111
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 88555,
+      "tipo": "input",
+      "selector": "main#main > div.view > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "C:\\fakepath\\ProgramaciónMP_2026.xlsm",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 89333,
+      "tipo": "hover_long",
+      "selector": "main#main > div.view > div.drop-zone > strong",
+      "tag": "strong",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Subir archivo maestro (.xlsm / .xlsx)",
+      "coords": {
+        "x": 347,
+        "y": 193,
+        "w": 1212,
+        "h": 20
+      },
+      "durMs": 3017,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 98483,
+      "tipo": "hover_long",
+      "selector": "div > div.conf-row > div.conf-card.urgent > div.conf-diff > div.prog",
+      "tag": "div",
+      "id": "",
+      "cls": "prog",
+      "textoVisible": "EN EL PROGRAMA\nsin valor",
+      "coords": {
+        "x": 364,
+        "y": 361,
+        "w": 601,
+        "h": 154
+      },
+      "durMs": 4466,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 88555,
+      "tipo": "think_time",
+      "durMs": 13680,
+      "vista": "conciliacion"
+    },
+    {
+      "t": 102235,
+      "tipo": "focus",
+      "selector": "div.view > div > div > div > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Seleccionar todos los visibles",
+      "valor": "",
+      "coords": {
+        "x": 1339,
+        "y": 278,
+        "w": 178,
+        "h": 24
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 102460,
+      "tipo": "click",
+      "selector": "div.view > div > div > div > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Seleccionar todos los visibles",
+      "valor": "",
+      "coords": {
+        "x": 1339,
+        "y": 278,
+        "w": 178,
+        "h": 24
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1437,
+        "y": 287
+      }
+    },
+    {
+      "t": 105502,
+      "tipo": "hover_long",
+      "selector": "main#main > div.view > div.bulk-bar",
+      "tag": "div",
+      "id": "",
+      "cls": "bulk-bar",
+      "textoVisible": "960 seleccionados\nLimpiar selección\n✓ Aceptar maestro a todos\n✗ Mantener program",
+      "coords": {
+        "x": 313,
+        "y": 144,
+        "w": 1280,
+        "h": 44
+      },
+      "durMs": 2870,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 118383,
+      "tipo": "hover_long",
+      "selector": "div > div.conf-row > div.conf-card.urgent > div.conf-diff > div.mast",
+      "tag": "div",
+      "id": "",
+      "cls": "mast",
+      "textoVisible": "EN EL MAESTRO (EXCEL)\nSi",
+      "coords": {
+        "x": 975,
+        "y": 285,
+        "w": 601,
+        "h": 154
+      },
+      "durMs": 12881,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 102460,
+      "tipo": "think_time",
+      "durMs": 22546,
+      "vista": "conciliacion"
+    },
+    {
+      "t": 125006,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.bulk-bar > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Limpiar selección",
+      "valor": "",
+      "coords": {
+        "x": 450,
+        "y": 421,
+        "w": 114,
+        "h": 24
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 125101,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.bulk-bar > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Limpiar selección",
+      "valor": "",
+      "coords": {
+        "x": 450,
+        "y": 421,
+        "w": 114,
+        "h": 24
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 519,
+        "y": 442
+      }
+    },
+    {
+      "t": 129622,
+      "tipo": "hover_long",
+      "selector": "div.conf-row > div.conf-card.urgent > div.conf-diff > div.prog > div.val.empty",
+      "tag": "div",
+      "id": "",
+      "cls": "val empty",
+      "textoVisible": "sin valor",
+      "coords": {
+        "x": 375,
+        "y": 254,
+        "w": 579,
+        "h": 118
+      },
+      "durMs": 3117,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 125101,
+      "tipo": "think_time",
+      "durMs": 10603,
+      "vista": "conciliacion"
+    },
+    {
+      "t": 135704,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Dashboard",
+      "valor": "",
+      "coords": {
+        "x": 212,
+        "y": 0,
+        "w": 91,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 135828,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Dashboard",
+      "valor": "",
+      "coords": {
+        "x": 212,
+        "y": 0,
+        "w": 91,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 284,
+        "y": 23
+      }
+    },
+    {
+      "t": 135856,
+      "tipo": "nav",
+      "view": "dashboard",
+      "params": {},
+      "vista": "dashboard",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 144908,
+      "tipo": "rec.stop",
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 106,
+        "pendientes": 34,
+        "ciclosAbiertos": 3
+      }
+    }
+  ]
+}

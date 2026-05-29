@@ -1,0 +1,5396 @@
+{
+  "meta": {
+    "appVersion": "0.10",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+    "duracionMs": 236234,
+    "nEventos": 208,
+    "inicio": "2026-05-28T14:33:37.285Z",
+    "fin": "2026-05-28T14:37:33.519Z"
+  },
+  "eventos": [
+    {
+      "t": 0,
+      "tipo": "rec.start",
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 3034,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 303,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 3161,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 303,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 357,
+        "y": 27
+      }
+    },
+    {
+      "t": 3227,
+      "tipo": "nav",
+      "view": "equipos",
+      "params": {},
+      "vista": "equipos",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 3236,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 5709,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "1",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 5769,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "12",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 6015,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "121",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 6208,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "1216",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 6468,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "12162",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 6683,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "121624",
+      "coords": {
+        "x": 320,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8496,
+      "tipo": "click",
+      "selector": "div > table.data > tbody > tr.clickable > td",
+      "tag": "td",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Gestión de Pacientes\nGestión de Pacientes",
+      "coords": {
+        "x": 769,
+        "y": 451,
+        "w": 225,
+        "h": 61
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 975,
+        "y": 475
+      }
+    },
+    {
+      "t": 8498,
+      "tipo": "nav",
+      "view": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "vista": "equipo",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 11306,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (2)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 11546,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (2)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 639,
+        "y": 153
+      }
+    },
+    {
+      "t": 19698,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pendientes (1/1)",
+      "valor": "",
+      "coords": {
+        "x": 838,
+        "y": 127,
+        "w": 125,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 19793,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pendientes (1/1)",
+      "valor": "",
+      "coords": {
+        "x": 838,
+        "y": 127,
+        "w": 125,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 897,
+        "y": 143
+      }
+    },
+    {
+      "t": 21528,
+      "tipo": "focus",
+      "selector": "div > div.section > div > div > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Ver / editar",
+      "valor": "",
+      "coords": {
+        "x": 1446,
+        "y": 230,
+        "w": 81,
+        "h": 24
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 21657,
+      "tipo": "click",
+      "selector": "div > div.section > div > div > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Ver / editar",
+      "valor": "",
+      "coords": {
+        "x": 1446,
+        "y": 230,
+        "w": 81,
+        "h": 24
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1485,
+        "y": 251
+      }
+    },
+    {
+      "t": 24884,
+      "tipo": "focus",
+      "selector": "div.modal.wide > div.body > div > div > textarea",
+      "tag": "textarea",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pauta de monitoreo diario meses de abril y mayo",
+      "valor": "Pauta de monitoreo diario meses de abril y mayo",
+      "coords": {
+        "x": 432,
+        "y": 308,
+        "w": 1056,
+        "h": 64
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 25250,
+      "tipo": "click",
+      "selector": "div.modal.wide > div.body > div > div > textarea",
+      "tag": "textarea",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pauta de monitoreo diario meses de abril y mayo",
+      "valor": "Pauta de monitoreo diario meses de abril y mayo",
+      "coords": {
+        "x": 432,
+        "y": 308,
+        "w": 1056,
+        "h": 64
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 654,
+        "y": 327
+      }
+    },
+    {
+      "t": 26417,
+      "tipo": "click",
+      "selector": "div.modal.wide > div.body > div > div > textarea",
+      "tag": "textarea",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pauta de monitoreo diario meses de abril y mayo",
+      "valor": "Pauta de monitoreo diario meses de abril y mayo",
+      "coords": {
+        "x": 432,
+        "y": 308,
+        "w": 1056,
+        "h": 64
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 851,
+        "y": 316
+      }
+    },
+    {
+      "t": 27198,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > textarea",
+      "tag": "textarea",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pauta de monitoreo diario meses de abril y mayo",
+      "valor": "Pauta de monitoreo ",
+      "coords": {
+        "x": 432,
+        "y": 308,
+        "w": 1056,
+        "h": 64
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 29196,
+      "tipo": "focus",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 29360,
+      "tipo": "click",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 590,
+        "y": 591
+      }
+    },
+    {
+      "t": 31359,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "P",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 31528,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pa",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 31735,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pau",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 31975,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Paut",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 32030,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 32115,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 32313,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta d",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 32372,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 32418,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 32913,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de M",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33052,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Mo",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33285,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Mon",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33344,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Moni",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33505,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monit",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33647,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monito",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33764,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitor",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33838,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitore",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 34430,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 35034,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 35296,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo A",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 35403,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo AB",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 35772,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo ABr",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 35907,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo ABri",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 36414,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo ABr",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 36596,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo AB",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 36728,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo A",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 37143,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Ar",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 37325,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Ari",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 37517,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Aril",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 38991,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Ari",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 39181,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Ar",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 39338,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo A",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 39490,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 39634,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 40350,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 40571,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo D",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 40725,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Di",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 40877,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Dia",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 41063,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diar",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 41193,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diari",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 41275,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 41611,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 41914,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario A",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 42118,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Ab",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 42240,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abr",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 42373,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abri",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 42567,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abril",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 43007,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abril ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 44328,
+      "tipo": "shortcut",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abril ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 44722,
+      "tipo": "shortcut",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abril ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "key": "c",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 46743,
+      "tipo": "shortcut",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abril ",
+      "coords": {
+        "x": 432,
+        "y": 561,
+        "w": 1056,
+        "h": 35
+      },
+      "key": "Enter",
+      "ctrl": false,
+      "alt": false,
+      "meta": false,
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 47945,
+      "tipo": "shortcut",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 48085,
+      "tipo": "shortcut",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "key": "v",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 48092,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abril ",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 49130,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abril",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 49295,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abri",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 49448,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Abr",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 49600,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Ab",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 49754,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario A",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 49948,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario ",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 50621,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario M",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 50912,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Ma",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 51023,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario May",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 51206,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Mayo",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 51793,
+      "tipo": "shortcut",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Pauta de Monitoreo Diario Mayo",
+      "coords": {
+        "x": 432,
+        "y": 544,
+        "w": 1056,
+        "h": 35
+      },
+      "key": "Enter",
+      "ctrl": false,
+      "alt": false,
+      "meta": false,
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 77543,
+      "tipo": "focus",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 432,
+        "y": 559,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 80701,
+      "tipo": "focus",
+      "selector": "div#modal-root > div.modal-backdrop > div.modal.wide > footer > button.primary",
+      "tag": "button",
+      "id": "",
+      "cls": "primary",
+      "textoVisible": "Guardar",
+      "valor": "",
+      "coords": {
+        "x": 1411,
+        "y": 793,
+        "w": 77,
+        "h": 33
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 80777,
+      "tipo": "click",
+      "selector": "div#modal-root > div.modal-backdrop > div.modal.wide > footer > button.primary",
+      "tag": "button",
+      "id": "",
+      "cls": "primary",
+      "textoVisible": "Guardar",
+      "valor": "",
+      "coords": {
+        "x": 1411,
+        "y": 793,
+        "w": 77,
+        "h": 33
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1442,
+        "y": 798
+      }
+    },
+    {
+      "t": 80845,
+      "tipo": "nav",
+      "view": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "vista": "equipo",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 83493,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pendientes (1/1)",
+      "valor": "",
+      "coords": {
+        "x": 838,
+        "y": 127,
+        "w": 125,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 83577,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Pendientes (1/1)",
+      "valor": "",
+      "coords": {
+        "x": 838,
+        "y": 127,
+        "w": 125,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 894,
+        "y": 138
+      }
+    },
+    {
+      "t": 85080,
+      "tipo": "focus",
+      "selector": "div > div.section > div > div > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Ver / editar",
+      "valor": "",
+      "coords": {
+        "x": 1446,
+        "y": 230,
+        "w": 81,
+        "h": 24
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 85168,
+      "tipo": "click",
+      "selector": "div > div.section > div > div > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Ver / editar",
+      "valor": "",
+      "coords": {
+        "x": 1446,
+        "y": 230,
+        "w": 81,
+        "h": 24
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1491,
+        "y": 242
+      }
+    },
+    {
+      "t": 92328,
+      "tipo": "focus",
+      "selector": "div > div.section > div > div > button.small",
+      "tag": "button",
+      "id": "",
+      "cls": "small",
+      "textoVisible": "Ver / editar",
+      "valor": "",
+      "coords": {
+        "x": 1446,
+        "y": 230,
+        "w": 81,
+        "h": 24
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 96494,
+      "tipo": "focus",
+      "selector": "div.body > div > div.grid-2 > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 968,
+        "y": 399,
+        "w": 520,
+        "h": 37
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 96593,
+      "tipo": "click",
+      "selector": "div.body > div > div.grid-2 > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 968,
+        "y": 399,
+        "w": 520,
+        "h": 37
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1467,
+        "y": 419
+      }
+    },
+    {
+      "t": 98305,
+      "tipo": "input",
+      "selector": "div.body > div > div.grid-2 > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "2026-05-29",
+      "coords": {
+        "x": 968,
+        "y": 399,
+        "w": 520,
+        "h": 37
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 127463,
+      "tipo": "shortcut",
+      "selector": "div.body > div > div.grid-2 > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "2026-05-29",
+      "coords": {
+        "x": 968,
+        "y": 399,
+        "w": 520,
+        "h": 37
+      },
+      "key": "Alt",
+      "ctrl": false,
+      "alt": true,
+      "meta": false,
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 129450,
+      "tipo": "focus",
+      "selector": "div.body > div > div.grid-2 > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "2026-05-29",
+      "coords": {
+        "x": 968,
+        "y": 399,
+        "w": 520,
+        "h": 37
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 141235,
+      "tipo": "focus",
+      "selector": "div.body > div > div.grid-2 > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "2026-05-29",
+      "coords": {
+        "x": 968,
+        "y": 399,
+        "w": 520,
+        "h": 37
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 143049,
+      "tipo": "focus",
+      "selector": "div > div > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "on",
+      "coords": {
+        "x": 436,
+        "y": 500,
+        "w": 13,
+        "h": 13
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 143106,
+      "tipo": "click",
+      "selector": "div > div > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "on",
+      "coords": {
+        "x": 436,
+        "y": 500,
+        "w": 13,
+        "h": 13
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 440,
+        "y": 505
+      }
+    },
+    {
+      "t": 143106,
+      "tipo": "input",
+      "selector": "div > div > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "on",
+      "coords": {
+        "x": 436,
+        "y": 500,
+        "w": 13,
+        "h": 13
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 147021,
+      "tipo": "focus",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 147129,
+      "tipo": "click",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 840,
+        "y": 737
+      }
+    },
+    {
+      "t": 148241,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "A",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 148443,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Ag",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 148605,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agr",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 148676,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agre",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 148841,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agreg",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 149094,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregu",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 149297,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 149539,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue ",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 149740,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue l",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 149847,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 149956,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la ",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 150113,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la p",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 150210,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pa",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 150406,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pau",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 150645,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la paut",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 150699,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 150768,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta ",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 150945,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta d",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 151012,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 151059,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de ",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 151263,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de m",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 151366,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de mo",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 151612,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de mon",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 151688,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de moni",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 151812,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monit",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 152285,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monito",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 152420,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitor",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 152739,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitori",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 153668,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitor",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 154163,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitore",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 154307,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 154444,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo ",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 154544,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo d",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 154585,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 154671,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de ",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 154856,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de a",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 155051,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de ab",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 155127,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de abr",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 155263,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de abri",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 155774,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de abriñ",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 156638,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de abri",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 157053,
+      "tipo": "input",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de abril",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 157295,
+      "tipo": "shortcut",
+      "selector": "div.modal.wide > div.body > div > div > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "Agregue la pauta de monitoreo de abril",
+      "coords": {
+        "x": 432,
+        "y": 721,
+        "w": 1056,
+        "h": 35
+      },
+      "key": "Enter",
+      "ctrl": false,
+      "alt": false,
+      "meta": false,
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 161452,
+      "tipo": "focus",
+      "selector": "div#modal-root > div.modal-backdrop > div.modal.wide > footer > button.primary",
+      "tag": "button",
+      "id": "",
+      "cls": "primary",
+      "textoVisible": "Guardar",
+      "valor": "",
+      "coords": {
+        "x": 1411,
+        "y": 784,
+        "w": 77,
+        "h": 33
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 161593,
+      "tipo": "click",
+      "selector": "div#modal-root > div.modal-backdrop > div.modal.wide > footer > button.primary",
+      "tag": "button",
+      "id": "",
+      "cls": "primary",
+      "textoVisible": "Guardar",
+      "valor": "",
+      "coords": {
+        "x": 1411,
+        "y": 784,
+        "w": 77,
+        "h": 33
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1451,
+        "y": 790
+      }
+    },
+    {
+      "t": 161657,
+      "tipo": "nav",
+      "view": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "vista": "equipo",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 165628,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Programación MP",
+      "valor": "",
+      "coords": {
+        "x": 446,
+        "y": 127,
+        "w": 138,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 165714,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Programación MP",
+      "valor": "",
+      "coords": {
+        "x": 446,
+        "y": 127,
+        "w": 138,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 506,
+        "y": 145
+      }
+    },
+    {
+      "t": 166027,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (2)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 166129,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (2)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 634,
+        "y": 137
+      }
+    },
+    {
+      "t": 166657,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Programación MP",
+      "valor": "",
+      "coords": {
+        "x": 446,
+        "y": 127,
+        "w": 138,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 166746,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Programación MP",
+      "valor": "",
+      "coords": {
+        "x": 446,
+        "y": 127,
+        "w": 138,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 492,
+        "y": 135
+      }
+    },
+    {
+      "t": 169793,
+      "tipo": "click",
+      "selector": "div > table.mp-matrix > tbody > tr > td.has-conflict",
+      "tag": "td",
+      "id": "",
+      "cls": " has-conflict",
+      "textoVisible": "",
+      "coords": {
+        "x": 640,
+        "y": 295,
+        "w": 86,
+        "h": 30
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 665,
+        "y": 306
+      }
+    },
+    {
+      "t": 169917,
+      "tipo": "nav",
+      "view": "conciliacion",
+      "params": {},
+      "vista": "conciliacion",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 175372,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 352,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 175569,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 352,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 626,
+        "y": 371
+      }
+    },
+    {
+      "t": 178344,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "1",
+      "coords": {
+        "x": 313,
+        "y": 352,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 178478,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "12",
+      "coords": {
+        "x": 313,
+        "y": 352,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 178669,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "121",
+      "coords": {
+        "x": 313,
+        "y": 352,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 178915,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "1216",
+      "coords": {
+        "x": 313,
+        "y": 352,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 179584,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "12162",
+      "coords": {
+        "x": 313,
+        "y": 352,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 179877,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "121624",
+      "coords": {
+        "x": 313,
+        "y": 352,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 183205,
+      "tipo": "focus",
+      "selector": "div.view > div > div.conf-card.urgent > div.conf-actions > button.primary.small",
+      "tag": "button",
+      "id": "",
+      "cls": "primary small",
+      "textoVisible": "✓ Aceptar maestro",
+      "valor": "",
+      "coords": {
+        "x": 332,
+        "y": 487,
+        "w": 124,
+        "h": 28
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 183297,
+      "tipo": "click",
+      "selector": "div.view > div > div.conf-card.urgent > div.conf-actions > button.primary.small",
+      "tag": "button",
+      "id": "",
+      "cls": "primary small",
+      "textoVisible": "✓ Aceptar maestro",
+      "valor": "",
+      "coords": {
+        "x": 332,
+        "y": 487,
+        "w": 124,
+        "h": 28
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 424,
+        "y": 508
+      }
+    },
+    {
+      "t": 186935,
+      "tipo": "focus",
+      "selector": "div.view > div > div.conf-card.urgent > div.conf-actions > button.primary.small",
+      "tag": "button",
+      "id": "",
+      "cls": "primary small",
+      "textoVisible": "✓ Aceptar maestro",
+      "valor": "",
+      "coords": {
+        "x": 332,
+        "y": 523,
+        "w": 124,
+        "h": 28
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 187073,
+      "tipo": "click",
+      "selector": "div.view > div > div.conf-card.urgent > div.conf-actions > button.primary.small",
+      "tag": "button",
+      "id": "",
+      "cls": "primary small",
+      "textoVisible": "✓ Aceptar maestro",
+      "valor": "",
+      "coords": {
+        "x": 332,
+        "y": 523,
+        "w": 124,
+        "h": 28
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 435,
+        "y": 531
+      }
+    },
+    {
+      "t": 188340,
+      "tipo": "focus",
+      "selector": "div.view > div > div.conf-card.urgent > div.conf-actions > button.primary.small",
+      "tag": "button",
+      "id": "",
+      "cls": "primary small",
+      "textoVisible": "✓ Aceptar maestro",
+      "valor": "",
+      "coords": {
+        "x": 332,
+        "y": 798,
+        "w": 124,
+        "h": 28
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 188440,
+      "tipo": "click",
+      "selector": "div.view > div > div.conf-card.urgent > div.conf-actions > button.primary.small",
+      "tag": "button",
+      "id": "",
+      "cls": "primary small",
+      "textoVisible": "✓ Aceptar maestro",
+      "valor": "",
+      "coords": {
+        "x": 332,
+        "y": 798,
+        "w": 124,
+        "h": 28
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 422,
+        "y": 809
+      }
+    },
+    {
+      "t": 190892,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 303,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 191249,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 303,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 333,
+        "y": 20
+      }
+    },
+    {
+      "t": 191310,
+      "tipo": "nav",
+      "view": "equipos",
+      "params": {},
+      "vista": "equipos",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 191319,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 192449,
+      "tipo": "focus",
+      "selector": "div#toast-root > div.toast.warn-backup > button.toast-action",
+      "tag": "button",
+      "id": "",
+      "cls": "toast-action",
+      "textoVisible": "Descargar",
+      "valor": "",
+      "coords": {
+        "x": 1804,
+        "y": 854,
+        "w": 76,
+        "h": 24
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 195052,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 195146,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 379,
+        "y": 180
+      }
+    },
+    {
+      "t": 196039,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "1",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 196124,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "12",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 196362,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "121",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 196574,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "1216",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 196842,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "12162",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 197121,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "121624",
+      "coords": {
+        "x": 320,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 199043,
+      "tipo": "click",
+      "selector": "div > table.data > tbody > tr.clickable > td",
+      "tag": "td",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Zoll",
+      "coords": {
+        "x": 994,
+        "y": 451,
+        "w": 103,
+        "h": 61
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1081,
+        "y": 459
+      }
+    },
+    {
+      "t": 199044,
+      "tipo": "nav",
+      "view": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "vista": "equipo",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 200060,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (2)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 200154,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (2)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 657,
+        "y": 147
+      }
+    },
+    {
+      "t": 214060,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Programación MP",
+      "valor": "",
+      "coords": {
+        "x": 446,
+        "y": 127,
+        "w": 138,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 214171,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Programación MP",
+      "valor": "",
+      "coords": {
+        "x": 446,
+        "y": 127,
+        "w": 138,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 500,
+        "y": 151
+      }
+    },
+    {
+      "t": 218725,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (2)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 218850,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (2)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 613,
+        "y": 150
+      }
+    },
+    {
+      "t": 222728,
+      "tipo": "focus",
+      "selector": "button#btn-excel",
+      "tag": "button",
+      "id": "btn-excel",
+      "cls": "",
+      "textoVisible": "Excel",
+      "valor": "",
+      "coords": {
+        "x": 1653,
+        "y": 12,
+        "w": 49,
+        "h": 28
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 222809,
+      "tipo": "click",
+      "selector": "button#btn-excel",
+      "tag": "button",
+      "id": "btn-excel",
+      "cls": "",
+      "textoVisible": "Excel",
+      "valor": "",
+      "coords": {
+        "x": 1653,
+        "y": 12,
+        "w": 49,
+        "h": 28
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1681,
+        "y": 24
+      }
+    },
+    {
+      "t": 222965,
+      "tipo": "click",
+      "selector": "a",
+      "tag": "a",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "coords": {
+        "x": 0,
+        "y": 911,
+        "w": 0,
+        "h": 0
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "t": 227282,
+      "tipo": "focus",
+      "selector": "button#btn-excel",
+      "tag": "button",
+      "id": "btn-excel",
+      "cls": "",
+      "textoVisible": "Excel",
+      "valor": "",
+      "coords": {
+        "x": 1653,
+        "y": 12,
+        "w": 49,
+        "h": 28
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 228514,
+      "tipo": "focus",
+      "selector": "button#btn-export",
+      "tag": "button",
+      "id": "btn-export",
+      "cls": "",
+      "textoVisible": "Backup",
+      "valor": "",
+      "coords": {
+        "x": 1707,
+        "y": 12,
+        "w": 62,
+        "h": 28
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 228609,
+      "tipo": "click",
+      "selector": "button#btn-export",
+      "tag": "button",
+      "id": "btn-export",
+      "cls": "",
+      "textoVisible": "Backup",
+      "valor": "",
+      "coords": {
+        "x": 1707,
+        "y": 12,
+        "w": 62,
+        "h": 28
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 1758,
+        "y": 24
+      }
+    },
+    {
+      "t": 228618,
+      "tipo": "click",
+      "selector": "a",
+      "tag": "a",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "coords": {
+        "x": 0,
+        "y": 911,
+        "w": 0,
+        "h": 0
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "t": 232951,
+      "tipo": "focus",
+      "selector": "button#btn-export",
+      "tag": "button",
+      "id": "btn-export",
+      "cls": "",
+      "textoVisible": "Backup",
+      "valor": "",
+      "coords": {
+        "x": 1707,
+        "y": 12,
+        "w": 62,
+        "h": 28
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 236234,
+      "tipo": "rec.stop",
+      "vista": "equipo",
+      "params": {
+        "inv": "2-121624"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 61,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    }
+  ]
+}

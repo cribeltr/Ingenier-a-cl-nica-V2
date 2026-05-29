@@ -1,0 +1,1325 @@
+{
+  "meta": {
+    "appVersion": "0.9",
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36",
+    "duracionMs": 35464,
+    "nEventos": 53,
+    "inicio": "2026-05-28T14:24:10.838Z",
+    "fin": "2026-05-28T14:24:46.302Z"
+  },
+  "eventos": [
+    {
+      "t": 0,
+      "tipo": "rec.start",
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 1254,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Conciliación957",
+      "valor": "",
+      "coords": {
+        "x": 762,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 1326,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Conciliación957",
+      "valor": "",
+      "coords": {
+        "x": 762,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "vista": "dashboard",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 843,
+        "y": 31
+      }
+    },
+    {
+      "t": 1473,
+      "tipo": "nav",
+      "view": "conciliacion",
+      "params": {},
+      "vista": "conciliacion",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 6938,
+      "tipo": "click",
+      "selector": "div > div.conf-card.urgent > div.hd > div > div.title",
+      "tag": "div",
+      "id": "",
+      "cls": "title",
+      "textoVisible": "2-112601 · Monitor Multiparámetros · Registro · Mar · columna R",
+      "coords": {
+        "x": 332,
+        "y": 279,
+        "w": 414,
+        "h": 18
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 369,
+        "y": 289
+      }
+    },
+    {
+      "t": 7098,
+      "tipo": "click",
+      "selector": "div > div.conf-card.urgent > div.hd > div > div.title",
+      "tag": "div",
+      "id": "",
+      "cls": "title",
+      "textoVisible": "2-112601 · Monitor Multiparámetros · Registro · Mar · columna R",
+      "coords": {
+        "x": 332,
+        "y": 279,
+        "w": 414,
+        "h": 18
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 369,
+        "y": 289
+      }
+    },
+    {
+      "t": 7568,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8076,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8091,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8127,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8157,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8189,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8227,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8257,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8295,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8329,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8359,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8392,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8427,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8459,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 8484,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "c",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 10745,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 297,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 10864,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 297,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 347,
+        "y": 26
+      }
+    },
+    {
+      "t": 10940,
+      "tipo": "nav",
+      "view": "equipos",
+      "params": {},
+      "vista": "equipos",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 10949,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 11635,
+      "tipo": "shortcut",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 11764,
+      "tipo": "shortcut",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "key": "v",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 11786,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "112601 ",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 15048,
+      "tipo": "click",
+      "selector": "div > table.data > tbody > tr.clickable > td",
+      "tag": "td",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Monitor Multiparámetros",
+      "coords": {
+        "x": 612,
+        "y": 451,
+        "w": 226,
+        "h": 57
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 676,
+        "y": 468
+      }
+    },
+    {
+      "t": 15049,
+      "tipo": "nav",
+      "view": "equipo",
+      "params": {
+        "inv": "2-112601"
+      },
+      "vista": "equipo",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 17622,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Conciliación957",
+      "valor": "",
+      "coords": {
+        "x": 762,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-112601"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 17711,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Conciliación957",
+      "valor": "",
+      "coords": {
+        "x": 762,
+        "y": 0,
+        "w": 133,
+        "h": 51
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-112601"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 853,
+        "y": 20
+      }
+    },
+    {
+      "t": 17833,
+      "tipo": "nav",
+      "view": "conciliacion",
+      "params": {},
+      "vista": "conciliacion",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 19624,
+      "tipo": "click",
+      "selector": "div > div.conf-card.urgent > div.hd > div > div.title",
+      "tag": "div",
+      "id": "",
+      "cls": "title",
+      "textoVisible": "2-112601 · Monitor Multiparámetros · Registro · Mar · columna R",
+      "coords": {
+        "x": 332,
+        "y": 679,
+        "w": 414,
+        "h": 18
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 377,
+        "y": 687
+      }
+    },
+    {
+      "t": 19799,
+      "tipo": "click",
+      "selector": "div > div.conf-card.urgent > div.hd > div > div.title",
+      "tag": "div",
+      "id": "",
+      "cls": "title",
+      "textoVisible": "2-112601 · Monitor Multiparámetros · Registro · Mar · columna R",
+      "coords": {
+        "x": 332,
+        "y": 679,
+        "w": 414,
+        "h": 18
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 377,
+        "y": 687
+      }
+    },
+    {
+      "t": 19836,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 20170,
+      "tipo": "shortcut",
+      "selector": "",
+      "tag": "body",
+      "id": "",
+      "cls": "",
+      "textoVisible": "HHHA Equipos Críticos · v0.9\nDashboard\nEquipos\nMP del mes\nCiclos correctivos\nPen",
+      "coords": {
+        "x": 0,
+        "y": 0,
+        "w": 1920,
+        "h": 911
+      },
+      "key": "c",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 27018,
+      "tipo": "focus",
+      "selector": "div.view > div > div.conf-card.urgent > div.conf-actions > button.primary.small",
+      "tag": "button",
+      "id": "",
+      "cls": "primary small",
+      "textoVisible": "✓ Aceptar maestro",
+      "valor": "",
+      "coords": {
+        "x": 332,
+        "y": 487,
+        "w": 124,
+        "h": 28
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 27096,
+      "tipo": "click",
+      "selector": "div.view > div > div.conf-card.urgent > div.conf-actions > button.primary.small",
+      "tag": "button",
+      "id": "",
+      "cls": "primary small",
+      "textoVisible": "✓ Aceptar maestro",
+      "valor": "",
+      "coords": {
+        "x": 332,
+        "y": 487,
+        "w": 124,
+        "h": 28
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 394,
+        "y": 509
+      }
+    },
+    {
+      "t": 29777,
+      "tipo": "focus",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 297,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 29866,
+      "tipo": "click",
+      "selector": "nav#nav > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Equipos",
+      "valor": "",
+      "coords": {
+        "x": 297,
+        "y": 0,
+        "w": 74,
+        "h": 51
+      },
+      "vista": "conciliacion",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 333,
+        "y": 33
+      }
+    },
+    {
+      "t": 29938,
+      "tipo": "nav",
+      "view": "equipos",
+      "params": {},
+      "vista": "equipos",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 29949,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 30568,
+      "tipo": "shortcut",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 30692,
+      "tipo": "shortcut",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "key": "c",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 31009,
+      "tipo": "shortcut",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "key": "Control",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 31215,
+      "tipo": "shortcut",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "key": "v",
+      "ctrl": true,
+      "alt": false,
+      "meta": false,
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 31237,
+      "tipo": "input",
+      "selector": "main#main > div.view > div.toolbar > div.grow > input",
+      "tag": "input",
+      "id": "",
+      "cls": "",
+      "textoVisible": "",
+      "valor": "112601 ",
+      "coords": {
+        "x": 313,
+        "y": 159,
+        "w": 1280,
+        "h": 35
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 32305,
+      "tipo": "click",
+      "selector": "div > table.data > tbody > tr.clickable > td",
+      "tag": "td",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Monitor Multiparámetros",
+      "coords": {
+        "x": 612,
+        "y": 451,
+        "w": 226,
+        "h": 57
+      },
+      "vista": "equipos",
+      "params": {},
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 634,
+        "y": 471
+      }
+    },
+    {
+      "t": 32306,
+      "tipo": "nav",
+      "view": "equipo",
+      "params": {
+        "inv": "2-112601"
+      },
+      "vista": "equipo",
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33573,
+      "tipo": "focus",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (0)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-112601"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    },
+    {
+      "t": 33672,
+      "tipo": "click",
+      "selector": "main#main > div.view > div.tabs > button",
+      "tag": "button",
+      "id": "",
+      "cls": "",
+      "textoVisible": "Bitácora (0)",
+      "valor": "",
+      "coords": {
+        "x": 584,
+        "y": 127,
+        "w": 100,
+        "h": 41
+      },
+      "vista": "equipo",
+      "params": {
+        "inv": "2-112601"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      },
+      "click": {
+        "x": 645,
+        "y": 143
+      }
+    },
+    {
+      "t": 35464,
+      "tipo": "rec.stop",
+      "vista": "equipo",
+      "params": {
+        "inv": "2-112601"
+      },
+      "estadoApp": {
+        "equipos": 894,
+        "eventos": 60,
+        "pendientes": 30,
+        "ciclosAbiertos": 3
+      }
+    }
+  ]
+}

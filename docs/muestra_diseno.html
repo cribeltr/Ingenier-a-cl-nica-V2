@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>HHHA · Muestra de diseño</title>
+<style>
+:root{
+  --bg:#f6f7f9; --surface:#ffffff; --surface-2:#f4f6f8;
+  --border:#e7e9ee; --border-strong:#d7dae1;
+  --text:#16181d; --text-2:#3c4049; --muted:#6b7280; --muted-2:#9aa0ab;
+  --accent:#0d7a6b; --accent-press:#0a6256; --accent-soft:#e2f3ef;
+  --op:#138a4a; --op-soft:#e8f6ec; --noop:#c5362b; --noop-soft:#fdeceb;
+  --st:#b5740a; --st-soft:#fbf1de;
+  --shadow-sm:0 1px 2px rgba(18,22,31,.05);
+  --shadow:0 4px 16px rgba(18,22,31,.07);
+  --shadow-lg:0 18px 48px rgba(18,22,31,.16);
+  --r:14px; --r-sm:10px;
+  --font:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#0f1216; --surface:#171b21; --surface-2:#1e232b;
+  --border:#272d36; --border-strong:#39414c;
+  --text:#eceef1; --text-2:#c7cbd1; --muted:#8a909a; --muted-2:#5b616b;
+  --accent:#37b9a4; --accent-press:#2da18d; --accent-soft:#15302c;
+  --op:#49c47b; --op-soft:#13301f; --noop:#f3776a; --noop-soft:#33191a;
+  --st:#eab159; --st-soft:#322512;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.4);
+  --shadow:0 4px 16px rgba(0,0,0,.45);
+  --shadow-lg:0 18px 48px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;font-family:var(--font);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.45}
+.app{display:grid;grid-template-rows:60px 1fr;height:100vh;overflow:hidden}
+
+/* Header */
+header.top{background:var(--surface);display:flex;align-items:center;gap:8px;padding:0 24px;border-bottom:1px solid var(--border)}
+header.top .brand{font-weight:700;font-size:15px;letter-spacing:-.02em;margin-right:18px}
+header.top .brand small{font-weight:500;color:var(--muted);margin-left:6px;font-size:11px}
+header.top nav{display:flex;gap:2px;flex:1;height:100%;align-items:center}
+header.top nav button{position:relative;background:transparent;border:none;color:var(--muted);font:inherit;font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:8px;cursor:pointer;height:38px}
+header.top nav button:hover{background:var(--surface-2);color:var(--text)}
+header.top nav button.active{background:var(--accent-soft);color:var(--accent)}
+.nav-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;margin-left:7px;border-radius:99px;background:var(--noop);color:#fff;font-size:11px;font-weight:700;vertical-align:middle}
+.tools{display:flex;gap:6px;align-items:center}
+.tools button{background:var(--surface);border:1px solid var(--border-strong);color:var(--muted);font:inherit;font-size:12.5px;font-weight:500;padding:7px 11px;border-radius:9px;cursor:pointer}
+.tools button:hover{color:var(--text);background:var(--surface-2)}
+
+main{overflow:auto;padding:32px 40px 60px}
+.wrap{max-width:920px;margin:0 auto}
+
+/* Hero */
+.hero{margin-bottom:30px}
+.hero h1{font-size:30px;font-weight:750;letter-spacing:-.03em;margin:0 0 6px}
+.hero .lead{font-size:15px;color:var(--muted)}
+.hero .lead b{color:var(--accent);font-weight:700}
+.progress{height:8px;border-radius:99px;background:var(--surface-2);margin-top:16px;overflow:hidden;border:1px solid var(--border)}
+.progress > span{display:block;height:100%;width:38%;background:linear-gradient(90deg,var(--accent),#16a085);border-radius:99px}
+
+/* Secciones */
+.section{margin-bottom:26px}
+.section-hd{display:flex;align-items:center;gap:10px;margin:0 2px 12px}
+.section-hd h2{font-size:14px;font-weight:700;letter-spacing:.01em;margin:0;text-transform:uppercase}
+.section-hd .count{font-size:12px;font-weight:700;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);border-radius:99px;padding:2px 9px}
+.section-hd .spacer{flex:1}
+.section-hd .urge{color:var(--noop)}
+
+/* Tarjeta de item */
+.card{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:box-shadow .15s,transform .15s,border-color .15s}
+.card:hover{box-shadow:var(--shadow);transform:translateY(-1px);border-color:var(--border-strong)}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--border-strong)}
+.card.red::before{background:var(--noop)} .card.amber::before{background:var(--st)} .card.green::before{background:var(--op)} .card.teal::before{background:var(--accent)}
+.card .dot{width:10px;height:10px;border-radius:99px;flex:none;background:var(--muted-2)}
+.card.red .dot{background:var(--noop)} .card.amber .dot{background:var(--st)} .card.teal .dot{background:var(--accent)}
+.card .body{flex:1;min-width:0}
+.card .title{font-weight:650;font-size:14.5px;letter-spacing:-.01em}
+.card .sub{font-size:12.5px;color:var(--muted);margin-top:3px}
+.card .chips{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted);border:1px solid var(--border)}
+.chip.red{background:var(--noop-soft);color:var(--noop);border-color:transparent}
+.chip.amber{background:var(--st-soft);color:var(--st);border-color:transparent}
+.chip.green{background:var(--op-soft);color:var(--op);border-color:transparent}
+.card .acts{display:flex;gap:8px;flex:none}
+
+button.btn{font:inherit;font-weight:650;font-size:13px;padding:9px 15px;border-radius:10px;cursor:pointer;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);transition:.13s}
+button.btn:hover{background:var(--surface-2)}
+button.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(13,122,107,.28)}
+button.btn.primary:hover{background:var(--accent-press)}
+button.btn.sm{padding:7px 12px;font-size:12.5px;border-radius:9px}
+
+.allclear{text-align:center;padding:60px 20px;color:var(--muted)}
+.allclear .big{font-size:40px;margin-bottom:10px}
+
+/* Ventana flotante */
+.backdrop{position:fixed;inset:0;background:rgba(15,18,22,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:24px;z-index:50}
+.backdrop.show{display:flex;animation:fade .15s ease}
+.modal{background:var(--surface);border-radius:18px;box-shadow:var(--shadow-lg);max-width:560px;width:100%;overflow:hidden;animation:pop .18s cubic-bezier(.2,.8,.3,1.1)}
+.modal .head{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 14px;border-bottom:1px solid var(--border)}
+.modal .head h3{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.modal .head .x{border:none;background:var(--surface-2);color:var(--muted);width:32px;height:32px;border-radius:9px;cursor:pointer;font-size:15px}
+.modal .bd{padding:20px 22px}
+.field{margin-bottom:15px}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--border-strong);border-radius:10px;background:var(--surface);color:var(--text)}
+.field .pre{background:var(--accent-soft);color:var(--accent);border-color:transparent;font-weight:600}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal .foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px}
+.hint-inline{font-size:12px;color:var(--muted);margin-top:-6px}
+
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{transform:translateY(14px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+.demo-note{max-width:920px;margin:0 auto 22px;background:var(--accent-soft);color:var(--accent);border-radius:12px;padding:12px 16px;font-size:13px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">HHHA <small>v0.30 · muestra</small></div>
+    <nav>
+      <button class="active">Por resolver <span class="nav-badge">7</span></button>
+      <button>Resumen</button>
+      <button>Equipos</button>
+      <button>Conciliación</button>
+    </nav>
+    <div class="tools">
+      <button onclick="tt()">Tema</button>
+      <button>Excel</button>
+      <button>⋯</button>
+    </div>
+  </header>
+  <main>
+    <div class="demo-note">Esto es solo una muestra del estilo (datos de ejemplo). Si te gusta, lo aplico al programa real. Prueba el botón "Tema" y abre una ventana flotante con "Resolver".</div>
+    <div class="wrap">
+      <div class="hero">
+        <h1>Por resolver</h1>
+        <div class="lead">jueves, 28 de mayo de 2026 · te quedan <b>7 cosas</b> por resolver hoy</div>
+        <div class="progress"><span></span></div>
+      </div>
+
+      <div class="section">
+        <div class="section-hd"><h2 class="urge">Vencidos</h2><span class="count urge">2 atrasados</span></div>
+        <div class="card red">
+          <span class="dot"></span>
+          <div class="body">
+            <div class="title">DEA · SAMU</div>
+            <div class="sub">Documento faltante — Pauta de monitoreo diario (enero a abril)</div>
+            <div class="chips"><span class="chip red">Venció 29-05</span><span class="chip">Carlos Bahamondes</span></div>
+          </div>
+          <div class="acts"><button class="btn sm">Empezar</button><button class="btn primary sm" onclick="om()">Resolver</button></div>
+        </div>
+        <div class="card red">
+          <span class="dot"></span>
+          <div class="body">
+            <div class="title">Ventilador Mecánico · UPC Adulto</div>
+            <div class="sub">Reprogramación MP — causal C3, espera de repuestos</div>
+            <div class="chips"><span class="chip red">Venció 25-05</span><span class="chip">Ricardo Matus</span></div>
+          </div>
+          <div class="acts"><button class="btn sm">Empezar</button><button class="btn primary sm" onclick="om()">Resolver</button></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-hd"><h2>No iniciados</h2><span class="count">3 por empezar</span></div>
+        <div class="card">
+          <span class="dot"></span>
+          <div class="body">
+            <div class="title">Máquina de Anestesia · Pabellón Quirúrgico</div>
+            <div class="sub">Gestión general — seguimiento orden de compra repuestos</div>
+            <div class="chips"><span class="chip">Compromiso 02-06</span><span class="chip">No iniciado</span></div>
+          </div>
+          <div class="acts"><button class="btn sm">Empezar</button><button class="btn primary sm" onclick="om()">Resolver</button></div>
+        </div>
+        <div class="card">
+          <span class="dot"></span>
+          <div class="body">
+            <div class="title">Monitor Multiparámetros · Pabellón CMA</div>
+            <div class="sub">Documento faltante — informe técnico del envío 59</div>
+            <div class="chips"><span class="chip">Sin fecha</span><span class="chip">No iniciado</span></div>
+          </div>
+          <div class="acts"><button class="btn sm">Empezar</button><button class="btn primary sm" onclick="om()">Resolver</button></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-hd"><h2>En proceso</h2><span class="count">1 en curso</span></div>
+        <div class="card amber">
+          <span class="dot"></span>
+          <div class="body">
+            <div class="title">Incubadora · Neonatología</div>
+            <div class="sub">Recomendación técnica — cambio de sensor programado</div>
+            <div class="chips"><span class="chip amber">En proceso</span><span class="chip">Compromiso 30-05</span></div>
+          </div>
+          <div class="acts"><button class="btn primary sm" onclick="om()">Resolver</button></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-hd"><h2>Ciclos correctivos abiertos</h2><span class="count">3</span></div>
+        <div class="card teal">
+          <span class="dot"></span>
+          <div class="body">
+            <div class="title">Máquina de Anestesia · folio 2025-121109-19-11848</div>
+            <div class="sub">Abierto hace 11 meses · Cristina Rozas</div>
+          </div>
+          <div class="acts"><button class="btn sm">Ver equipo</button></div>
+        </div>
+        <div class="card teal">
+          <span class="dot"></span>
+          <div class="body">
+            <div class="title">Monitor Multiparámetros · folio 19-3788</div>
+            <div class="sub">En servicio técnico externo · aún sin retornar</div>
+          </div>
+          <div class="acts"><button class="btn sm">Ver equipo</button></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-hd"><h2>Borradores por archivar</h2><span class="count">documentos ingresados</span></div>
+        <div class="card">
+          <span class="dot"></span>
+          <div class="body">
+            <div class="title">Orden de Compra · Máquina de Anestesia</div>
+            <div class="sub">Ingresado como borrador 04-03 — confirmar documento físico y oficializar</div>
+          </div>
+          <div class="acts"><button class="btn sm">Ver ficha</button><button class="btn primary sm" onclick="om()">Oficializar</button></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Ventana flotante de ejemplo -->
+<div class="backdrop" id="bd">
+  <div class="modal">
+    <div class="head"><h3>Registrar reparación</h3><button class="x" onclick="cm()">✕</button></div>
+    <div class="bd">
+      <div class="field"><label>Equipo</label><input value="2-117812 · Monitor Multiparámetros" readonly></div>
+      <div class="row2">
+        <div class="field"><label>Folio del ciclo</label><input class="pre" value="19-3788 (cargado)"></div>
+        <div class="field"><label>Estado resultante</label><select><option>Operativo (cierra ciclo)</option><option>En servicio técnico</option><option>No operativo</option></select></div>
+      </div>
+      <div class="field"><label>Fecha</label><input type="date" value="2026-05-28"></div>
+      <div class="field"><label>Descripción</label><textarea rows="2" placeholder="Detalle de la reparación…"></textarea></div>
+    </div>
+    <div class="foot"><button class="btn" onclick="cm()">Cancelar</button><button class="btn primary" onclick="cm()">Guardar</button></div>
+  </div>
+</div>
+
+<script>
+function tt(){const h=document.documentElement;h.dataset.theme=h.dataset.theme==='dark'?'':'dark';}
+function om(){document.getElementById('bd').classList.add('show');}
+function cm(){document.getElementById('bd').classList.remove('show');}
+document.getElementById('bd').addEventListener('click',e=>{if(e.target.id==='bd')cm();});
+</script>
+</body>
+</html>
