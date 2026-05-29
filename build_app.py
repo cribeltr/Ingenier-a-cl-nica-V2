@@ -17,6 +17,12 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.53 [2026-05-29] Fix: en Resumen, clic en "MP del año · por mes" (ej. Febrero/Pendiente) no abría el mes.
+  - Causa: VIEWS.mp fijaba el mes en el MES ACTUAL e ignoraba params.mes. Al hacer clic en
+    Febrero/Pendiente aplicaba el filtro "Pendientes" pero dejaba la vista en el mes en curso.
+  - Arreglo: VIEWS.mp toma el mes y el año de los parámetros (MES_NUM[params.mes], params.year).
+    Las tres tablas del Resumen (por mes, por ejecutor, sin asignar) ahora pasan mes y año al
+    abrir "MP del mes", así el clic lleva a la vista del mes correcto, ya filtrada.
 v0.52 [2026-05-29] Más intuitivo (según la grabación): recorrer equipos sin volver a la lista.
   - La grabexión real mostró que el mayor desgaste era ir-y-volver lista↔ficha (12 idas / 9
     vueltas). En la ficha del equipo se agregan: ◀ / N de total / ▶ para pasar al equipo
@@ -1146,7 +1152,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.52';
+const APP_VERSION = '0.53';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -2170,7 +2176,7 @@ function renderSumMesesMP(year, returnParts){
   const pctTot = tot.programadas === 0 ? null : Math.round(tot.ejecutadas/tot.programadas*100);
   function c(val, mIdx, params){
     if(val === 0) return el('td',{class:'cell zero'}, '–');
-    return el('td',{class:'cell',onclick:()=>navigate('mp',{mes:MESES[mIdx], ...params})}, el('span',{class:'v'}, String(val)));
+    return el('td',{class:'cell',onclick:()=>navigate('mp',{mes:MESES[mIdx], year, ...params})}, el('span',{class:'v'}, String(val)));
   }
   const table = el('table',{class:'sum-table'},
     el('thead',{}, el('tr',{},
@@ -2187,7 +2193,7 @@ function renderSumMesesMP(year, returnParts){
         el('td',{}, r.mes),
         c(r.programadas, r.monthIdx, {}),
         c(r.asignadas, r.monthIdx, {}),
-        r.sinAsignar > 0 ? el('td',{class:'cell',onclick:()=>navigate('mp',{mes:r.mes, sinAsignar:'1'}),style:{color:r.sinAsignar>0?'var(--st)':null}}, el('span',{class:'v'}, String(r.sinAsignar))) : el('td',{class:'cell zero'},'–'),
+        r.sinAsignar > 0 ? el('td',{class:'cell',onclick:()=>navigate('mp',{mes:r.mes, year, sinAsignar:'1'}),style:{color:r.sinAsignar>0?'var(--st)':null}}, el('span',{class:'v'}, String(r.sinAsignar))) : el('td',{class:'cell zero'},'–'),
         c(r.ejecutadas, r.monthIdx, {estadoMP:'ejec'}),
         c(r.pendientes, r.monthIdx, {estadoMP:'pend'}),
         el('td',{}, r.pct == null ? '–' : el('span',{},
@@ -2239,7 +2245,7 @@ function renderSumEjecutoresMP(year, monthIdx, returnParts){
 
   function c(val, ejecutor, params){
     if(val === 0) return el('td',{class:'cell zero'}, '–');
-    return el('td',{class:'cell', onclick:()=>navigate('mp', {ejecutor, ...params})}, el('span',{class:'v'}, String(val)));
+    return el('td',{class:'cell', onclick:()=>navigate('mp', {ejecutor, mes:NUM_MES[monthIdx], year, ...params})}, el('span',{class:'v'}, String(val)));
   }
 
   const table = el('table',{class:'sum-table'},
@@ -2267,7 +2273,7 @@ function renderSumEjecutoresMP(year, monthIdx, returnParts){
       )),
       sinAsignar > 0 ? el('tr',{style:{background:'#fef9c3'}},
         el('td',{}, el('strong',{}, 'Sin asignar')),
-        el('td',{class:'cell', onclick:()=>navigate('mp',{sinAsignar:'1'})}, el('span',{class:'v'}, String(sinAsignar))),
+        el('td',{class:'cell', onclick:()=>navigate('mp',{mes:NUM_MES[monthIdx], year, sinAsignar:'1'})}, el('span',{class:'v'}, String(sinAsignar))),
         el('td',{}, '–'), el('td',{}, '–'), el('td',{}, '–')
       ) : null,
       el('tr',{class:'total-row'},
@@ -3070,6 +3076,11 @@ function renderPendientesEquipo(eq){
 VIEWS.mp = function(root, params){
   const today = new Date();
   let year = today.getFullYear(), monthIdx = today.getMonth();
+  // Si se llega desde el Resumen (clic en una celda mes×estado), abrir ESE mes/año, no el actual.
+  if(params){
+    if(params.mes != null && MES_NUM[params.mes] != null) monthIdx = MES_NUM[params.mes];
+    if(params.year) year = +params.year;
+  }
   const mesActual = ()=> NUM_MES[monthIdx];
   const keyMes = ()=> `${year}-${String(monthIdx+1).padStart(2,'0')}`;
   state.asignacionesMP[keyMes()] = state.asignacionesMP[keyMes()] || {};

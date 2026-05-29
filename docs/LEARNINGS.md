@@ -803,4 +803,20 @@
   guarda lista, `VIEWS.equipo` ◀/▶ + MP y siguiente, `mpRapida` opts.despuesIr, CSS `.ficha-nav`);
   CHANGELOG v0.52.
 
+## [2026-05-29] Fix: Resumen "MP por mes" no abría el mes al hacer clic (v0.53)
+
+- **Disparador:** grabación 1904 — el usuario hizo clic en Febrero/Pendiente del Resumen y no lo
+  llevaba a la vista filtrada de ese mes.
+- **Causa:** `VIEWS.mp` inicializaba `monthIdx = today.getMonth()` (mes actual) e IGNORABA
+  `params.mes`. El clic navegaba a `mp` con `{mes:'Feb', estadoMP:'pend'}`: aplicaba el filtro
+  "Pendientes" pero dejaba la vista en el mes en curso (Mayo), no en Febrero.
+- **Arreglo:** `VIEWS.mp` toma el mes y año de los parámetros (`MES_NUM[params.mes]`, `params.year`).
+  Las 3 tablas del Resumen (por mes, por ejecutor, sin asignar) ahora pasan `mes` y `year` al
+  navegar a "MP del mes". Chequeo nuevo en la prueba de humo (#11): Resumen→MP por mes abre el mes
+  correcto (Feb, filtro pend). 11/11.
+- **Heurística:** si una vista recibe parámetros de navegación (drill-down), debe APLICARLOS TODOS,
+  no solo algunos. Aquí leía `estadoMP`/`ejecutor`/`sinAsignar` pero no `mes` → drill-down a medias.
+- **Dónde aplica:** build_app.py (`VIEWS.mp` lee params.mes/year; `renderSumMesesMP` y
+  `renderSumEjecutoresMP` pasan mes/year), tools/smoke_test.js (+1); CHANGELOG v0.53.
+
 <!-- Próximas entradas debajo de esta línea -->

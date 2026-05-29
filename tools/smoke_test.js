@@ -194,6 +194,22 @@ setTimeout(() => {
   }catch(e){ c2Err = e.message; }
   check('MP con causal C2 → "en servicio técnico"', c2Ok, c2Err || c2Det);
 
+  // 11) Resumen → "MP del año · por mes": clic en un mes abre la vista MP en ESE mes
+  let mesOk = false, mesErr = null, mesDet = '';
+  try{
+    window.navigate('mp', {mes:'Feb', estadoMP:'pend'});
+    const main = doc.querySelector('#main');
+    // el selector de mes debe quedar en Febrero (índice 1) y el filtro en "Pendientes" (pend)
+    const selects = [...main.querySelectorAll('select')];
+    const selMes = selects.find(s => [...s.options].some(o=>o.textContent==='Feb') && [...s.options].some(o=>o.textContent==='Ene'));
+    const selEst = selects.find(s => [...s.options].some(o=>o.value==='pend'));
+    const mesVal = selMes ? String(selMes.value) : '?';
+    const estVal = selEst ? selEst.value : '?';
+    mesOk = mesVal === '1' && estVal === 'pend';
+    mesDet = `mes=${mesVal} (1=Feb), filtro=${estVal}`;
+  }catch(e){ mesErr = e.message; }
+  check('Resumen→MP por mes abre el mes correcto (Feb)', mesOk, mesErr || mesDet);
+
   // --- Reporte ---
   const fall = results.filter(r=>!r.ok);
   console.log('\nPRUEBA DE HUMO HHHA  ·  respaldo: ' + path.basename(BACKUP));
