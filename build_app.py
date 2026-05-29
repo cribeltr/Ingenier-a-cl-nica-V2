@@ -17,6 +17,13 @@ HTML = r"""<!DOCTYPE html>
 <script>__LZSTRING_PLACEHOLDER__</script>
 <!--
 CHANGELOG
+v0.48 [2026-05-29] Autocorrección: guardián automático que bloquea las clases de error cometidas.
+  - tools/guard.js corre solo tras build (junto a la prueba de humo) y BLOQUEA: estado de MP no
+    derivado de estadoMPDesdeResultado en algún sitio, patrones legacy prohibidos, y cualquier
+    vista que falle al dibujarse con un respaldo real. Avisa de funciones muertas y clases CSS de
+    layout agresivo compartidas por varias tablas. Probado que habría atajado los bugs v0.39/v0.45.
+  - CLAUDE.md: guardián obligatorio + regla de diseño visual (lo que el headless no ve, lo ve el
+    usuario; revisar todas las vistas que comparten clase/dato).
 v0.47 [2026-05-29] Fix: la vista Registro MP se veía aplastada (letra por letra).
   - Causa: el estilo "ajustar a pantalla" de v0.42 (ancho 100% + partir palabras + títulos que
     envuelven) se aplicó a la clase `eq-grid`, que comparten Buscar equipos (13 columnas) y
@@ -1104,7 +1111,7 @@ const SEED = __SEED_PLACEHOLDER__;
 //==============================================================
 // CONSTANTES & CATÁLOGOS
 //==============================================================
-const APP_VERSION = '0.47';
+const APP_VERSION = '0.48';
 const STORAGE_KEY = 'hhha_v1_data';
 const MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 const MES_NUM = {Ene:0,Feb:1,Mar:2,Abr:3,May:4,Jun:5,Jul:6,Ago:7,Sep:8,Oct:9,Nov:10,Dic:11};
@@ -6097,3 +6104,23 @@ if _smoke.exists():
         print(f"⚠  Prueba de humo no pudo ejecutarse: {_e}")
 else:
     print("⚠  No existe tools/smoke_test.js; no se ejecutó la prueba de humo.")
+
+# --- Guardián (autocorrección): bloquea las CLASES de error ya cometidas (patrón incompleto,
+# vistas rotas, fórmulas legacy) y avisa de código muerto / clases CSS de riesgo.
+_guard = pathlib.Path(__file__).resolve().parent / "tools" / "guard.js"
+if _guard.exists():
+    try:
+        rg = subprocess.run(["node", str(_guard), target], capture_output=True, text=True, timeout=120)
+        print(rg.stdout, end="")
+        if rg.returncode == 2:
+            print("⚠  Guardián OMITIDO (falta jsdom). Instálalo una vez: npm install jsdom")
+        elif rg.returncode != 0:
+            print("⛔ GUARDIÁN: hay problemas que BLOQUEAN. NO entregues hasta corregirlos.")
+            if rg.stderr.strip():
+                print(rg.stderr.strip())
+    except FileNotFoundError:
+        print("⚠  Guardián OMITIDO: no se encontró 'node' en este entorno.")
+    except Exception as _e:
+        print(f"⚠  Guardián no pudo ejecutarse: {_e}")
+else:
+    print("⚠  No existe tools/guard.js; no se ejecutó el guardián.")

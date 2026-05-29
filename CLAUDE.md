@@ -108,6 +108,21 @@ nuevo, agrégale un chequeo a `tools/smoke_test.js`. Causa raíz histórica de l
 tocar funciones grandes/compartidas y validar con el seed o solo con `node --check`,
 sin EJECUTAR el camino básico con datos reales. La prueba de humo cierra ese hueco.
 
+**Guardián de autocorrección (`tools/guard.js`, también automático en el build).**
+Bloquea las CLASES de error ya cometidas: (1) un patrón arreglado a medias —p. ej. el
+estado de una MP debe derivarse de `estadoMPDesdeResultado` en TODOS los sitios que crean
+MP; (2) fórmulas/patrones legacy prohibidos; (3) cualquier vista que falle al dibujarse con
+un respaldo real (las 10 vistas); y avisa de (4) funciones muertas y (5) clases CSS con
+layout agresivo compartidas por varias tablas. Si el guardián marca ❌, NO se entrega hasta
+corregir. Al introducir un patrón nuevo que deba estar en varios sitios, agrégale un chequeo.
+
+**Diseño/visual: lo que el headless NO ve.** jsdom no mide píxeles (anchos, si algo cabe,
+si el texto se parte). Por eso, ante un cambio de DISEÑO o de CSS: (a) revisar TODAS las
+vistas/tablas que comparten esa clase o ese dato (no solo la que se está tocando), y (b)
+pedirle al usuario una mirada visual o abrirlo en un navegador real antes de darlo por
+bueno. Dos regresiones visuales (ancho de Equipos, Registro MP aplastado) las detectó el
+usuario, no las pruebas: el ojo humano sigue siendo obligatorio para lo visual.
+
 ### 5. Registrar (lente: documentalista)
 Antes de cerrar:
 - Subir la versión y anotar el cambio en el CHANGELOG dentro de `build_app.py`.

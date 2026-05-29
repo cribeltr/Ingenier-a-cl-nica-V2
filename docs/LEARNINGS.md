@@ -705,4 +705,28 @@
 - **Dónde aplica:** build_app.py (CSS `.buscar-grid`, clase de la tabla de Buscar equipos);
   CHANGELOG v0.47.
 
+## [2026-05-29] Autocorrección: guardián automático contra mis clases de error (v0.48)
+
+- **Disparador:** el usuario pidió "implementa una autocorrección que evite que cometas estos
+  errores en el futuro", tras el autoinforme de errores de la sesión.
+- **Hecho:** `tools/guard.js`, que corre solo tras `python3 build_app.py` (junto a la prueba de
+  humo) y BLOQUEA (exit≠0) las clases de error ya cometidas:
+  1. **Patrón incompleto:** verifica que en TODOS los sitios `tipo:'Mantención preventiva'` el
+     `estado` se derive de `estadoMPDesdeResultado` (o sea `'baja'`). Probado: detecta la fórmula
+     vieja `r==='Si'?'operativo':(eq.estado||'operativo')` → habría bloqueado el bug v0.45.
+  2. **Patrones legacy prohibidos** (`eq.estado||'operativo'`, `new Date(f)` crudo).
+  3. **Todas las vistas se dibujan sin error** con un respaldo real (las 10) → habría atrapado el
+     bug v0.39 (lista vacía por excepción en render).
+  - Avisos (no bloquean): funciones muertas (detectó `renderResumenEquipo`) y clases CSS con
+    layout agresivo (`word-break`/`overflow-wrap`/`table-layout`) compartidas por >1 tabla
+    (el patrón del bug eq-grid v0.42/0.47).
+- **Limitación honesta:** jsdom NO mide píxeles → el guardián NO ve regresiones puramente
+  visuales (anchos, texto partido). Para diseño, el ojo humano sigue siendo obligatorio; se
+  añadió esa regla a CLAUDE.md (revisar TODAS las vistas que comparten clase/dato + pedir
+  mirada visual).
+- **Heurística:** convertir cada error de proceso en un chequeo que se ejecute solo. Un patrón
+  que debe estar en N sitios merece un guardián que cuente esos N sitios, no la memoria humana.
+- **Dónde aplica:** tools/guard.js (nuevo), build_app.py (lo ejecuta al final), CLAUDE.md
+  (guardián + regla de diseño visual); CHANGELOG v0.48.
+
 <!-- Próximas entradas debajo de esta línea -->
